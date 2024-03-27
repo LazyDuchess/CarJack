@@ -81,16 +81,17 @@ namespace CarJack.Common
             var throttleAxis = _car.ThrottleAxis;
             var steerAxis = _car.SteerAxis;
 
-            if (Grounded && throttleAxis == 0f)
+            if (Grounded)
             {
+                var deaccelerationAmount = 1f-Mathf.Abs(throttleAxis);
                 var wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
                 if (wheelForwardVelocity > 0f)
                 {
-                    _car.Rigidbody.AddForceAtPosition(-transform.forward * _car.Deacceleration, transform.position);
+                    _car.Rigidbody.AddForceAtPosition(-transform.forward * _car.Deacceleration * deaccelerationAmount, transform.position);
                 }
                 else
                 {
-                    _car.Rigidbody.AddForceAtPosition(transform.forward * _car.Deacceleration, transform.position);
+                    _car.Rigidbody.AddForceAtPosition(transform.forward * _car.Deacceleration * deaccelerationAmount, transform.position);
                 }
             }
 
@@ -108,7 +109,6 @@ namespace CarJack.Common
                 var speedT = Mathf.Min(wheelVelocityWithoutUp, _car.SpeedCurveMax) / _car.SpeedCurveMax;
                 var curve = _car.SpeedCurve.Evaluate(speedT);
                 speed *= curve;
-                var targetTopSpeed = _car.SpeedCurveMax * throttleAxis;
 
                 if (throttleAxis < 0f)
                 {
@@ -116,12 +116,10 @@ namespace CarJack.Common
                     speedT = Mathf.Min(wheelVelocityWithoutUp, _car.ReverseCurveMax) / _car.ReverseCurveMax;
                     curve = _car.ReverseCurve.Evaluate(speedT);
                     speed *= curve;
-                    targetTopSpeed = Mathf.Abs(_car.ReverseCurveMax * throttleAxis);
                 }
 
                 var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
-                if (Mathf.Abs(forwardDot) >= targetTopSpeed)
-                    speed = 0f;
+
                 if ((forwardDot > 0f && throttleAxis < 0f ) || (forwardDot < 0f && throttleAxis > 0f))
                 {
                     speed = _car.BrakeForce;
