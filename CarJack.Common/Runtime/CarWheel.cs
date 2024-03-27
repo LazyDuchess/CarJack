@@ -70,15 +70,16 @@ namespace CarJack.Common
                 var acceleration = force / Time.fixedDeltaTime;
                 _car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
             }
+            DoInput();
         }
 
-        public void DoInput()
+        private void DoInput()
         {
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
-            
 
-            var throttleAxis = GetForwardInput();
-            var steerAxis = GetSteeringInput();
+
+            var throttleAxis = _car.ThrottleAxis;
+            var steerAxis = _car.SteerAxis;
 
             if (Grounded && throttleAxis == 0f)
             {
@@ -107,6 +108,7 @@ namespace CarJack.Common
                 var speedT = Mathf.Min(wheelVelocityWithoutUp, _car.SpeedCurveMax) / _car.SpeedCurveMax;
                 var curve = _car.SpeedCurve.Evaluate(speedT);
                 speed *= curve;
+                var targetTopSpeed = _car.SpeedCurveMax * throttleAxis;
 
                 if (throttleAxis < 0f)
                 {
@@ -114,9 +116,12 @@ namespace CarJack.Common
                     speedT = Mathf.Min(wheelVelocityWithoutUp, _car.ReverseCurveMax) / _car.ReverseCurveMax;
                     curve = _car.ReverseCurve.Evaluate(speedT);
                     speed *= curve;
+                    targetTopSpeed = Mathf.Abs(_car.ReverseCurveMax * throttleAxis);
                 }
 
                 var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
+                if (Mathf.Abs(forwardDot) >= targetTopSpeed)
+                    speed = 0f;
                 if ((forwardDot > 0f && throttleAxis < 0f ) || (forwardDot < 0f && throttleAxis > 0f))
                 {
                     speed = _car.BrakeForce;
@@ -155,28 +160,6 @@ namespace CarJack.Common
             _currentRoll += _currentSpeed * RotationMultiplier * Time.deltaTime;
             _currentRoll -= Mathf.Floor(_currentRoll / 360f) * 360f;
             Mesh.transform.localRotation = Quaternion.Euler(_currentRoll, 0f, 0f);
-        }
-
-        private float GetSteeringInput()
-        {
-            if (!_car.Driving) return 0f;
-            var input = 0f;
-            if (Input.GetKey(KeyCode.D))
-                input += 1f;
-            if (Input.GetKey(KeyCode.A))
-                input -= 1f;
-            return input;
-        }
-
-        private float GetForwardInput()
-        {
-            if (!_car.Driving) return 0f;
-            var input = 0f;
-            if (Input.GetKey(KeyCode.W))
-                input += 1f;
-            if (Input.GetKey(KeyCode.S))
-                input -= 1f;
-            return input;
         }
     }
 }

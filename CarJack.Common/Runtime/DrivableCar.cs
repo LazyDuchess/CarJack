@@ -26,9 +26,51 @@ namespace CarJack.Common
         public GameObject Chassis;
         public bool Driving = true;
 
+        [HideInInspector]
+        public float ThrottleAxis = 0f;
+        [HideInInspector]
+        public float SteerAxis = 0f;
+
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
+
+        private void ResetInputs()
+        {
+            ThrottleAxis = 0f;
+            SteerAxis = 0f;
+        }
         
+        private void PollInputs()
+        {
+            ResetInputs();
+
+            if (!Driving) return;
+#if PLUGIN
+            var gameInput = Core.Instance.GameInput;
+            SteerAxis = gameInput.GetAxis(5, 0);
+
+            var controllerType = gameInput.GetCurrentControllerType(0);
+            if (controllerType == Rewired.ControllerType.Joystick)
+            {
+                ThrottleAxis += gameInput.GetAxis(8, 0);
+                ThrottleAxis -= gameInput.GetAxis(18, 0);
+            }
+            else
+                ThrottleAxis = gameInput.GetAxis(6, 0);
+#else
+
+            if (Input.GetKey(KeyCode.D))
+                SteerAxis += 1f;
+            if (Input.GetKey(KeyCode.A))
+                SteerAxis -= 1f;
+
+            if (Input.GetKey(KeyCode.W))
+                ThrottleAxis += 1f;
+            if (Input.GetKey(KeyCode.S))
+                ThrottleAxis -= 1f;
+#endif
+        }
+
         private void Awake()
         {
             Rigidbody = Chassis.GetComponent<Rigidbody>();
@@ -64,10 +106,10 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            PollInputs();
             foreach(var wheel in Wheels)
             {
                 wheel.DoPhysics();
-                wheel.DoInput();
             }
         }
 

@@ -50,5 +50,9 @@
       <Private>false</Private>
       <Publicize>true</Publicize>
     </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>
