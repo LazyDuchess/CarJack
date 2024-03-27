@@ -4,10 +4,15 @@ namespace CarJack.Common
 {
     public class CarWheel : MonoBehaviour
     {
+        public float RotationDeacceleration = 1f;
+        public float RotationMultiplier = 1f;
+        [HideInInspector]
+        public bool Grounded = false;
         public GameObject Mesh;
         public float MeshRadius = 0.5f;
 
         public float SteerAngle = 45f;
+        public float SteerSpeed = 5f;
         public float Speed = 10f;
         public bool Throttle = false;
         public bool Steer = false;
@@ -19,19 +24,29 @@ namespace CarJack.Common
 
         public float Traction = 0.5f;
 
-        public void DoPhysics(DrivableCar car)
+        private float _currentRoll = 0f;
+        private float _currentSpeed = 0f;
+        private float _currentSteerAngle = 0f;
+        private DrivableCar _car;
+
+        public void Initialize(DrivableCar car)
+        {
+            _car = car;
+        }
+
+        public void DoPhysics()
         {
             var distance = MaxDistance;
-            var grounded = false;
+            Grounded = false;
             var ray = new Ray(transform.position, -transform.up);
-            if (Physics.Raycast(ray, out var hit, MaxDistance))
+            if (Physics.Raycast(ray, out var hit, MaxDistance, _car.GroundMask))
             {
                 distance = hit.distance;
-                grounded = true;
+                Grounded = true;
                 var offset = RestDistance - hit.distance;
-                var velocity = Vector3.Dot(car.Rigidbody.GetPointVelocity(transform.position), transform.up);
+                var velocity = Vector3.Dot(_car.Rigidbody.GetPointVelocity(transform.position), transform.up);
                 var force = (offset * Strength) - (velocity * Damping);
-                car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
+                _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
             }
 
             if (Mesh != null)
@@ -39,27 +54,89 @@ namespace CarJack.Common
                 Mesh.transform.position = transform.position - ((distance - MeshRadius) * transform.up);
             }
 
-            if (grounded)
+            if (Grounded)
             {
-                var slippingVelocity = Vector3.Dot(car.Rigidbody.GetPointVelocity(transform.position), transform.right);
-                var force = -slippingVelocity * Traction;
+                var traction = Traction;
+                var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
+                var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
+                var tractionT = Mathf.Min(wheelVelocityWithoutUp, _car.TractionCurveMax) / _car.TractionCurveMax;
+                var curve = _car.TractionCurve.Evaluate(tractionT);
+                traction *= curve;
+
+                var slippingVelocity = Vector3.Dot(wheelVelocity, transform.right);
+                var force = -slippingVelocity * traction;
                 var acceleration = force / Time.fixedDeltaTime;
-                car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
+                _car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
             }
         }
 
-        public void DoInput(DrivableCar car)
+        public void DoInput()
         {
-            var throttleAxis = Input.GetAxisRaw("Vertical");
-            var steerAxis = Input.GetAxisRaw("Horizontal");
-            if (Throttle)
+            var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
+            
+
+            var throttleAxis = GetForwardInput();
+            var steerAxis = GetSteeringInput();
+            if (Throttle && Grounded)
             {
-                car.Rigidbody.AddForceAtPosition(transform.forward * throttleAxis * Speed, transform.position);
+                var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
+                var speed = Speed;
+                var speedT = Mathf.Min(wheelVelocityWithoutUp, _car.SpeedCurveMax) / _car.SpeedCurveMax;
+                var curve = _car.SpeedCurve.Evaluate(speedT);
+                speed *= curve;
+
+                _car.Rigidbody.AddForceAtPosition(transform.forward * throttleAxis * speed, transform.position);
             }
             if (Steer)
             {
-                transform.localRotation = Quaternion.Euler(0f, SteerAngle * steerAxis, 0f);
+                var steerAngle = SteerAngle;
+                var steerT = Mathf.Min(Mathf.Abs(Vector3.Dot(wheelVelocity, transform.forward)), _car.SteerCurveMax) / _car.SteerCurveMax;
+                var curve = _car.SteerCurve.Evaluate(steerT);
+                steerAngle *= curve;
+
+                var targetSteerAngle = steerAngle * steerAxis;
+                _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
+                transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle, 0f);
             }
+        }
+
+        public void DoUpdate()
+        {
+            if (Grounded)
+            {
+                var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
+                var wheelVelocityFw = Vector3.Dot(wheelVelocity, transform.forward);
+                _currentSpeed = wheelVelocityFw;
+            }
+            else
+            {
+                if (_currentSpeed > 0f)
+                    _currentSpeed = Mathf.Max(_currentSpeed - (RotationDeacceleration * Time.deltaTime), 0f);
+                else
+                    _currentSpeed = Mathf.Min(_currentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
+            }
+            _currentRoll += _currentSpeed * RotationMultiplier * Time.deltaTime;
+            Mesh.transform.localRotation = Quaternion.Euler(_currentRoll, 0f, 0f);
+        }
+
+        private float GetSteeringInput()
+        {
+            var input = 0f;
+            if (Input.GetKey(KeyCode.D))
+                input += 1f;
+            if (Input.GetKey(KeyCode.A))
+                input -= 1f;
+            return input;
+        }
+
+        private float GetForwardInput()
+        {
+            var input = 0f;
+            if (Input.GetKey(KeyCode.W))
+                input += 1f;
+            if (Input.GetKey(KeyCode.S))
+                input -= 1f;
+            return input;
         }
     }
 }

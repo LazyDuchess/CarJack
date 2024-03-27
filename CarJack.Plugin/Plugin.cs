@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using HarmonyLib;
 using System;
+using System.IO;
 
 namespace CarJack.Plugin
 {
@@ -10,7 +11,9 @@ namespace CarJack.Plugin
         private static Type ForceLoadCarJackCommonAssembly = typeof(CarJack.Common.DrivableCar);
         private void Awake()
         {
-
+            new CarAssets(Path.Combine(Path.GetDirectoryName(Info.Location),"carjack"));
+            CarController.Create();
+            CarDebugController.Create();
         }
     }
 }
