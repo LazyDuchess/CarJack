@@ -149,6 +149,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Deacceleration: 100
+  ReverseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.95047265
+      inSlope: -0.02867245
+      outSlope: -0.02867245
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.114588186
+    - serializedVersion: 3
+      time: 0.05381821
+      value: 0.93406576
+      inSlope: -0.96107084
+      outSlope: -0.96107084
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.038212616
+    - serializedVersion: 3
+      time: 1
+      value: 0.00023611449
+      inSlope: -0.5996323
+      outSlope: -0.5996323
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.050715696
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ReverseCurveMax: 15
+  BrakeForce: 1000
   SteerCurve:
     serializedVersion: 2
     m_Curve:
@@ -343,6 +379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Grounded: 0
@@ -350,6 +387,7 @@ MonoBehaviour:
   MeshRadius: 0.4
   SteerAngle: 30
   SteerSpeed: 20
+  ReverseSpeed: 400
   Speed: 500
   Throttle: 0
   Steer: 1
@@ -404,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Grounded: 0
@@ -411,6 +450,7 @@ MonoBehaviour:
   MeshRadius: 0.4
   SteerAngle: 30
   SteerSpeed: 20
+  ReverseSpeed: 400
   Speed: 500
   Throttle: 1
   Steer: 0
@@ -465,6 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Grounded: 0
@@ -472,6 +513,7 @@ MonoBehaviour:
   MeshRadius: 0.4
   SteerAngle: 30
   SteerSpeed: 20
+  ReverseSpeed: 400
   Speed: 500
   Throttle: 1
   Steer: 0
@@ -526,6 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Grounded: 0
@@ -533,6 +576,7 @@ MonoBehaviour:
   MeshRadius: 0.4
   SteerAngle: 30
   SteerSpeed: 20
+  ReverseSpeed: 400
   Speed: 500
   Throttle: 0
   Steer: 1

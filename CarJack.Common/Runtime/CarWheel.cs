@@ -4,6 +4,7 @@ namespace CarJack.Common
 {
     public class CarWheel : MonoBehaviour
     {
+        public float RotationAcceleration = 100f;
         public float RotationDeacceleration = 1f;
         public float RotationMultiplier = 1f;
         [HideInInspector]
@@ -13,6 +14,7 @@ namespace CarJack.Common
 
         public float SteerAngle = 45f;
         public float SteerSpeed = 5f;
+        public float ReverseSpeed = 400f;
         public float Speed = 10f;
         public bool Throttle = false;
         public bool Steer = false;
@@ -77,13 +79,48 @@ namespace CarJack.Common
 
             var throttleAxis = GetForwardInput();
             var steerAxis = GetSteeringInput();
+
+            if (Grounded && throttleAxis == 0f)
+            {
+                var wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+                if (wheelForwardVelocity > 0f)
+                {
+                    _car.Rigidbody.AddForceAtPosition(-transform.forward * _car.Deacceleration, transform.position);
+                }
+                else
+                {
+                    _car.Rigidbody.AddForceAtPosition(transform.forward * _car.Deacceleration, transform.position);
+                }
+            }
+
+            if (Throttle && !Grounded)
+            {
+                if (Mathf.Abs(_currentSpeed) < 100f)
+                    _currentSpeed += throttleAxis * RotationAcceleration * Time.deltaTime;
+            }
+
             if (Throttle && Grounded)
             {
                 var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
+
                 var speed = Speed;
                 var speedT = Mathf.Min(wheelVelocityWithoutUp, _car.SpeedCurveMax) / _car.SpeedCurveMax;
                 var curve = _car.SpeedCurve.Evaluate(speedT);
                 speed *= curve;
+
+                if (throttleAxis < 0f)
+                {
+                    speed = ReverseSpeed;
+                    speedT = Mathf.Min(wheelVelocityWithoutUp, _car.ReverseCurveMax) / _car.ReverseCurveMax;
+                    curve = _car.ReverseCurve.Evaluate(speedT);
+                    speed *= curve;
+                }
+
+                var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
+                if ((forwardDot > 0f && throttleAxis < 0f ) || (forwardDot < 0f && throttleAxis > 0f))
+                {
+                    speed = _car.BrakeForce;
+                }
 
                 _car.Rigidbody.AddForceAtPosition(transform.forward * throttleAxis * speed, transform.position);
             }
@@ -116,11 +153,13 @@ namespace CarJack.Common
                     _currentSpeed = Mathf.Min(_currentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
             }
             _currentRoll += _currentSpeed * RotationMultiplier * Time.deltaTime;
+            _currentRoll -= Mathf.Floor(_currentRoll / 360f) * 360f;
             Mesh.transform.localRotation = Quaternion.Euler(_currentRoll, 0f, 0f);
         }
 
         private float GetSteeringInput()
         {
+            if (!_car.Driving) return 0f;
             var input = 0f;
             if (Input.GetKey(KeyCode.D))
                 input += 1f;
@@ -131,6 +170,7 @@ namespace CarJack.Common
 
         private float GetForwardInput()
         {
+            if (!_car.Driving) return 0f;
             var input = 0f;
             if (Input.GetKey(KeyCode.W))
                 input += 1f;

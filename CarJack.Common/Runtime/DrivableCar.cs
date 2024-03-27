@@ -7,6 +7,10 @@ namespace CarJack.Common
 {
     public class DrivableCar : MonoBehaviour
     {
+        public float Deacceleration = 100f;
+        public AnimationCurve ReverseCurve;
+        public float ReverseCurveMax = 50f;
+        public float BrakeForce = 500f;
         public AnimationCurve SteerCurve;
         public float SteerCurveMax = 50f;
         public AnimationCurve SpeedCurve;
@@ -63,8 +67,7 @@ namespace CarJack.Common
             foreach(var wheel in Wheels)
             {
                 wheel.DoPhysics();
-                if (Driving)
-                    wheel.DoInput();
+                wheel.DoInput();
             }
         }
 
