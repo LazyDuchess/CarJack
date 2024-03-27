@@ -25,10 +25,13 @@
 
     <Compile Remove="**/*.asmdef" />
     <Compile Remove="**/*.meta" />
+    <Compile Remove="**/*.json" />
     <EmbeddedResource Remove="**/*.asmdef" />
     <EmbeddedResource Remove="**/*.meta" />
+    <EmbeddedResource Remove="**/*.json" />
     <None Remove="**/*.asmdef" />
     <None Remove="**/*.meta" />
+    <None Remove="**/*.json" />
   </ItemGroup>
 
   <ItemGroup>
