@@ -39,8 +39,19 @@ namespace CarJack.Common
         private Vector3 _previousVelocity = Vector3.zero;
         private Vector3 _previousAngularVelocity = Vector3.zero;
 
+        private OneShotAudioSource _oneShotAudioSource;
+
+        private void OnCrash(float force, Vector3 point)
+        {
+            if (force < 5f)
+                return;
+            var crashSFX = CarResources.Instance.GetCrashSFX();
+            _oneShotAudioSource.Play(crashSFX);
+        }
         private void OnCollisionEnter(Collision other)
         {
+            var speedDifference = (Rigidbody.velocity - _previousVelocity).magnitude + (Rigidbody.angularVelocity - _previousAngularVelocity).magnitude;
+            OnCrash(speedDifference, other.contacts[0].point);
 #if PLUGIN
             if (other.gameObject.layer == Layers.Junk)
             {
@@ -139,7 +150,7 @@ namespace CarJack.Common
             }
             else
                 ThrottleAxis = gameInput.GetAxis(6, 0);
-            HornHeld = gameInput.GetButtonHeld(29, 0);
+            HornHeld = gameInput.GetButtonHeld(10, 0);
 #else
 
             if (Input.GetKey(KeyCode.D))
@@ -158,6 +169,7 @@ namespace CarJack.Common
 
         private void Awake()
         {
+            _oneShotAudioSource = Chassis.GetComponentInChildren<OneShotAudioSource>();
             Rigidbody = Chassis.GetComponent<Rigidbody>();
             Wheels = Chassis.GetComponentsInChildren<CarWheel>();
             if (CenterOfMass != null)

@@ -16,15 +16,25 @@ namespace CarJack.Common
     {
         public static CarController Instance { get; private set; }
         public DrivableCar CurrentCar;
-#if PLUGIN
         public static void Initialize()
         {
+#if PLUGIN
             StageManager.OnStageInitialized += StageManager_OnStageInitialized;
+#endif
         }
 
+#if PLUGIN
         private static void StageManager_OnStageInitialized()
         {
             Create();
+            CreateResources();
+        }
+
+        private static void CreateResources()
+        {
+            var assets = CarAssets.Instance;
+            var resources = assets.Bundle.LoadAsset<GameObject>("Car Resources");
+            Instantiate(resources);
         }
 
         public static CarController Create()

@@ -13,7 +13,7 @@ namespace CarJack.Plugin
         private void Awake()
         {
             new CarAssets(Path.Combine(Path.GetDirectoryName(Info.Location),"carjack"));
-            CarController.Create();
+            CarController.Initialize();
             CarDebugController.Create();
             CarDatabase.Initialize();
         }
