@@ -43,6 +43,11 @@ namespace CarJack.Common
 
         private ScrapeAudio _scrapeAudio;
 
+        public void Initialize()
+        {
+            Driving = false;
+        }
+
         private void OnCrash(float force, Vector3 point)
         {
             if (force < 4f)
@@ -53,7 +58,8 @@ namespace CarJack.Common
 
         private void OnCollisionStay(Collision other)
         {
-            _scrapeAudio?.OnScrape(other);
+            if (_scrapeAudio != null)
+                _scrapeAudio.OnScrape(other);
         }
         private void OnCollisionEnter(Collision other)
         {
