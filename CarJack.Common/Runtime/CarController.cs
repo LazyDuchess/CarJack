@@ -5,16 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if PLUGIN
 using Reptile;
+#endif
 using System.Runtime.ConstrainedExecution;
 
-namespace CarJack.Plugin
+namespace CarJack.Common
 {
     public class CarController : MonoBehaviour
     {
         public static CarController Instance { get; private set; }
         public DrivableCar CurrentCar;
-
+#if PLUGIN
         public static void Initialize()
         {
             StageManager.OnStageInitialized += StageManager_OnStageInitialized;
@@ -34,7 +36,7 @@ namespace CarJack.Plugin
         private void Awake()
         {
             Instance = this;
-        } 
+        }
 
         private void Update()
         {
@@ -70,7 +72,7 @@ namespace CarJack.Plugin
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
             if (cameraComponent == null)
                 cameraComponent = MakeCamera(gameplayCamera.gameObject);
-            cameraComponent.Target = car;
+            cameraComponent.SetTarget(car);
         }
 
         public void ExitCar()
@@ -87,5 +89,6 @@ namespace CarJack.Plugin
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
         }
+#endif
     }
 }

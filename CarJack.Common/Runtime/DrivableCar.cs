@@ -34,6 +34,85 @@ namespace CarJack.Common
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
 
+        private Vector3 _previousVelocity = Vector3.zero;
+        private Vector3 _previousAngularVelocity = Vector3.zero;
+
+        private void OnCollisionEnter(Collision other)
+        {
+#if PLUGIN
+            if (other.gameObject.layer == Layers.Junk)
+            {
+                var junkHolder = other.gameObject.GetComponentInParent<JunkHolder>();
+                if (junkHolder != null)
+                {
+                    if (!junkHolder.moved)
+                    {
+                        Rigidbody.velocity = _previousVelocity;
+                        Rigidbody.angularVelocity = _previousAngularVelocity;
+                    }
+                    junkHolder.FallApart(other.contacts[0].point, false);
+                    return;
+                }
+                var junk = other.gameObject.GetComponent<Junk>();
+                if (junk)
+                {
+                    if (junk.rigidBody.isKinematic)
+                    {
+                        Rigidbody.velocity = _previousVelocity;
+                        Rigidbody.angularVelocity = _previousAngularVelocity;
+                    }
+                    if (junk.interactOn == Junk.Interact.ON_HITBOX)
+                        junk.FallApart(false);
+                    else
+                        junk.FallApart(true);
+                }
+            }
+#endif
+        }
+        private void OnTriggerStay(Collider other)
+        {
+#if PLUGIN
+            if (other.gameObject.layer == Layers.TriggerDetectPlayer)
+            {
+                var teleport = other.GetComponentInParent<Teleport>();
+                if (teleport != null)
+                {
+                    var transition = teleport.GetComponent<StageTransition>();
+                    if (transition == null)
+                    {
+                        if (teleport.automaticallyReturnPlayerToLastSafeLocation)
+                        {
+                            if (Driving)
+                                CarController.Instance.ExitCar();
+                            Destroy(gameObject);
+                        }
+                        else if (teleport.teleportTo != null)
+                        {
+                            PlaceAt(teleport.teleportTo.position, teleport.teleportTo.rotation, teleport.giveSpeedAtSpawn);
+                        }
+                    }
+                }
+                return;
+            }
+            if (other.CompareTag("MovingObject"))
+            {
+                other.GetComponentInParent<MoveAlongPoints>().TriggerDetectLayer(9);
+                return;
+            }
+#endif
+        }
+
+        public void PlaceAt(Vector3 position, Quaternion rotation, bool keepSpeed = false)
+        {
+            transform.position = position;
+            transform.rotation = rotation;
+            if (!keepSpeed)
+            {
+                Rigidbody.velocity = Vector3.zero;
+                Rigidbody.angularVelocity = Vector3.zero;
+            }
+        }
+
         private void ResetInputs()
         {
             ThrottleAxis = 0f;
@@ -111,6 +190,8 @@ namespace CarJack.Common
             {
                 wheel.DoPhysics();
             }
+            _previousAngularVelocity = Rigidbody.angularVelocity;
+            _previousVelocity = Rigidbody.velocity;
         }
 
         private void Update()

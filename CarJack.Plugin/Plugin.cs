@@ -2,6 +2,7 @@
 using HarmonyLib;
 using System;
 using System.IO;
+using CarJack.Common;
 
 namespace CarJack.Plugin
 {
