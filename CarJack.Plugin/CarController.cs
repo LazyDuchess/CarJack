@@ -47,6 +47,13 @@ namespace CarJack.Plugin
             }
         }
 
+        private CarCamera MakeCamera(GameObject go)
+        {
+            var cam = go.AddComponent<CarCamera>();
+            cam.ObstructionMask = Layers.Junk | Layers.VertSurface | Layers.Default | Layers.NonStableSurface | Layers.Wallrun;
+            return cam;
+        }
+
         public void EnterCar(DrivableCar car)
         {
             if (CurrentCar != null)
@@ -62,7 +69,7 @@ namespace CarJack.Plugin
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
             if (cameraComponent == null)
-                cameraComponent = gameplayCamera.gameObject.AddComponent<CarCamera>();
+                cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.Target = car;
         }
 
