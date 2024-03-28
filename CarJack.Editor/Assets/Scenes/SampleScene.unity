@@ -538,10 +538,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 653122685, guid: a2957d1a5b660ec429ed4c0eae2a0bc7, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8275566447239126080, guid: a2957d1a5b660ec429ed4c0eae2a0bc7, type: 3}
       propertyPath: m_Name
       value: Blue Car

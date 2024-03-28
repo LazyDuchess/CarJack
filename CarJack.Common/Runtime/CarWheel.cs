@@ -25,9 +25,10 @@ namespace CarJack.Common
         public float Mass = 10f;
 
         public float Traction = 0.5f;
+        public float CurrentSpeed = 0f;
 
         private float _currentRoll = 0f;
-        private float _currentSpeed = 0f;
+        
         private float _currentSteerAngle = 0f;
         private DrivableCar _car;
 
@@ -97,8 +98,8 @@ namespace CarJack.Common
 
             if (Throttle && !Grounded)
             {
-                if (Mathf.Abs(_currentSpeed) < 100f)
-                    _currentSpeed += throttleAxis * RotationAcceleration * Time.deltaTime;
+                if (Mathf.Abs(CurrentSpeed) < 100f)
+                    CurrentSpeed += throttleAxis * RotationAcceleration * Time.deltaTime;
             }
 
             if (Throttle && Grounded)
@@ -146,16 +147,16 @@ namespace CarJack.Common
             {
                 var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
                 var wheelVelocityFw = Vector3.Dot(wheelVelocity, transform.forward);
-                _currentSpeed = wheelVelocityFw;
+                CurrentSpeed = wheelVelocityFw;
             }
             else
             {
-                if (_currentSpeed > 0f)
-                    _currentSpeed = Mathf.Max(_currentSpeed - (RotationDeacceleration * Time.deltaTime), 0f);
+                if (CurrentSpeed > 0f)
+                    CurrentSpeed = Mathf.Max(CurrentSpeed - (RotationDeacceleration * Time.deltaTime), 0f);
                 else
-                    _currentSpeed = Mathf.Min(_currentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
+                    CurrentSpeed = Mathf.Min(CurrentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
             }
-            _currentRoll += _currentSpeed * RotationMultiplier * Time.deltaTime;
+            _currentRoll += CurrentSpeed * RotationMultiplier * Time.deltaTime;
             _currentRoll -= Mathf.Floor(_currentRoll / 360f) * 360f;
             Mesh.transform.localRotation = Quaternion.Euler(_currentRoll, 0f, 0f);
         }
