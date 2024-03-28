@@ -538,10 +538,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue Car
       objectReference: {fileID: 0}
-    - target: {fileID: 8275566447239126081, guid: a2957d1a5b660ec429ed4c0eae2a0bc7, type: 3}
-      propertyPath: Driving
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8275566447239126142, guid: a2957d1a5b660ec429ed4c0eae2a0bc7, type: 3}
       propertyPath: m_RootOrder
       value: 2

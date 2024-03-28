@@ -14,6 +14,7 @@ namespace CarJack.Plugin
             new CarAssets(Path.Combine(Path.GetDirectoryName(Info.Location),"carjack"));
             CarController.Create();
             CarDebugController.Create();
+            CarDatabase.Initialize();
         }
     }
 }

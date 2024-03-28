@@ -34,7 +34,11 @@ namespace CarJack.Plugin
             }
 
             if (Input.GetKeyDown(KeyCode.F6))
+            {
+                var stageManager = Core.Instance.BaseModule.StageManager;
+                stageManager.ExitCurrentStage(Utility.GetCurrentStage());
                 CarAssets.Instance.ReloadAssets();
+            }
         }
 
         public void SpawnCar()

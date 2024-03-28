@@ -1,4 +1,5 @@
-﻿using Reptile;
+﻿using CarJack.Common;
+using Reptile;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,17 +18,16 @@ namespace CarJack.Plugin
         public CarAssets(string path)
         {
             Instance = this;
-            Bundle = AssetBundle.LoadFromFile(path);
             _path = path;
+            ReloadAssets();
         }
 
         public void ReloadAssets()
         {
             if (Bundle != null)
                 Bundle.Unload(true);
-            var stageManager = Core.Instance.BaseModule.StageManager;
-            stageManager.ExitCurrentStage(Utility.GetCurrentStage());
             Bundle = AssetBundle.LoadFromFile(_path);
+            CarDatabase.Initialize();
         }
     }
 }
