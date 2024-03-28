@@ -41,12 +41,19 @@ namespace CarJack.Common
 
         private OneShotAudioSource _oneShotAudioSource;
 
+        private ScrapeAudio _scrapeAudio;
+
         private void OnCrash(float force, Vector3 point)
         {
             if (force < 5f)
                 return;
             var crashSFX = CarResources.Instance.GetCrashSFX();
             _oneShotAudioSource.Play(crashSFX);
+        }
+
+        private void OnCollisionStay(Collision other)
+        {
+            _scrapeAudio?.OnScrape(other);
         }
         private void OnCollisionEnter(Collision other)
         {
@@ -169,6 +176,7 @@ namespace CarJack.Common
 
         private void Awake()
         {
+            _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
             _oneShotAudioSource = Chassis.GetComponentInChildren<OneShotAudioSource>();
             Rigidbody = Chassis.GetComponent<Rigidbody>();
             Wheels = Chassis.GetComponentsInChildren<CarWheel>();

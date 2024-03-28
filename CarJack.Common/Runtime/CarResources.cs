@@ -10,7 +10,6 @@ namespace CarJack.Common
     {
         public static CarResources Instance { get; private set; }
         public AudioClip[] CrashSFX;
-        public AudioClip[] ScrapeSFX;
 
         private void Awake()
         {
