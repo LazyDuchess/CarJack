@@ -30,6 +30,8 @@ namespace CarJack.Common
         public float ThrottleAxis = 0f;
         [HideInInspector]
         public float SteerAxis = 0f;
+        [HideInInspector]
+        public bool HornHeld = false;
 
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
@@ -117,6 +119,7 @@ namespace CarJack.Common
         {
             ThrottleAxis = 0f;
             SteerAxis = 0f;
+            HornHeld = false;
         }
         
         private void PollInputs()
@@ -136,6 +139,7 @@ namespace CarJack.Common
             }
             else
                 ThrottleAxis = gameInput.GetAxis(6, 0);
+            HornHeld = gameInput.GetButtonHeld(29, 0);
 #else
 
             if (Input.GetKey(KeyCode.D))
@@ -147,6 +151,8 @@ namespace CarJack.Common
                 ThrottleAxis += 1f;
             if (Input.GetKey(KeyCode.S))
                 ThrottleAxis -= 1f;
+
+            HornHeld = Input.GetKey(KeyCode.H);
 #endif
         }
 
