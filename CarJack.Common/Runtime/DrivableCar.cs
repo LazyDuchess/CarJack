@@ -45,7 +45,7 @@ namespace CarJack.Common
 
         private void OnCrash(float force, Vector3 point)
         {
-            if (force < 5f)
+            if (force < 4f)
                 return;
             var crashSFX = CarResources.Instance.GetCrashSFX();
             _oneShotAudioSource.Play(crashSFX);

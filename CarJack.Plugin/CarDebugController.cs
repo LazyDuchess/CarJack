@@ -47,7 +47,7 @@ namespace CarJack.Plugin
             if (worldHandler == null) return;
             var player = worldHandler.GetCurrentPlayer();
             if (player == null) return;
-            var carPrefab = CarAssets.Instance.Bundle.LoadAsset<GameObject>("Blue Car");
+            var carPrefab = CarAssets.Instance.Bundle.LoadAsset<GameObject>("Octane");
             var car = Instantiate(carPrefab);
             car.transform.position = player.transform.position + (player.transform.forward * 2f);
             car.transform.rotation = Quaternion.Euler(0f, player.transform.rotation.eulerAngles.y + 90f, 0f);

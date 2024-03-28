@@ -20,6 +20,7 @@ namespace CarJack.Common
         public bool Steer = false;
         public float Damping = 0f;
         public float Strength = 0f;
+        public float StartLength = 0f;
         public float MaxDistance = 0f;
         public float RestDistance = 0f;
         public float Mass = 10f;
@@ -41,12 +42,12 @@ namespace CarJack.Common
         {
             var distance = MaxDistance;
             Grounded = false;
-            var ray = new Ray(transform.position, -transform.up);
-            if (Physics.Raycast(ray, out var hit, MaxDistance, _car.GroundMask))
+            var ray = new Ray(transform.position + (transform.up * StartLength), -transform.up);
+            if (Physics.Raycast(ray, out var hit, MaxDistance + StartLength, _car.GroundMask))
             {
-                distance = hit.distance;
+                distance = hit.distance - StartLength;
                 Grounded = true;
-                var offset = RestDistance - hit.distance;
+                var offset = RestDistance - distance;
                 var velocity = Vector3.Dot(_car.Rigidbody.GetPointVelocity(transform.position), transform.up);
                 var force = (offset * Strength) - (velocity * Damping);
                 _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);

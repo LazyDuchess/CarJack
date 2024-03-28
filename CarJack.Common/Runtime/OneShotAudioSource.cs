@@ -7,25 +7,35 @@ using UnityEngine;
 
 namespace CarJack.Common
 {
-    [RequireComponent(typeof(AudioSource))]
     public class OneShotAudioSource : MonoBehaviour
     {
         private DrivableCar _car;
-        private AudioSource _audioSource;
+        private AudioSource[] _pooledAudioSources;
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
+            _pooledAudioSources = GetComponentsInChildren<AudioSource>();
             _car = GetComponentInParent<DrivableCar>();
+        }
+
+        private AudioSource GetPooledAudioSource()
+        {
+            foreach(var audioSource in _pooledAudioSources)
+            {
+                if (!audioSource.isPlaying)
+                    return audioSource;
+            }
+            return _pooledAudioSources[0];
         }
         public void Play(AudioClip clip)
         {
+            var audioSource = GetPooledAudioSource();
             if (_car.Driving)
-                _audioSource.spatialBlend = 0f;
+                audioSource.spatialBlend = 0f;
             else
-                _audioSource.spatialBlend = 1f;
-            _audioSource.Stop();
-            _audioSource.clip = clip;
-            _audioSource.Play();
+                audioSource.spatialBlend = 1f;
+            audioSource.Stop();
+            audioSource.clip = clip;
+            audioSource.Play();
         }
     }
 }
