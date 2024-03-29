@@ -1,27 +1,21 @@
-﻿using System;
+﻿#if PLUGIN
+using Reptile;
+#endif
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-#if PLUGIN
-using Reptile;
-#endif
 
 namespace CarJack.Common
 {
     [RequireComponent(typeof(AudioSource))]
-    public class EngineAudio : MonoBehaviour
+    public class EngineRestingAudio : MonoBehaviour
     {
-        public float MinimumSpeed = 0f;
-        public float PitchLerp = 5f;
-        public AnimationCurve PitchCurve;
-        public float PitchCurveMax = 100f;
-        public float AddPitch = 1f;
+        public float MaximumSpeed = 1f;
         private DrivableCar _car;
         private AudioSource _audioSource;
-        private float _currentPitch = 1f;
-
         private void Awake()
         {
             _car = GetComponentInParent<DrivableCar>();
@@ -30,12 +24,6 @@ namespace CarJack.Common
             Core.OnCoreUpdatePaused += OnPause;
             Core.OnCoreUpdateUnPaused += OnUnPause;
 #endif
-        }
-
-        private float EvaluatePitchCurve(float value)
-        {
-            var val = Mathf.Min(PitchCurveMax, Mathf.Abs(value)) / PitchCurveMax;
-            return PitchCurve.Evaluate(val);
         }
 
         private void OnPause()
@@ -65,23 +53,18 @@ namespace CarJack.Common
                 _audioSource.spatialBlend = 0f;
             else
                 _audioSource.spatialBlend = 1f;
-            var targetPitch = 1f;
             var highestSpeed = 0f;
-            foreach(var wheel in _car.Wheels)
+            foreach (var wheel in _car.Wheels)
             {
                 if (!wheel.Throttle) continue;
                 var speed = Mathf.Abs(wheel.CurrentSpeed);
                 if (speed > highestSpeed)
                     highestSpeed = speed;
             }
-            var volumeMultiplier = 1f;
-            if (MinimumSpeed > 0f)
-                volumeMultiplier = Mathf.Min(MinimumSpeed, highestSpeed)/MinimumSpeed;
-            var evaluatedPitch = EvaluatePitchCurve(highestSpeed) * AddPitch;
-            targetPitch += evaluatedPitch;
+            var volumeMultiplier = 0f;
+            if (MaximumSpeed > 0f)
+                volumeMultiplier = -(Mathf.Min(MaximumSpeed, highestSpeed) / MaximumSpeed) + 1f;
 
-            _currentPitch = Mathf.Lerp(_currentPitch, targetPitch, PitchLerp * Time.deltaTime);
-            _audioSource.pitch = _currentPitch;
             _audioSource.volume = volumeMultiplier;
         }
     }

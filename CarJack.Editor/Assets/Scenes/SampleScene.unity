@@ -595,6 +595,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4131073453011335882, guid: 060b451f0725e54469db7464468826bb, type: 3}
+      propertyPath: Driving
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4131073453011335883, guid: 060b451f0725e54469db7464468826bb, type: 3}
       propertyPath: m_Name
       value: Octane

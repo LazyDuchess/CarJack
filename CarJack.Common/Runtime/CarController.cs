@@ -89,6 +89,7 @@ namespace CarJack.Common
         {
             if (CurrentCar == null) return;
             CurrentCar.Driving = false;
+            CurrentCar = null;
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = true;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();

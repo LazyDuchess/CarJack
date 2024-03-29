@@ -16,6 +16,7 @@ namespace CarJack.Plugin
             CarController.Initialize();
             CarDebugController.Create();
             CarDatabase.Initialize();
+            SpawnCarApp.Initialize();
         }
     }
 }

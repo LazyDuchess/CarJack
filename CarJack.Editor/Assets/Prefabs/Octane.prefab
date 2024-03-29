@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5028713788493926666}
   - component: {fileID: 7840303706039857798}
   - component: {fileID: 4764196562270850124}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelFL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6879437812364104801}
   - component: {fileID: 6643772224181426587}
   - component: {fileID: 8391583016606103435}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: Chassis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 8537031107543666924}
   - component: {fileID: 5108661068973428051}
   - component: {fileID: 3423705309559532282}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelBL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4131073452987102223}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: Center of Mass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 4131073453011335925}
   - component: {fileID: 4131073453011335882}
   - component: {fileID: 4131073453011335924}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: Octane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ Transform:
   - {fileID: 4131073453494728850}
   - {fileID: 4131073452987102223}
   - {fileID: 5443781839866100471}
-  - {fileID: 5007625835751094414}
+  - {fileID: 5701010903258392711}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -489,6 +489,7 @@ MonoBehaviour:
   ThrottleAxis: 0
   SteerAxis: 0
   HornHeld: 0
+  GetOutOfCarButtonNew: 0
 --- !u!54 &4131073453011335924
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -515,7 +516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4131073453494728850}
   - component: {fileID: 4131073453494728861}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelBL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,7 +581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4131073453502105222}
   - component: {fileID: 4131073453502105223}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelFR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -625,7 +626,7 @@ MonoBehaviour:
   SteerSpeed: 20
   ReverseSpeed: 400
   Speed: 500
-  Throttle: 0
+  Throttle: 1
   Steer: 1
   Damping: 200
   Strength: 2000
@@ -645,7 +646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4131073453569116611}
   - component: {fileID: 4131073453569116610}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelBR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -710,7 +711,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4131073454887115978}
   - component: {fileID: 4131073454887116021}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelFL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -755,7 +756,7 @@ MonoBehaviour:
   SteerSpeed: 20
   ReverseSpeed: 400
   Speed: 500
-  Throttle: 0
+  Throttle: 1
   Steer: 1
   Damping: 200
   Strength: 2000
@@ -776,7 +777,7 @@ GameObject:
   - component: {fileID: 3622528892326027971}
   - component: {fileID: 536922102708216994}
   - component: {fileID: 6905682262528880877}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelFR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -904,7 +905,7 @@ GameObject:
   - component: {fileID: 4976347777264398169}
   - component: {fileID: 4943005937570378042}
   - component: {fileID: 4539127266282898514}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: WheelBR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -976,65 +977,73 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &1634520336503185642
+--- !u!1001 &917788605927408719
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 4131073453011335925}
     m_Modifications:
-    - target: {fileID: 4353043184666594269, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 3178384529375068017, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_Name
-      value: Audio
+      value: Audio with Resting Engine
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
+    - target: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5571013755566234478, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2f97c4af89559e1448e583108a279e0c, type: 3}
+    - target: {fileID: 6357196163387442875, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2f6ab15b46b277448a445696028693f5, type: 3}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
---- !u!4 &5007625835751094414 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
+--- !u!4 &5701010903258392711 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
-  m_PrefabInstance: {fileID: 1634520336503185642}
+  m_CorrespondingSourceObject: {fileID: 4873647866958851272, guid: dd1a29ee96dd62a4a856e215a8c1e03b, type: 3}
+  m_PrefabInstance: {fileID: 917788605927408719}
   m_PrefabAsset: {fileID: 0}

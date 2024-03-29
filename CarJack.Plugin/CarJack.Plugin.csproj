@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

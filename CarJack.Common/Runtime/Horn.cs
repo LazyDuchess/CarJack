@@ -57,6 +57,11 @@ namespace CarJack.Common
             var targetVolume = 0f;
             if (_car.HornHeld)
                 targetVolume = 1f;
+            if (_currentVolume <= 0.1f)
+            {
+                _audioSource.Stop();
+                _audioSource.Play();
+            }                
             _currentVolume = Mathf.Lerp(_currentVolume, targetVolume, LerpSpeed * Time.deltaTime);
             _audioSource.volume = _currentVolume;
         }

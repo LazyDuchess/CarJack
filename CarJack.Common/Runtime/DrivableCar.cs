@@ -32,6 +32,8 @@ namespace CarJack.Common
         public float SteerAxis = 0f;
         [HideInInspector]
         public bool HornHeld = false;
+        [HideInInspector]
+        public bool GetOutOfCarButtonNew = false;
 
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
@@ -144,6 +146,7 @@ namespace CarJack.Common
             ThrottleAxis = 0f;
             SteerAxis = 0f;
             HornHeld = false;
+            GetOutOfCarButtonNew = false;
         }
         
         private void PollInputs()
@@ -164,6 +167,7 @@ namespace CarJack.Common
             else
                 ThrottleAxis = gameInput.GetAxis(6, 0);
             HornHeld = gameInput.GetButtonHeld(10, 0);
+            GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
 #else
 
             if (Input.GetKey(KeyCode.D))
@@ -224,6 +228,12 @@ namespace CarJack.Common
             }
             _previousAngularVelocity = Rigidbody.angularVelocity;
             _previousVelocity = Rigidbody.velocity;
+#if PLUGIN
+            if (GetOutOfCarButtonNew && Driving)
+            {
+                CarController.Instance.ExitCar();
+            }
+#endif
         }
 
         private void Update()
