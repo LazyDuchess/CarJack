@@ -79,6 +79,22 @@ namespace CarJack.Common
             var speedDifference = (Rigidbody.velocity - _previousVelocity).magnitude + (Rigidbody.angularVelocity - _previousAngularVelocity).magnitude;
             OnCrash(speedDifference, other.contacts[0].point);
 #if PLUGIN
+            if (other.gameObject.layer == Layers.Enemies)
+            {
+                var enemy = other.gameObject.GetComponentInParent<BasicCop>();
+                if (enemy != null)
+                {
+                    var impactVelocity = _previousVelocity.magnitude;
+                    Rigidbody.velocity = _previousVelocity;
+                    Rigidbody.angularVelocity = _previousAngularVelocity;
+                    if (impactVelocity >= 5f && enemy.hitBoxResponse.State == EnemyHitResponse.HitResponseState.NONE)
+                    {
+                        var heading = (enemy.transform.position - transform.position).normalized;
+                        enemy.hitBoxResponse.ManualDamage(EnemyHitResponse.HitType.EXPLOSION, heading, impactVelocity * 0.1f, 1f, 2f, 2);
+                        TimedCollisionIgnore.Create(other.collider, Chassis.GetComponentInChildren<Collider>(), 1.5f);
+                    }
+                }
+            }
             if (other.gameObject.layer == Layers.Junk)
             {
                 var junkHolder = other.gameObject.GetComponentInParent<JunkHolder>();

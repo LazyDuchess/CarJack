@@ -15,7 +15,7 @@ namespace CarJack.Common
         public float SteerAnimationLerp = 5f;
         public RuntimeAnimatorController controller;
         private DrivableCar _car;
-        private float _currentSteer;
+        private float _currentSteer = 0.5f;
         private void Awake()
         {
             _car = GetComponentInParent<DrivableCar>();
@@ -24,6 +24,7 @@ namespace CarJack.Common
         private CharacterVisual _currentVisual;
         public void PutInCar(Player player)
         {
+            _currentSteer = 0.5f;
             //_currentVisual = player.characterConstructor.CreateNewCharacterVisual(player.character, controller);
             _currentVisual = VisualFromPlayer(player, controller);
             var animator = _currentVisual.GetComponentInChildren<Animator>();

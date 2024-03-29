@@ -73,6 +73,8 @@ namespace CarJack.Common
             CurrentCar = car;
             car.Driving = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
+            player.phone.TurnOff(false);
+            player.characterVisual.SetPhone(false);
             car.GroundMask = player.motor.groundDetection.groundMask;
             player.DisablePlayer();
             player.CompletelyStop();

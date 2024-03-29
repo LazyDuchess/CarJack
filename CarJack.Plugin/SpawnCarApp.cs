@@ -44,7 +44,6 @@ namespace CarJack.Plugin
             button.OnConfirm += () =>
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
-                player.phone.TurnOff(false);
                 var carPrefab = CarDatabase.Cars[carIndex];
                 var carGO = Instantiate(carPrefab);
                 carGO.transform.position = player.transform.position;
