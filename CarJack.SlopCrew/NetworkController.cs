@@ -1,0 +1,209 @@
+﻿using CarJack.Common;
+using Reptile;
+using SlopCrew.API;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace CarJack.SlopCrew
+{
+    public class NetworkController : MonoBehaviour
+    {
+        public static NetworkController Instance { get; private set; }
+        private const float TickRate = 0f;
+        private List<PlayerCarData> _playerCars;
+        private Dictionary<uint, PlayerCarData> _playerCarsById;
+        private ISlopCrewAPI _api;
+        private float _currentTick = TickRate;
+        public static void Initialize()
+        {
+            StageManager.OnStageInitialized += StageManager_OnStageInitialized;
+        }
+
+        private static void StageManager_OnStageInitialized()
+        {
+            Create();
+        }
+
+        private static NetworkController Create()
+        {
+            var gameObject = new GameObject("CarJack Network Controller");
+            var controller = gameObject.AddComponent<NetworkController>();
+            return controller;
+        }
+
+        private void Awake()
+        {
+            Instance = this;
+            _playerCars = new();
+            _playerCarsById = new();
+            _api = APIManager.API;
+            _api.OnCustomPacketReceived += _api_OnCustomPacketReceived;
+        }
+        
+        private void OnDestroy()
+        {
+            _api.OnCustomPacketReceived -= _api_OnCustomPacketReceived;
+        }
+
+        private void _api_OnCustomPacketReceived(uint playerId, string guid, byte[] data)
+        {
+            if (guid != PlayerCarPacket.GUID)
+                return;
+            var packet = new PlayerCarPacket();
+            var ms = new MemoryStream(data);
+            var reader = new BinaryReader(ms);
+            packet.Deserialize(reader);
+            reader.Close();
+            if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
+            {
+                playerCarData = new PlayerCarData();
+                playerCarData.PlayerID = playerId;
+                _playerCars.Add(playerCarData);
+                _playerCarsById[playerId] = playerCarData;
+            }
+            playerCarData.LastPacket = packet;
+        }
+
+        public bool PlayerHasCar(uint playerId)
+        {
+            if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
+                return false;
+            if (playerCarData.Car != null)
+                return true;
+            return false;
+        }
+
+        private void FixedUpdate()
+        {
+            _currentTick -= Time.deltaTime;
+            if (_currentTick <= 0f)
+            {
+                _currentTick = Time.deltaTime;
+                Tick();
+            }
+        }
+
+        private void Tick()
+        {
+            var packet = new PlayerCarPacket();
+            if (CarController.Instance.CurrentCar != null)
+            {
+                var car = CarController.Instance.CurrentCar;
+
+                packet.CarInternalName = car.InternalName;
+
+                packet.Position = car.Rigidbody.position;
+                packet.Rotation = car.Rigidbody.rotation;
+
+                packet.Velocity = car.Rigidbody.velocity;
+                packet.AngularVelocity = car.Rigidbody.angularVelocity;
+
+                packet.ThrottleAxis = car.ThrottleAxis;
+                packet.SteerAxis = car.SteerAxis;
+                packet.HornHeld = car.HornHeld;
+            }
+            var ms = new MemoryStream();
+            var writer = new BinaryWriter(ms);
+            packet.Serialize(writer);
+            writer.Flush();
+            _api.SendCustomPacket(PlayerCarPacket.GUID, ms.ToArray());
+            writer.Close();
+
+            var newList = new List<PlayerCarData>();
+            var newDict = new Dictionary<uint, PlayerCarData>();
+            for(var i = 0; i < _playerCars.Count; i++)
+            {
+                var keep = TickCar(_playerCars[i]);
+                if (keep)
+                {
+                    newList.Add(_playerCars[i]);
+                    newDict[_playerCars[i].PlayerID] = _playerCars[i];
+                }
+            }
+            _playerCars = newList;
+            _playerCarsById = newDict;
+        }
+
+        private bool TickCar(PlayerCarData playerCarData)
+        {
+            var keep = true;
+            if (_api.PlayerIDExists(playerCarData.PlayerID) == false)
+            {
+                playerCarData.LastPacket.CarInternalName = "";
+                keep = false;
+            }
+            var player = GameObject.Find(_api.GetGameObjectPathForPlayerID(playerCarData.PlayerID));
+            if (playerCarData.LastPacket.CarInternalName == "")
+            {
+                if (player != null)
+                {
+                    player.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
+                }
+                if (playerCarData.Car != null)
+                {
+                    Destroy(playerCarData.Car.gameObject);
+                    playerCarData.Car = null;
+                }
+            }
+            else
+            {
+                var car = "carjack.bluecar";
+                if (CarDatabase.CarByInternalName.TryGetValue(playerCarData.LastPacket.CarInternalName, out var result))
+                    car = result.GetComponent<DrivableCar>().InternalName;
+
+                var currentCar = playerCarData.Car;
+                if (currentCar == null || currentCar.InternalName != car)
+                {
+                    
+                    if (currentCar != null)
+                    {
+                        Destroy(currentCar.gameObject);
+                    }
+                    var carGO = Instantiate(CarDatabase.CarByInternalName[car]);
+                    carGO.transform.position = playerCarData.LastPacket.Position;
+                    carGO.transform.rotation = playerCarData.LastPacket.Rotation;
+                    currentCar = carGO.GetComponent<DrivableCar>();
+                    currentCar.Initialize();
+                    currentCar.EnterCar(player.GetComponent<Player>());
+                    var playerId = playerCarData.PlayerID;
+                    currentCar.OnHandleInput += () =>
+                    {
+                        if (_playerCarsById.TryGetValue(playerId, out var result)){
+                            currentCar.ThrottleAxis = result.LastPacket.ThrottleAxis;
+                            currentCar.SteerAxis = result.LastPacket.SteerAxis;
+                            currentCar.HornHeld = result.LastPacket.HornHeld;
+                        }
+                    };
+                }
+
+                if (currentCar != null)
+                {
+                    if (player != null)
+                    {
+                        player.GetComponent<Player>().characterVisual.gameObject.SetActive(false);
+                    }
+                    player.transform.position = currentCar.transform.position;
+                    currentCar.Rigidbody.MovePosition(playerCarData.LastPacket.Position);
+                    currentCar.Rigidbody.MoveRotation(playerCarData.LastPacket.Rotation);
+                    currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
+                    currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
+                }
+                else
+                {
+                    if (player != null)
+                    {
+                        player.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
+                    }
+                }
+
+                playerCarData.Car = currentCar;
+            }
+            return keep;
+        }
+    }
+}

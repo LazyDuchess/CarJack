@@ -12,15 +12,19 @@ namespace CarJack.SlopCrew
 {
     public class BallController : MonoBehaviour
     {
+        private const float LerpMaxDistance = 5f;
+        private const float Lerp = 20f;
         private const string BallHostPacketGUID = "CarJack-Ball-Host";
         private const string BallPacketGUID = "CarJack-Ball";
-        private const float TickRate = 0.1f;
+        private const float TickRate = 0f;
         private const string BallGameObjectName = "rocket ball";
         private ISlopCrewAPI _api;
         private GameObject _ball;
         private Rigidbody _ballRB;
         private float _currentTick = TickRate;
         private bool _host = false;
+        private Vector3 _receivedPosition;
+        private Quaternion _receivedRotation;
 
         public static void Initialize()
         {
@@ -37,6 +41,25 @@ namespace CarJack.SlopCrew
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
+            if (_host) return;
+            var dist = (_ballRB.position - _receivedPosition).magnitude;
+            if (dist >= LerpMaxDistance)
+            {
+                _ballRB.MovePosition(_receivedPosition);
+                _ballRB.MoveRotation(_receivedRotation);
+            }
+            else
+            {
+                var interpolatedPos = Vector3.Lerp(_ballRB.position, _receivedPosition, Lerp * Time.deltaTime);
+                var interpolatedRot = Quaternion.Lerp(_ballRB.rotation, _receivedRotation, Lerp * Time.deltaTime);
+                _ballRB.MovePosition(interpolatedPos);
+                _ballRB.MoveRotation(interpolatedRot);
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (Core.Instance.IsCorePaused) return;
             _currentTick -= Time.deltaTime;
             if (_currentTick <= 0f)
             {
@@ -49,7 +72,7 @@ namespace CarJack.SlopCrew
                     var lowestID = uint.MaxValue;
                     foreach(var player in players)
                     {
-                        if (player <= lowestID)
+                        if (player <= lowestID && NetworkController.Instance.PlayerHasCar(player))
                             lowestID = player;
                     }
                     if (lowestID != uint.MaxValue)
@@ -151,8 +174,10 @@ namespace CarJack.SlopCrew
 
             _ballRB.velocity = new Vector3(velX, velY, velZ);
             _ballRB.angularVelocity = new Vector3(avelX, avelY, avelZ);
-            _ballRB.position = new Vector3(posX, posY, posZ);
-            _ballRB.rotation = new Quaternion(rotX, rotY, rotZ, rotW);
+            _receivedPosition = new Vector3(posX, posY, posZ);
+            _receivedRotation = new Quaternion(rotX, rotY, rotZ, rotW);
+            //_ballRB.MovePosition(new Vector3(posX, posY, posZ));
+            //_ballRB.MoveRotation(new Quaternion(rotX, rotY, rotZ, rotW));
 
             reader.Close();
         }

@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InternalName: carjack.zele
   Deacceleration: 100
   ReverseCurve:
     serializedVersion: 2
@@ -338,6 +339,8 @@ MonoBehaviour:
   SteerAxis: 0
   HornHeld: 0
   GetOutOfCarButtonNew: 0
+  ExtraDistance: 0
+  ExtraHeight: 0
 --- !u!54 &8275566447239126143
 Rigidbody:
   m_ObjectHideFlags: 0

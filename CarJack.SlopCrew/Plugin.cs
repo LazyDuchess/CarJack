@@ -14,6 +14,7 @@ namespace CarJack.SlopCrew
         public Plugin()
         {
             BallController.Initialize();
+            NetworkController.Initialize();
         }
     }
 }

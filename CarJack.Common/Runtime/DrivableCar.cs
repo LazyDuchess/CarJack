@@ -1,12 +1,14 @@
 #if PLUGIN
 using Reptile;
 #endif
+using System;
 using UnityEngine;
 
 namespace CarJack.Common
 {
     public class DrivableCar : MonoBehaviour
     {
+        public string InternalName = "";
         public float Deacceleration = 100f;
         public AnimationCurve ReverseCurve;
         public float ReverseCurveMax = 50f;
@@ -48,6 +50,8 @@ namespace CarJack.Common
         private float _crashAudioCooldown = 0f;
 
         private CarDriver[] _drivers;
+
+        public Action OnHandleInput;
 
         [Header("Camera")]
         public float ExtraDistance = 0f;
@@ -179,6 +183,7 @@ namespace CarJack.Common
         private void PollInputs()
         {
             ResetInputs();
+            OnHandleInput?.Invoke();
 
             if (!Driving) return;
 #if PLUGIN
