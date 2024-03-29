@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.Plugin", "CarJack.P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAPI", "libs\BRC-CommonAPI\CommonAPI.csproj", "{7FF00358-F1F3-4A81-8BB4-F767042185AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarJack.SlopCrew", "CarJack.SlopCrew\CarJack.SlopCrew.csproj", "{FA269827-B0AC-4848-899B-CFEFD60EFA0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7FF00358-F1F3-4A81-8BB4-F767042185AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF00358-F1F3-4A81-8BB4-F767042185AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FF00358-F1F3-4A81-8BB4-F767042185AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
