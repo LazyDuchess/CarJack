@@ -50,8 +50,15 @@ namespace CarJack.Common
         }
         public void OnScrape(Collision other)
         {
+            if (other.gameObject.name == "rocket ball")
+                return;
+            var impactVel = _car.Rigidbody.velocity;
+            if (other.rigidbody != null)
+            {
+                impactVel += other.rigidbody.velocity;
+            }
             var normal = other.contacts[0].normal;
-            var velocityAway = (_car.Rigidbody.velocity - Vector3.Project(_car.Rigidbody.velocity, normal)).magnitude;
+            var velocityAway = (impactVel - Vector3.Project(_car.Rigidbody.velocity, normal)).magnitude;
             if (velocityAway > MinimumSpeed)
             {
                 velocityAway -= MinimumSpeed;

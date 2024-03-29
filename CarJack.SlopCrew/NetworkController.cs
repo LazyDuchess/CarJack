@@ -14,6 +14,8 @@ namespace CarJack.SlopCrew
     public class NetworkController : MonoBehaviour
     {
         public static NetworkController Instance { get; private set; }
+        private const float LerpMaxDistance = 10f;
+        private const float Lerp = 10f;
         private const float TickRate = 0f;
         private List<PlayerCarData> _playerCars;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
@@ -129,6 +131,25 @@ namespace CarJack.SlopCrew
             _playerCarsById = newDict;
         }
 
+        private void Update()
+        {
+            if (Core.Instance.IsCorePaused) return;
+            foreach (var car in _playerCars)
+            {
+                if (car.Car == null) continue;
+                var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);
+                var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.LastPacket.Rotation, Lerp * Time.deltaTime);
+                var dist = (car.Car.Rigidbody.position - car.LastPacket.Position).magnitude;
+                if (dist >= LerpMaxDistance)
+                {
+                    interpolatedPos = car.LastPacket.Position;
+                    interpolatedRot = car.LastPacket.Rotation;
+                }
+                car.Car.Rigidbody.MovePosition(interpolatedPos);
+                car.Car.Rigidbody.MoveRotation(interpolatedRot);
+            }
+        }
+
         private bool TickCar(PlayerCarData playerCarData)
         {
             var keep = true;
@@ -188,8 +209,8 @@ namespace CarJack.SlopCrew
                         player.GetComponent<Player>().characterVisual.gameObject.SetActive(false);
                     }
                     player.transform.position = currentCar.transform.position;
-                    currentCar.Rigidbody.MovePosition(playerCarData.LastPacket.Position);
-                    currentCar.Rigidbody.MoveRotation(playerCarData.LastPacket.Rotation);
+                    //currentCar.Rigidbody.MovePosition(playerCarData.LastPacket.Position);
+                    //currentCar.Rigidbody.MoveRotation(playerCarData.LastPacket.Rotation);
                     currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                     currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
                 }

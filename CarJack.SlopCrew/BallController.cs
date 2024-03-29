@@ -12,8 +12,8 @@ namespace CarJack.SlopCrew
 {
     public class BallController : MonoBehaviour
     {
-        private const float LerpMaxDistance = 5f;
-        private const float Lerp = 20f;
+        private const float LerpMaxDistance = 10f;
+        private const float Lerp = 10f;
         private const string BallHostPacketGUID = "CarJack-Ball-Host";
         private const string BallPacketGUID = "CarJack-Ball";
         private const float TickRate = 0f;
@@ -23,6 +23,7 @@ namespace CarJack.SlopCrew
         private Rigidbody _ballRB;
         private float _currentTick = TickRate;
         private bool _host = false;
+        private bool _hostFound = false;
         private Vector3 _receivedPosition;
         private Quaternion _receivedRotation;
 
@@ -42,6 +43,7 @@ namespace CarJack.SlopCrew
         {
             if (Core.Instance.IsCorePaused) return;
             if (_host) return;
+            if (!_hostFound) return;
             var dist = (_ballRB.position - _receivedPosition).magnitude;
             if (dist >= LerpMaxDistance)
             {
@@ -78,6 +80,7 @@ namespace CarJack.SlopCrew
                     if (lowestID != uint.MaxValue)
                     {
                         SendBallHostPacket(lowestID);
+                        _hostFound = true;
                     }
                 }
             }
@@ -143,9 +146,15 @@ namespace CarJack.SlopCrew
             var hostID = reader.ReadUInt32();
             reader.Close();
             if (_api.PlayerIDExists(hostID) == true)
+            {
                 _host = false;
+                _hostFound = true;
+            }
             else
+            {
                 _host = true;
+                _hostFound = true;
+            }
         }
 
         private void OnBallPacketReceived(uint playerid, string guid, byte[] data)
