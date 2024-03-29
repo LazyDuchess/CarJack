@@ -5,6 +5,7 @@ using System.IO;
 using CarJack.Common;
 using System.Reflection;
 using BepInEx.Bootstrap;
+using System.Diagnostics;
 
 namespace CarJack.Plugin
 {
@@ -22,24 +23,28 @@ namespace CarJack.Plugin
                 CarDebugController.Create();
                 CarDatabase.Initialize();
                 SpawnCarApp.Initialize();
-                if (Chainloader.PluginInfos.ContainsKey("SlopCrew.Plugin"))
-                {
-                    Logger.LogInfo("Loading CarJack SlopCrew Plugin!");
-                    try
-                    {
-                        var slopCrewAssemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.SlopCrew");
-                        LoadPlugin(slopCrewAssemblyLocation);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.LogError($"Failed to load CarJack SlopCrew Plugin!{Environment.NewLine}{e}");
-                    }
-                }
                 Logger.LogInfo($"Loaded {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}!");
             }
             catch(Exception e)
             {
                 Logger.LogError($"Failed to load {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}!{Environment.NewLine}{e}");
+            }
+        }
+
+        private void Start()
+        {
+            if (Chainloader.PluginInfos.ContainsKey("SlopCrew.Plugin"))
+            {
+                Logger.LogInfo("Loading CarJack SlopCrew Plugin!");
+                try
+                {
+                    var slopCrewAssemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.SlopCrew.dll");
+                    LoadPlugin(slopCrewAssemblyLocation);
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError($"Failed to load CarJack SlopCrew Plugin!{Environment.NewLine}{e}");
+                }
             }
         }
 

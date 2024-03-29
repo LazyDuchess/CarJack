@@ -13,7 +13,7 @@ namespace CarJack.SlopCrew
     {
         public Plugin()
         {
-            Debug.Log("Hello from SlopCrew CarJack plugin!");
+            BallController.Initialize();
         }
     }
 }
