@@ -490,6 +490,8 @@ MonoBehaviour:
   SteerAxis: 0
   HornHeld: 0
   GetOutOfCarButtonNew: 0
+  ExtraDistance: 0
+  ExtraHeight: 0
 --- !u!54 &4131073453011335924
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -564,7 +566,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 2000
+  Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -629,7 +631,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   Damping: 200
-  Strength: 2000
+  Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -694,7 +696,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 2000
+  Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -759,7 +761,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   Damping: 200
-  Strength: 2000
+  Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -874,8 +876,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5443781839866100464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: -0.2281}
-  m_LocalScale: {x: 2.5228286, y: 1.7583274, z: 5.7175975}
+  m_LocalPosition: {x: 0, y: 1.002, z: -0.2281}
+  m_LocalScale: {x: 2.75619, y: 2.105421, z: 5.0869026}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4131073453011335925}

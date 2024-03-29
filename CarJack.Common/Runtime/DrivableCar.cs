@@ -45,6 +45,14 @@ namespace CarJack.Common
 
         private ScrapeAudio _scrapeAudio;
 
+        private float _crashAudioCooldown = 0f;
+
+        private CarDriver[] _drivers;
+
+        [Header("Camera")]
+        public float ExtraDistance = 0f;
+        public float ExtraHeight = 0f;
+
         public void Initialize()
         {
             Driving = false;
@@ -54,8 +62,11 @@ namespace CarJack.Common
         {
             if (force < 4f)
                 return;
+            if (_crashAudioCooldown > 0f)
+                return;
             var crashSFX = CarResources.Instance.GetCrashSFX();
             _oneShotAudioSource.Play(crashSFX);
+            _crashAudioCooldown = 0.1f;
         }
 
         private void OnCollisionStay(Collision other)
@@ -186,6 +197,7 @@ namespace CarJack.Common
 
         private void Awake()
         {
+            _drivers = Chassis.GetComponentsInChildren<CarDriver>();
             _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
             _oneShotAudioSource = Chassis.GetComponentInChildren<OneShotAudioSource>();
             Rigidbody = Chassis.GetComponent<Rigidbody>();
@@ -201,6 +213,24 @@ namespace CarJack.Common
             Core.OnCoreUpdateUnPaused += OnUnPause;
 #endif
         }
+
+#if PLUGIN
+        public void EnterCar(Player player)
+        {
+            foreach(var driver in _drivers)
+            {
+                driver.PutInCar(player);
+            }
+        }
+
+        public void ExitCar()
+        {
+            foreach (var driver in _drivers)
+            {
+                driver.ExitCar();
+            }
+        }
+#endif
 
         private void OnPause()
         {
@@ -241,6 +271,7 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            _crashAudioCooldown = Mathf.Max(0f, _crashAudioCooldown - Time.deltaTime);
             foreach (var wheel in Wheels)
             {
                 wheel.DoUpdate();

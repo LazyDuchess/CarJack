@@ -83,11 +83,13 @@ namespace CarJack.Common
             if (cameraComponent == null)
                 cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.SetTarget(car);
+            car.EnterCar(player);
         }
 
         public void ExitCar()
         {
             if (CurrentCar == null) return;
+            CurrentCar.ExitCar();
             CurrentCar.Driving = false;
             CurrentCar = null;
             var gameplayCamera = GameplayCamera.instance;

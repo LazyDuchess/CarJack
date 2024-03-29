@@ -106,11 +106,14 @@ namespace CarJack.Common
             if (_currentFreeCameraTimer <= 0f)
                 transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
 
-            var target = Target.transform.position + (Height * Vector3.up);
-            var origin = target - (transform.forward * Distance);
+            var distance = Distance + Target.ExtraDistance;
+            var height = Height + Target.ExtraHeight;
+
+            var target = Target.transform.position + (height * Vector3.up);
+            var origin = target - (transform.forward * distance);
 
             var ray = new Ray(target, -transform.forward);
-            if (Physics.Raycast(ray, out var hit, Distance + Radius, ObstructionMask))
+            if (Physics.Raycast(ray, out var hit, distance + Radius, ObstructionMask))
             {
                 origin = target - (transform.forward * (hit.distance - Radius));
             }
