@@ -200,6 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.benni
+  HasSurfaceAngleLimit: 1
+  SurfaceAngleLimit: 60
   Deacceleration: 100
   ReverseCurve:
     serializedVersion: 2
@@ -695,6 +697,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2beb04f9578afd4e9b5d1f71b06c35e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HonkLayerIndex: 1
+  ReverseLayerIndex: 3
+  ReverseAnimationLerp: 10
+  HonkAnimationLerp: 20
   SteerAnimationLerp: 5
   controller: {fileID: 9100000, guid: 22f33aced706a1a4cae64d1a8baf5cd4, type: 2}
 --- !u!1 &8796714454098800890

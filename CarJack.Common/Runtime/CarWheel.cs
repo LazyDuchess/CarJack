@@ -40,6 +40,13 @@ namespace CarJack.Common
 
         public void DoPhysics()
         {
+            var tooSteep = false;
+            if (_car.HasSurfaceAngleLimit)
+            {
+                var angle = Vector3.Angle(Vector3.up, transform.up);
+                if (angle >= _car.SurfaceAngleLimit)
+                    tooSteep = true;
+            }
             var distance = MaxDistance;
             Grounded = false;
             var ray = new Ray(transform.position + (transform.up * StartLength), -transform.up);
@@ -50,6 +57,8 @@ namespace CarJack.Common
                 var offset = RestDistance - distance;
                 var velocity = Vector3.Dot(_car.Rigidbody.GetPointVelocity(transform.position), transform.up);
                 var force = (offset * Strength) - (velocity * Damping);
+                if (tooSteep)
+                    force = Mathf.Max(force, 0f);
                 _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
             }
 
@@ -58,7 +67,7 @@ namespace CarJack.Common
                 Mesh.transform.position = transform.position - ((distance - MeshRadius) * transform.up);
             }
 
-            if (Grounded)
+            if (Grounded && !tooSteep)
             {
                 var traction = Traction;
                 var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
@@ -72,10 +81,10 @@ namespace CarJack.Common
                 var acceleration = force / Time.fixedDeltaTime;
                 _car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
             }
-            DoInput();
+            DoInput(tooSteep);
         }
 
-        private void DoInput()
+        private void DoInput(bool tooSteep)
         {
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
 
@@ -97,13 +106,13 @@ namespace CarJack.Common
                 }
             }
 
-            if (Throttle && !Grounded)
+            if (Throttle && (!Grounded || tooSteep))
             {
                 if (Mathf.Abs(CurrentSpeed) < 100f)
                     CurrentSpeed += throttleAxis * RotationAcceleration * Time.deltaTime;
             }
 
-            if (Throttle && Grounded)
+            if (Throttle && Grounded && !tooSteep)
             {
                 var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
 

@@ -9,6 +9,10 @@ namespace CarJack.Common
     public class DrivableCar : MonoBehaviour
     {
         public string InternalName = "";
+
+        public bool HasSurfaceAngleLimit = true;
+        public float SurfaceAngleLimit = 60f;
+
         public float Deacceleration = 100f;
         public AnimationCurve ReverseCurve;
         public float ReverseCurveMax = 50f;

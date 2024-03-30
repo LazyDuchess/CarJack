@@ -197,6 +197,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.bluecar
+  HasSurfaceAngleLimit: 1
+  SurfaceAngleLimit: 60
   Deacceleration: 100
   ReverseCurve:
     serializedVersion: 2

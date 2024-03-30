@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Honk Mask
+  m_Mask: 00000000000000000000000000000000000000000100000000000000010000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: mesh
+    m_Weight: 0
+  - m_Path: root
+    m_Weight: 0
+  - m_Path: root/leg1l
+    m_Weight: 0
+  - m_Path: root/leg1l/leg2l
+    m_Weight: 0
+  - m_Path: root/leg1l/leg2l/footl
+    m_Weight: 0
+  - m_Path: root/leg1l/leg2l/footl/toesl
+    m_Weight: 0
+  - m_Path: root/leg1r
+    m_Weight: 0
+  - m_Path: root/leg1r/leg2r
+    m_Weight: 0
+  - m_Path: root/leg1r/leg2r/footr
+    m_Weight: 0
+  - m_Path: root/leg1r/leg2r/footr/toesr
+    m_Weight: 0
+  - m_Path: root/s1
+    m_Weight: 0
+  - m_Path: root/s1/s2
+    m_Weight: 0
+  - m_Path: root/s1/s2/jetpackPos
+    m_Weight: 0
+  - m_Path: root/s1/s2/jetpackPos/jetpack
+    m_Weight: 0
+  - m_Path: root/s1/s2/neck
+    m_Weight: 0
+  - m_Path: root/s1/s2/neck/head
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldl
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l/f3l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l/f6l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l/f9l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l/f12l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l/thumb3l
+    m_Weight: 1
+  - m_Path: root/s1/s2/shldr
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r/f3r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r/f6r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r/f9r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r/f12r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r
+    m_Weight: 0
+  - m_Path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r/thumb3r
+    m_Weight: 0

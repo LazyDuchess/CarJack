@@ -21,7 +21,13 @@ ModelImporter:
       rotation in copied configuration does not match rotation in animation file:\n\t's2'
       : rotation error = 17.480278 deg\n"
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'TaxiBreathe' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t's2' is inbetween humanoid transforms and
+      has rotation animation that will be discarded.\n\nClip 'TaxiReverse' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t's2' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -170,7 +176,7 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 0.59
     - serializedVersion: 16
       name: TaxiSteerL
       takeName: TaxiSteerL
@@ -321,6 +327,417 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/leg1l
+        weight: 1
+      - path: root/leg1l/leg2l
+        weight: 1
+      - path: root/leg1l/leg2l/footl
+        weight: 1
+      - path: root/leg1l/leg2l/footl/toesl
+        weight: 1
+      - path: root/leg1r
+        weight: 1
+      - path: root/leg1r/leg2r
+        weight: 1
+      - path: root/leg1r/leg2r/footr
+        weight: 1
+      - path: root/leg1r/leg2r/footr/toesr
+        weight: 1
+      - path: root/s1
+        weight: 1
+      - path: root/s1/s2
+        weight: 1
+      - path: root/s1/s2/jetpackPos
+        weight: 0
+      - path: root/s1/s2/jetpackPos/jetpack
+        weight: 1
+      - path: root/s1/s2/neck
+        weight: 1
+      - path: root/s1/s2/neck/head
+        weight: 1
+      - path: root/s1/s2/shldl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l/f3l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l/f6l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l/f9l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l/f12l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l/thumb3l
+        weight: 1
+      - path: root/s1/s2/shldr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r/f3r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r/f6r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r/f9r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r/f12r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r/thumb3r
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TaxiBreathe
+      takeName: TaxiBreathe
+      internalID: -5760112026081034999
+      firstFrame: 0
+      lastFrame: 121
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/leg1l
+        weight: 1
+      - path: root/leg1l/leg2l
+        weight: 1
+      - path: root/leg1l/leg2l/footl
+        weight: 1
+      - path: root/leg1l/leg2l/footl/toesl
+        weight: 1
+      - path: root/leg1r
+        weight: 1
+      - path: root/leg1r/leg2r
+        weight: 1
+      - path: root/leg1r/leg2r/footr
+        weight: 1
+      - path: root/leg1r/leg2r/footr/toesr
+        weight: 1
+      - path: root/s1
+        weight: 1
+      - path: root/s1/s2
+        weight: 1
+      - path: root/s1/s2/jetpackPos
+        weight: 0
+      - path: root/s1/s2/jetpackPos/jetpack
+        weight: 1
+      - path: root/s1/s2/neck
+        weight: 1
+      - path: root/s1/s2/neck/head
+        weight: 1
+      - path: root/s1/s2/shldl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l/f3l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l/f6l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l/f9l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l/f12l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l/thumb3l
+        weight: 1
+      - path: root/s1/s2/shldr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r/f3r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r/f6r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r/f9r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r/f12r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r/thumb3r
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TaxiReverse
+      takeName: TaxiReverse
+      internalID: 5716924077513301069
+      firstFrame: 10.1
+      lastFrame: 11
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/leg1l
+        weight: 1
+      - path: root/leg1l/leg2l
+        weight: 1
+      - path: root/leg1l/leg2l/footl
+        weight: 1
+      - path: root/leg1l/leg2l/footl/toesl
+        weight: 1
+      - path: root/leg1r
+        weight: 1
+      - path: root/leg1r/leg2r
+        weight: 1
+      - path: root/leg1r/leg2r/footr
+        weight: 1
+      - path: root/leg1r/leg2r/footr/toesr
+        weight: 1
+      - path: root/s1
+        weight: 1
+      - path: root/s1/s2
+        weight: 1
+      - path: root/s1/s2/jetpackPos
+        weight: 0
+      - path: root/s1/s2/jetpackPos/jetpack
+        weight: 1
+      - path: root/s1/s2/neck
+        weight: 1
+      - path: root/s1/s2/neck/head
+        weight: 1
+      - path: root/s1/s2/shldl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f1l/f2l/f3l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f4l/f5l/f6l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f7l/f8l/f9l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/f10l/f11l/f12l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l
+        weight: 1
+      - path: root/s1/s2/shldl/arm1l/arm2l/handl/thumb1l/thumb2l/thumb3l
+        weight: 1
+      - path: root/s1/s2/shldr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f1r/f2r/f3r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f4r/f5r/f6r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f7r/f8r/f9r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/f10r/f11r/f12r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r
+        weight: 1
+      - path: root/s1/s2/shldr/arm1r/arm2r/handr/thumb1r/thumb2r/thumb3r
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: TaxiHonk
+      takeName: TaxiHonk
+      internalID: -7911611037830132036
+      firstFrame: 0
+      lastFrame: 1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
