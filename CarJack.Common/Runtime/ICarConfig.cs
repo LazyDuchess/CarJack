@@ -9,5 +9,6 @@ namespace CarJack.Common
     public interface ICarConfig
     {
         public bool SlopCrewIntegration { get; set; }
+        public bool ContinuousCollisionDetection { get; set; }
     }
 }

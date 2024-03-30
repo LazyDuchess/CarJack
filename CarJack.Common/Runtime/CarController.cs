@@ -15,11 +15,11 @@ namespace CarJack.Common
     public class CarController : MonoBehaviour
     {
         public static CarController Instance { get; private set; }
-        public ICarConfig Config;
+        public static ICarConfig Config;
         public DrivableCar CurrentCar;
         public static void Initialize(ICarConfig config)
         {
-            config = config;
+            Config = config;
 #if PLUGIN
             StageManager.OnStageInitialized += StageManager_OnStageInitialized;
 #endif

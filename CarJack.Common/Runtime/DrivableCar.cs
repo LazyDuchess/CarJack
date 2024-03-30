@@ -293,6 +293,9 @@ namespace CarJack.Common
 #if PLUGIN
             Core.OnCoreUpdatePaused += OnPause;
             Core.OnCoreUpdateUnPaused += OnUnPause;
+            var continuous = CarController.Config.ContinuousCollisionDetection;
+            Rigidbody.collisionDetectionMode = continuous ? CollisionDetectionMode.ContinuousDynamic : CollisionDetectionMode.Discrete;
+            Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 #endif
         }
 

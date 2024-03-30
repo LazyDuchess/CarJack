@@ -14,7 +14,7 @@ namespace CarJack.SlopCrew
     {
         public Plugin()
         {
-            if (CarController.Instance.Config.SlopCrewIntegration)
+            if (CarController.Config.SlopCrewIntegration)
             {
                 BallController.Initialize();
                 NetworkController.Initialize();

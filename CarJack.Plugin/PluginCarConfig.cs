@@ -21,9 +21,30 @@ namespace CarJack.Plugin
                 _slopCrewIntegration.Value = value;
             }
         }
+
+        public bool ContinuousCollisionDetection
+        {
+            get
+            {
+                return _continuousCollisionDetection.Value;
+            }
+            set
+            {
+                _continuousCollisionDetection.Value = value;
+            }
+        }
+
         private ConfigEntry<bool> _slopCrewIntegration;
+        private ConfigEntry<bool> _continuousCollisionDetection;
         public PluginCarConfig(ConfigFile configFile)
         {
+            _continuousCollisionDetection = configFile.Bind(
+                "General",
+                "ContinuousCollisionDetection",
+                true,
+                "Prevents cars from going through geometry at high speeds."
+                );
+
             _slopCrewIntegration = configFile.Bind(
                 "General",
                 "SlopCrewIntegration",
