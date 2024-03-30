@@ -25,7 +25,6 @@ namespace CarJack.Common
         public void PutInCar(Player player)
         {
             _currentSteer = 0.5f;
-            //_currentVisual = player.characterConstructor.CreateNewCharacterVisual(player.character, controller);
             _currentVisual = VisualFromPlayer(player, controller);
             var animator = _currentVisual.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = controller;
@@ -33,7 +32,7 @@ namespace CarJack.Common
             _currentVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         }
 
-        // Gross but works with crewboom outfits and all.
+        // Copy the players visuals for driving.
         private CharacterVisual VisualFromPlayer(Player player, RuntimeAnimatorController controller)
         {
             var visualObject = Instantiate(player.characterVisual.gameObject);

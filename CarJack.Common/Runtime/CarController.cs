@@ -90,6 +90,7 @@ namespace CarJack.Common
 
         public void ExitCar()
         {
+            var car = CurrentCar;
             if (CurrentCar == null) return;
             CurrentCar.ExitCar();
             CurrentCar.Driving = false;
@@ -103,6 +104,8 @@ namespace CarJack.Common
             player.gameObject.SetActive(true);
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
+            // maybe delete this some other time? implement limits for cars laying around the map?
+            Destroy(car.gameObject);
         }
 #endif
     }
