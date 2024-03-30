@@ -13,6 +13,10 @@ namespace CarJack.Common
         public bool HasSurfaceAngleLimit = true;
         public float SurfaceAngleLimit = 60f;
 
+        public float AirControlStrength = 1f;
+        public float AirControlTopSpeed = 2f;
+        public float AirDeacceleration = 1f;
+
         public float Deacceleration = 100f;
         public AnimationCurve ReverseCurve;
         public float ReverseCurveMax = 50f;
@@ -40,6 +44,14 @@ namespace CarJack.Common
         public bool HornHeld = false;
         [HideInInspector]
         public bool GetOutOfCarButtonNew = false;
+        [HideInInspector]
+        public float PitchAxis = 0f;
+        [HideInInspector]
+        public float YawAxis = 0f;
+        [HideInInspector]
+        public float RollAxis = 0f;
+        [HideInInspector]
+        public bool BrakeHeld = false;
 
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
@@ -87,12 +99,20 @@ namespace CarJack.Common
             var speedDifference = (Rigidbody.velocity - _previousVelocity).magnitude + (Rigidbody.angularVelocity - _previousAngularVelocity).magnitude;
             OnCrash(speedDifference, other.contacts[0].point);
 #if PLUGIN
+            var impactVelocity = _previousVelocity.magnitude;
+            var breakable = other.gameObject.GetComponent<BreakableObject>();
+            if (breakable != null && impactVelocity >= 5f)
+            {
+                Rigidbody.velocity = _previousVelocity;
+                Rigidbody.angularVelocity = _previousAngularVelocity;
+                breakable.Break(false);
+                return;
+            }
             if (other.gameObject.layer == Layers.Enemies)
             {
                 var enemy = other.gameObject.GetComponentInParent<BasicCop>();
                 if (enemy != null)
                 {
-                    var impactVelocity = _previousVelocity.magnitude;
                     Rigidbody.velocity = _previousVelocity;
                     Rigidbody.angularVelocity = _previousAngularVelocity;
                     if (impactVelocity >= 5f && enemy.hitBoxResponse.State == EnemyHitResponse.HitResponseState.NONE)
@@ -101,6 +121,7 @@ namespace CarJack.Common
                         enemy.hitBoxResponse.ManualDamage(EnemyHitResponse.HitType.EXPLOSION, heading, impactVelocity * 0.1f, 1f, 2f, 2);
                         TimedCollisionIgnore.Create(other.collider, Chassis.GetComponentInChildren<Collider>(), 1.5f);
                     }
+                    return;
                 }
             }
             if (other.gameObject.layer == Layers.Junk)
@@ -182,6 +203,10 @@ namespace CarJack.Common
             SteerAxis = 0f;
             HornHeld = false;
             GetOutOfCarButtonNew = false;
+            PitchAxis = 0f;
+            YawAxis = 0f;
+            RollAxis = 0f;
+            BrakeHeld = false;
         }
         
         private void PollInputs()
@@ -192,19 +217,51 @@ namespace CarJack.Common
             if (!Driving) return;
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
+            BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
+            if (BrakeHeld)
+                RollAxis = gameInput.GetAxis(5, 0);
+            else
+                YawAxis = gameInput.GetAxis(5, 0);
 
             var controllerType = gameInput.GetCurrentControllerType(0);
+
             if (controllerType == Rewired.ControllerType.Joystick)
             {
+                PitchAxis = gameInput.GetAxis(6, 0);
                 ThrottleAxis += gameInput.GetAxis(8, 0);
                 ThrottleAxis -= gameInput.GetAxis(18, 0);
             }
             else
+            {
                 ThrottleAxis = gameInput.GetAxis(6, 0);
+                if (BrakeHeld)
+                    PitchAxis = gameInput.GetAxis(6, 0);
+            }
             HornHeld = gameInput.GetButtonHeld(10, 0);
             GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
 #else
+            BrakeHeld = Input.GetKey(KeyCode.Space);
+
+            if (BrakeHeld)
+            {
+                if (Input.GetKey(KeyCode.D))
+                    RollAxis += 1f;
+                if (Input.GetKey(KeyCode.A))
+                    RollAxis -= 1f;
+
+                if (Input.GetKey(KeyCode.W))
+                    PitchAxis += 1f;
+                if (Input.GetKey(KeyCode.S))
+                    PitchAxis -= 1f;
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.D))
+                    YawAxis += 1f;
+                if (Input.GetKey(KeyCode.A))
+                    YawAxis -= 1f;
+            }
 
             if (Input.GetKey(KeyCode.D))
                 SteerAxis += 1f;
@@ -277,18 +334,63 @@ namespace CarJack.Common
             if (Core.Instance.IsCorePaused) return;
 #endif
             PollInputs();
+            var wheelsGrounded = 0;
             foreach(var wheel in Wheels)
             {
                 wheel.DoPhysics();
+                if (wheel.Grounded)
+                    wheelsGrounded++;
             }
             _previousAngularVelocity = Rigidbody.angularVelocity;
             _previousVelocity = Rigidbody.velocity;
+
+            //var airControlMultiplier = (-((float)wheelsGrounded / Wheels.Length)) + 1f;
+            //AirControl(airControlMultiplier);
+            if (wheelsGrounded == 0)
+                AirControl(1f);
 #if PLUGIN
             if (GetOutOfCarButtonNew && Driving)
             {
                 CarController.Instance.ExitCar();
             }
 #endif
+        }
+
+        private void AirControl(float multiplier)
+        {
+            var airStrength = AirControlStrength * multiplier;
+
+            var pitch = transform.right * (airStrength * PitchAxis);
+            var yaw = transform.up * (airStrength * YawAxis);
+            var roll = -transform.forward * (airStrength * RollAxis);
+
+            var currentPitch = Vector3.Dot(transform.right, Rigidbody.angularVelocity);
+            var currentYaw = Vector3.Dot(transform.up, Rigidbody.angularVelocity);
+            var currentRoll = Vector3.Dot(-transform.forward, Rigidbody.angularVelocity);
+
+            if (currentPitch >= AirControlTopSpeed && PitchAxis > 0f)
+                pitch = Vector3.zero;
+
+            if (currentPitch <= -AirControlTopSpeed && PitchAxis < 0f)
+                pitch = Vector3.zero;
+
+            if (currentYaw >= AirControlTopSpeed && YawAxis > 0f)
+                yaw = Vector3.zero;
+
+            if (currentYaw <= -AirControlTopSpeed && YawAxis < 0f)
+                yaw = Vector3.zero;
+
+            if (currentRoll >= AirControlTopSpeed && RollAxis > 0f)
+                roll = Vector3.zero;
+
+            if (currentRoll <= -AirControlTopSpeed && RollAxis < 0f)
+                roll = Vector3.zero;
+
+            Rigidbody.AddTorque(pitch, ForceMode.Acceleration);
+            Rigidbody.AddTorque(yaw, ForceMode.Acceleration);
+            Rigidbody.AddTorque(roll, ForceMode.Acceleration);
+
+            Rigidbody.angularVelocity = Vector3.Lerp(Rigidbody.angularVelocity, Vector3.zero, AirDeacceleration * Time.deltaTime);
         }
 
         private void Update()

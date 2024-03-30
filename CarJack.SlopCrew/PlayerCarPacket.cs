@@ -20,9 +20,16 @@ namespace CarJack.SlopCrew
         public float ThrottleAxis = 0f;
         public float SteerAxis = 0f;
         public bool HornHeld = false;
+        public bool BrakeHeld = false;
+        public float PitchAxis = 0f;
+        public float YawAxis = 0f;
+        public float RollAxis = 0f;
 
         public void Serialize(BinaryWriter writer)
         {
+            //version
+            writer.Write((byte)0);
+
             writer.Write(CarInternalName);
 
             writer.Write(Position.x);
@@ -45,10 +52,17 @@ namespace CarJack.SlopCrew
             writer.Write(ThrottleAxis);
             writer.Write(SteerAxis);
             writer.Write(HornHeld);
+
+            writer.Write(BrakeHeld);
+            writer.Write(PitchAxis);
+            writer.Write(YawAxis);
+            writer.Write(RollAxis);
         }
 
         public void Deserialize(BinaryReader reader)
         {
+            var version = reader.ReadByte();
+
             CarInternalName = reader.ReadString();
 
             var posX = reader.ReadSingle();
@@ -71,6 +85,16 @@ namespace CarJack.SlopCrew
             ThrottleAxis = reader.ReadSingle();
             SteerAxis = reader.ReadSingle();
             HornHeld = reader.ReadBoolean();
+            /*
+            writer.Write(BrakeHeld);
+            writer.Write(PitchAxis);
+            writer.Write(YawAxis);
+            writer.Write(RollAxis);
+            */
+            BrakeHeld = reader.ReadBoolean();
+            PitchAxis = reader.ReadSingle();
+            YawAxis = reader.ReadSingle();
+            RollAxis = reader.ReadSingle();
 
             Position = new Vector3(posX, posY, posZ);
             Rotation = new Quaternion(rotX, rotY, rotZ, rotW);

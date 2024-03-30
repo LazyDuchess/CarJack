@@ -162,6 +162,9 @@ namespace CarJack.SlopCrew
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
 
+            //version
+            writer.Write((byte)0);
+
             writer.Write(playerID);
 
             writer.Flush();
@@ -182,6 +185,9 @@ namespace CarJack.SlopCrew
 
             var vel = _ballRB.velocity;
             var avel = _ballRB.angularVelocity;
+
+            //version
+            writer.Write((byte)0);
 
             writer.Write(pos.x);
             writer.Write(pos.y);
@@ -211,6 +217,7 @@ namespace CarJack.SlopCrew
                 return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
+            var version = reader.ReadByte();
             var hostID = reader.ReadUInt32();
             reader.Close();
             if (_api.PlayerIDExists(hostID) == true || hostID == uint.MaxValue)
@@ -248,6 +255,8 @@ namespace CarJack.SlopCrew
             if (_subHost) return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
+
+            var version = reader.ReadByte();
 
             var posX = reader.ReadSingle();
             var posY = reader.ReadSingle();

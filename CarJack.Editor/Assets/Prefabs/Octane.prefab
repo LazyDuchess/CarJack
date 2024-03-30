@@ -351,6 +351,9 @@ MonoBehaviour:
   InternalName: carjack.octane
   HasSurfaceAngleLimit: 0
   SurfaceAngleLimit: 60
+  AirControlStrength: 15
+  AirControlTopSpeed: 4
+  AirDeacceleration: 2
   Deacceleration: 100
   ReverseCurve:
     serializedVersion: 2
@@ -493,6 +496,7 @@ MonoBehaviour:
   SteerAxis: 0
   HornHeld: 0
   GetOutOfCarButtonNew: 0
+  PitchAxis: 0
   ExtraDistance: 0
   ExtraHeight: 0
 --- !u!54 &4131073453011335924
