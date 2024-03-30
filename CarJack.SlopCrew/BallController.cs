@@ -7,13 +7,18 @@ using UnityEngine;
 using Reptile;
 using SlopCrew.API;
 using System.IO;
+using CarJack.Common;
 
 namespace CarJack.SlopCrew
 {
+    // Yes this sucks.
+    // TLDR - There's a host, lowest player ID so everyones on the same page - picks a sub-host every tick, player closest to the ball
+    // Sub-host sends ball data to everyone else, so the person whos closest to the ball on the hosts side owns the ball.
     public class BallController : MonoBehaviour
     {
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
+        private const string BallSubHostPacketGUID = "CarJack-Ball-SubHost";
         private const string BallHostPacketGUID = "CarJack-Ball-Host";
         private const string BallPacketGUID = "CarJack-Ball";
         private const float TickRate = 0f;
@@ -23,7 +28,9 @@ namespace CarJack.SlopCrew
         private Rigidbody _ballRB;
         private float _currentTick = TickRate;
         private bool _host = false;
+        private bool _subHost = false;
         private bool _hostFound = false;
+        private bool _subHostFound = false;
         private Vector3 _receivedPosition;
         private Quaternion _receivedRotation;
 
@@ -42,8 +49,14 @@ namespace CarJack.SlopCrew
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
-            if (_host) return;
             if (!_hostFound) return;
+            if (!_subHostFound) return;
+            if (_subHost)
+            {
+                _receivedPosition = _ballRB.position;
+                _receivedRotation = _ballRB.rotation;
+                return;
+            }
             var dist = (_ballRB.position - _receivedPosition).magnitude;
             if (dist >= LerpMaxDistance)
             {
@@ -59,6 +72,49 @@ namespace CarJack.SlopCrew
             }
         }
 
+        private void UpdateHost()
+        {
+            var cars = NetworkController.Instance.PlayerCars;
+            var lowestDistance = float.MaxValue;
+            var lowestDistancePlayer = uint.MaxValue;
+            var myDistance = float.MaxValue;
+            var currentCar = CarController.Instance.CurrentCar;
+            if (currentCar != null)
+            {
+                myDistance = (currentCar.Rigidbody.position - _ballRB.position).magnitude;
+            }
+            foreach(var playerCar in cars)
+            {
+                var dist = (playerCar.LastPacket.Position - _ballRB.position).magnitude;
+                if (dist < lowestDistance)
+                {
+                    lowestDistance = dist;
+                    lowestDistancePlayer = playerCar.PlayerID;
+                }
+            }
+            if (lowestDistancePlayer == uint.MaxValue)
+            {
+                _subHost = true;
+                _subHostFound = true;
+                SendBallHostPacket(uint.MaxValue, true);
+            }
+            else
+            {
+                if (myDistance < lowestDistance)
+                {
+                    _subHost = true;
+                    _subHostFound = true;
+                    SendBallHostPacket(uint.MaxValue, true);
+                }
+                else
+                {
+                    _subHost = false;
+                    _subHostFound = true;
+                    SendBallHostPacket(lowestDistancePlayer, true);
+                }
+            }
+        }
+
         private void FixedUpdate()
         {
             if (Core.Instance.IsCorePaused) return;
@@ -66,9 +122,9 @@ namespace CarJack.SlopCrew
             if (_currentTick <= 0f)
             {
                 _currentTick = TickRate;
-                if (_host)
+                if (_subHost)
                     SendBallPacket();
-                else
+                if (!_host)
                 {
                     var players = _api.Players;
                     var lowestID = uint.MaxValue;
@@ -79,9 +135,18 @@ namespace CarJack.SlopCrew
                     }
                     if (lowestID != uint.MaxValue)
                     {
-                        SendBallHostPacket(lowestID);
+                        SendBallHostPacket(lowestID, false);
                         _hostFound = true;
                     }
+                    else
+                    {
+                        _hostFound = false;
+                        _subHostFound = false;
+                    }
+                }
+                else
+                {
+                    UpdateHost();
                 }
             }
         }
@@ -92,7 +157,7 @@ namespace CarJack.SlopCrew
             _api.OnCustomPacketReceived -= OnBallHostPacketReceived;
         }
 
-        private void SendBallHostPacket(uint playerID)
+        private void SendBallHostPacket(uint playerID, bool subHost)
         {
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
@@ -100,7 +165,10 @@ namespace CarJack.SlopCrew
             writer.Write(playerID);
 
             writer.Flush();
-            _api.SendCustomPacket(BallHostPacketGUID, ms.ToArray());
+            if (subHost)
+                _api.SendCustomPacket(BallSubHostPacketGUID, ms.ToArray());
+            else
+                _api.SendCustomPacket(BallHostPacketGUID, ms.ToArray());
             writer.Close();
         }
 
@@ -139,21 +207,37 @@ namespace CarJack.SlopCrew
 
         private void OnBallHostPacketReceived(uint playerid, string guid, byte[] data)
         {
-            if (guid != BallHostPacketGUID)
+            if (guid != BallHostPacketGUID && guid != BallSubHostPacketGUID)
                 return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
             var hostID = reader.ReadUInt32();
             reader.Close();
-            if (_api.PlayerIDExists(hostID) == true)
+            if (_api.PlayerIDExists(hostID) == true || hostID == uint.MaxValue)
             {
-                _host = false;
-                _hostFound = true;
+                if (guid == BallHostPacketGUID)
+                {
+                    _host = false;
+                    _hostFound = true;
+                }
+                else if (guid == BallSubHostPacketGUID)
+                {
+                    _subHost = false;
+                    _subHostFound = true;
+                }
             }
             else
             {
-                _host = true;
-                _hostFound = true;
+                if (guid == BallHostPacketGUID)
+                {
+                    _host = true;
+                    _hostFound = true;
+                }
+                else if (guid == BallSubHostPacketGUID)
+                {
+                    _subHost = true;
+                    _subHostFound = true;
+                }
             }
         }
 
@@ -161,6 +245,7 @@ namespace CarJack.SlopCrew
         {
             if (guid != BallPacketGUID)
                 return;
+            if (_subHost) return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
 
@@ -211,6 +296,8 @@ namespace CarJack.SlopCrew
         {
             _ball = ball;
             _ballRB = ball.GetComponentInChildren<Rigidbody>();
+            _receivedPosition = _ballRB.position;
+            _receivedRotation = _ballRB.rotation;
         }
     }
 }

@@ -11,13 +11,14 @@ using UnityEngine;
 
 namespace CarJack.SlopCrew
 {
+    // Network cars!
     public class NetworkController : MonoBehaviour
     {
+        public List<PlayerCarData> PlayerCars;
         public static NetworkController Instance { get; private set; }
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
         private const float TickRate = 0f;
-        private List<PlayerCarData> _playerCars;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
         private ISlopCrewAPI _api;
         private float _currentTick = TickRate;
@@ -41,7 +42,7 @@ namespace CarJack.SlopCrew
         private void Awake()
         {
             Instance = this;
-            _playerCars = new();
+            PlayerCars = new();
             _playerCarsById = new();
             _api = APIManager.API;
             _api.OnCustomPacketReceived += _api_OnCustomPacketReceived;
@@ -65,7 +66,7 @@ namespace CarJack.SlopCrew
             {
                 playerCarData = new PlayerCarData();
                 playerCarData.PlayerID = playerId;
-                _playerCars.Add(playerCarData);
+                PlayerCars.Add(playerCarData);
                 _playerCarsById[playerId] = playerCarData;
             }
             playerCarData.LastPacket = packet;
@@ -118,23 +119,23 @@ namespace CarJack.SlopCrew
 
             var newList = new List<PlayerCarData>();
             var newDict = new Dictionary<uint, PlayerCarData>();
-            for(var i = 0; i < _playerCars.Count; i++)
+            for(var i = 0; i < PlayerCars.Count; i++)
             {
-                var keep = TickCar(_playerCars[i]);
+                var keep = TickCar(PlayerCars[i]);
                 if (keep)
                 {
-                    newList.Add(_playerCars[i]);
-                    newDict[_playerCars[i].PlayerID] = _playerCars[i];
+                    newList.Add(PlayerCars[i]);
+                    newDict[PlayerCars[i].PlayerID] = PlayerCars[i];
                 }
             }
-            _playerCars = newList;
+            PlayerCars = newList;
             _playerCarsById = newDict;
         }
 
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
-            foreach (var car in _playerCars)
+            foreach (var car in PlayerCars)
             {
                 if (car.Car == null) continue;
                 var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);

@@ -38,6 +38,8 @@ namespace CarJack.Common
         {
             var visualObject = Instantiate(player.characterVisual.gameObject);
             var visual = visualObject.GetComponent<CharacterVisual>();
+            visual.SetMoveStyleVisualAnim(null, MoveStyle.ON_FOOT, null);
+            visual.SetMoveStyleVisualProps(null, MoveStyle.ON_FOOT, false);
             visual.SetSpraycan(false);
             visual.SetPhone(false);
             visual.SetBoostpackEffect(BoostpackEffectMode.OFF);
