@@ -1,4 +1,5 @@
-﻿using CarJack.Plugin;
+﻿using CarJack.Common;
+using CarJack.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,11 @@ namespace CarJack.SlopCrew
     {
         public Plugin()
         {
-            BallController.Initialize();
-            NetworkController.Initialize();
+            if (CarController.Instance.Config.SlopCrewIntegration)
+            {
+                BallController.Initialize();
+                NetworkController.Initialize();
+            }
         }
     }
 }

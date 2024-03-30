@@ -19,7 +19,7 @@ namespace CarJack.Plugin
             try
             {
                 new CarAssets(Path.Combine(Path.GetDirectoryName(Info.Location), "carjack"));
-                CarController.Initialize();
+                CarController.Initialize(new PluginCarConfig(Config));
 #if DEBUG
                 CarDebugController.Create();
 #endif
