@@ -96,6 +96,7 @@ namespace CarJack.Common
             {
                 var deaccelerationAmount = 1f-Mathf.Abs(throttleAxis);
                 var wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+                
                 if (wheelForwardVelocity > 0f)
                 {
                     _car.Rigidbody.AddForceAtPosition(-transform.forward * _car.Deacceleration * deaccelerationAmount, transform.position);
@@ -112,7 +113,11 @@ namespace CarJack.Common
                     CurrentSpeed += throttleAxis * RotationAcceleration * Time.deltaTime;
             }
 
-            if (Throttle && Grounded && !tooSteep)
+            var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
+
+            var braking = ((forwardDot > 0f && throttleAxis < 0f) || (forwardDot < 0f && throttleAxis > 0f)) && !_car.BrakeHeld;
+
+            if ((Throttle || braking) && Grounded && !tooSteep)
             {
                 var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
 
@@ -129,14 +134,22 @@ namespace CarJack.Common
                     speed *= curve;
                 }
 
-                var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
-
-                if ((forwardDot > 0f && throttleAxis < 0f ) || (forwardDot < 0f && throttleAxis > 0f))
+                if (braking)
                 {
                     speed = _car.BrakeForce;
                 }
 
-                _car.Rigidbody.AddForceAtPosition(transform.forward * throttleAxis * speed, transform.position);
+                var finalSpeed = throttleAxis * speed;
+
+                if (_car.BrakeHeld)
+                {
+                    if (forwardDot > 0f)
+                        finalSpeed = -_car.BrakeForce;
+                    else if (forwardDot < 0f)
+                        finalSpeed = _car.BrakeForce;
+                }
+
+                _car.Rigidbody.AddForceAtPosition(transform.forward * finalSpeed, transform.position);
             }
             if (Steer)
             {
@@ -157,7 +170,18 @@ namespace CarJack.Common
             {
                 var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
                 var wheelVelocityFw = Vector3.Dot(wheelVelocity, transform.forward);
+
+                var wheelFwAbs = Mathf.Abs(wheelVelocityFw);
+                var throttle = Mathf.Abs(_car.ThrottleAxis);
                 CurrentSpeed = wheelVelocityFw;
+
+                if (throttle >= 0.7f && wheelFwAbs <= throttle * 4f && Mathf.Sign(wheelVelocityFw) == Mathf.Sign(_car.ThrottleAxis) && Throttle)
+                {
+                    CurrentSpeed = 50f;
+                }
+
+                if (_car.BrakeHeld && Throttle)
+                    CurrentSpeed = 0f;
             }
             else
             {

@@ -20,7 +20,8 @@ namespace CarJack.Common
         public float Deacceleration = 100f;
         public AnimationCurve ReverseCurve;
         public float ReverseCurveMax = 50f;
-        public float BrakeForce = 500f;
+        public float BrakeForce = 1000f;
+        public float HandBrakeForce = 500f;
         public AnimationCurve SteerCurve;
         public float SteerCurveMax = 50f;
         public AnimationCurve SpeedCurve;
@@ -72,6 +73,11 @@ namespace CarJack.Common
         [Header("Camera")]
         public float ExtraDistance = 0f;
         public float ExtraHeight = 0f;
+
+        private bool _grounded = false;
+        private bool _steep = false;
+        private Vector3 _lastSafePosition = Vector3.zero;
+        private Quaternion _lastSafeRotation = Quaternion.identity;
 
         public void Initialize()
         {
@@ -166,9 +172,7 @@ namespace CarJack.Common
                     {
                         if (teleport.automaticallyReturnPlayerToLastSafeLocation)
                         {
-                            if (Driving)
-                                CarController.Instance.ExitCar();
-                            Destroy(gameObject);
+                            PlaceAt(_lastSafePosition, _lastSafeRotation, false);
                         }
                         else if (teleport.teleportTo != null)
                         {
@@ -290,6 +294,9 @@ namespace CarJack.Common
             }
             foreach (var wheel in Wheels)
                 wheel.Initialize(this);
+
+            _lastSafePosition = Rigidbody.position;
+            _lastSafeRotation = Rigidbody.rotation;
 #if PLUGIN
             Core.OnCoreUpdatePaused += OnPause;
             Core.OnCoreUpdateUnPaused += OnUnPause;
@@ -336,6 +343,8 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            _grounded = false;
+            _steep = false;
             PollInputs();
             var wheelsGrounded = 0;
             foreach(var wheel in Wheels)
@@ -346,6 +355,19 @@ namespace CarJack.Common
             }
             _previousAngularVelocity = Rigidbody.angularVelocity;
             _previousVelocity = Rigidbody.velocity;
+
+            if (wheelsGrounded == Wheels.Length)
+                _grounded = true;
+
+            var angle = Vector3.Angle(Vector3.up, transform.up);
+            if (angle >= 50f)
+                _steep = true;
+
+            if (_grounded && !_steep)
+            {
+                _lastSafePosition = Rigidbody.position;
+                _lastSafeRotation = Rigidbody.rotation;
+            }
 
             //var airControlMultiplier = (-((float)wheelsGrounded / Wheels.Length)) + 1f;
             //AirControl(airControlMultiplier);
