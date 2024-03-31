@@ -32,6 +32,11 @@ namespace CarJack.Common
         
         private float _currentSteerAngle = 0f;
         private DrivableCar _car;
+        private float SlipSpeed = 5f;
+        private const float MinimumSidewaysSpeedForSlip = 4f;
+        private const float SidewaysSlipMultiplier = 0.05f;
+        public float Slipping => _currentSlip;
+        private float _currentSlip = 0f;
 
         public void Initialize(DrivableCar car)
         {
@@ -40,6 +45,7 @@ namespace CarJack.Common
 
         public void DoPhysics()
         {
+            _currentSlip = Mathf.Lerp(_currentSlip, CalculateSlip(), SlipSpeed * Time.deltaTime);
             var tooSteep = false;
             if (_car.HasSurfaceAngleLimit)
             {
@@ -75,6 +81,7 @@ namespace CarJack.Common
                 var tractionT = Mathf.Min(wheelVelocityWithoutUp, _car.TractionCurveMax) / _car.TractionCurveMax;
                 var curve = _car.TractionCurve.Evaluate(tractionT);
                 traction *= curve;
+                traction *= (-_currentSlip) +1f;
 
                 var slippingVelocity = Vector3.Dot(wheelVelocity, transform.right);
                 var force = -slippingVelocity * traction;
@@ -82,6 +89,27 @@ namespace CarJack.Common
                 _car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
             }
             DoInput(tooSteep);
+        }
+
+        private float CalculateSlip()
+        {
+            var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
+            var fwWheelVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+            var wheelVelocityDifference = Mathf.Abs(CurrentSpeed - fwWheelVelocity);
+            var slip = 0f;
+            if (wheelVelocityDifference >= 5f)
+                slip = 0.5f;
+
+            var sideWaysVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.right));
+
+            sideWaysVelocity = Mathf.Max(0f, sideWaysVelocity - MinimumSidewaysSpeedForSlip);
+            slip += sideWaysVelocity * SidewaysSlipMultiplier;
+
+            slip *= _car.SlipMultiplier;
+
+            slip = Mathf.Clamp(slip, 0f, 0.9f);
+
+            return slip;
         }
 
         private void DoInput(bool tooSteep)
@@ -144,9 +172,9 @@ namespace CarJack.Common
                 if (_car.BrakeHeld)
                 {
                     if (forwardDot > 0f)
-                        finalSpeed = -_car.BrakeForce;
+                        finalSpeed = -_car.HandBrakeForce;
                     else if (forwardDot < 0f)
-                        finalSpeed = _car.BrakeForce;
+                        finalSpeed = _car.HandBrakeForce;
                 }
 
                 _car.Rigidbody.AddForceAtPosition(transform.forward * finalSpeed, transform.position);
@@ -175,9 +203,9 @@ namespace CarJack.Common
                 var throttle = Mathf.Abs(_car.ThrottleAxis);
                 CurrentSpeed = wheelVelocityFw;
 
-                if (throttle >= 0.7f && wheelFwAbs <= throttle * 4f && Mathf.Sign(wheelVelocityFw) == Mathf.Sign(_car.ThrottleAxis) && Throttle)
+                if (throttle >= 0.9f && wheelFwAbs <= throttle * 4f && Mathf.Sign(wheelVelocityFw) == Mathf.Sign(_car.ThrottleAxis) && Throttle)
                 {
-                    CurrentSpeed = 50f;
+                    CurrentSpeed = 50f * Mathf.Sign(_car.ThrottleAxis);
                 }
 
                 if (_car.BrakeHeld && Throttle)

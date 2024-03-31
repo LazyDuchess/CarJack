@@ -10,6 +10,8 @@ namespace CarJack.Common
     {
         public string InternalName = "";
 
+        public float SlipMultiplier = 1f;
+
         public bool HasSurfaceAngleLimit = true;
         public float SurfaceAngleLimit = 60f;
 

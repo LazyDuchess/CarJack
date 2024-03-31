@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.trackmaniastadium
+  SlipMultiplier: 1
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1
@@ -291,26 +292,27 @@ MonoBehaviour:
     m_RotationOrder: 4
   ReverseCurveMax: 15
   BrakeForce: 1000
+  HandBrakeForce: 500
   SteerCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -1.4411831
-      outSlope: -1.4411831
+      inSlope: -1.9056953
+      outSlope: -1.9056953
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.03084833
+      outWeight: 0.028277636
     - serializedVersion: 3
       time: 1
       value: 0.21053244
-      inSlope: -0.77380484
-      outSlope: -0.77380484
+      inSlope: 0.015566665
+      outSlope: 0.015566665
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.037703514
+      inWeight: 0.08654672
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -443,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447246873223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.479, z: 0.104}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0.104}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -503,8 +505,8 @@ MonoBehaviour:
   MeshRadius: 0.38
   SteerAngle: 25
   SteerSpeed: 20
-  ReverseSpeed: 500
-  Speed: 600
+  ReverseSpeed: 400
+  Speed: 500
   Throttle: 0
   Steer: 1
   Damping: 300
@@ -513,7 +515,7 @@ MonoBehaviour:
   MaxDistance: 0.65
   RestDistance: 0.5
   Mass: 10
-  Traction: 0.9
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &8275566447753977368
 GameObject:
@@ -568,8 +570,8 @@ MonoBehaviour:
   MeshRadius: 0.38
   SteerAngle: 25
   SteerSpeed: 20
-  ReverseSpeed: 500
-  Speed: 600
+  ReverseSpeed: 400
+  Speed: 500
   Throttle: 1
   Steer: 0
   Damping: 300
@@ -578,7 +580,7 @@ MonoBehaviour:
   MaxDistance: 0.65
   RestDistance: 0.5
   Mass: 10
-  Traction: 0.9
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &8275566447797055307
 GameObject:
@@ -633,8 +635,8 @@ MonoBehaviour:
   MeshRadius: 0.38
   SteerAngle: 25
   SteerSpeed: 20
-  ReverseSpeed: 500
-  Speed: 600
+  ReverseSpeed: 400
+  Speed: 500
   Throttle: 1
   Steer: 0
   Damping: 300
@@ -643,7 +645,7 @@ MonoBehaviour:
   MaxDistance: 0.65
   RestDistance: 0.5
   Mass: 10
-  Traction: 0.9
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &8275566449113348672
 GameObject:
@@ -698,8 +700,8 @@ MonoBehaviour:
   MeshRadius: 0.38
   SteerAngle: 25
   SteerSpeed: 20
-  ReverseSpeed: 500
-  Speed: 600
+  ReverseSpeed: 400
+  Speed: 500
   Throttle: 0
   Steer: 1
   Damping: 300
@@ -708,7 +710,7 @@ MonoBehaviour:
   MaxDistance: 0.65
   RestDistance: 0.5
   Mass: 10
-  Traction: 0.9
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1001 &6711147583578932833
 PrefabInstance:
