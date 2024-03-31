@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.benni
+  SlipMultiplier: 1
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1
@@ -266,7 +267,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  SteerCurveMax: 50
+  SteerCurveMax: 60
   SpeedCurve:
     serializedVersion: 2
     m_Curve:

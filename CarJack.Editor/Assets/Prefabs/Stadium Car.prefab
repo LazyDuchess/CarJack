@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.trackmaniastadium
-  SlipMultiplier: 0.5
+  SlipMultiplier: 0.25
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1

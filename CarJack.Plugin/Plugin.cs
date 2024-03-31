@@ -18,13 +18,14 @@ namespace CarJack.Plugin
             Logger.LogInfo($"Loading {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}");
             try
             {
-                new CarAssets(Path.Combine(Path.GetDirectoryName(Info.Location), "carjack"));
+                var directory = Path.GetDirectoryName(Info.Location);
+                new CarAssets(Path.Combine(directory, "carjack"));
                 CarController.Initialize(new PluginCarConfig(Config));
 #if DEBUG
                 CarDebugController.Create();
 #endif
                 CarDatabase.Initialize();
-                SpawnCarApp.Initialize();
+                SpawnCarApp.Initialize(directory);
                 Logger.LogInfo($"Loaded {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}!");
             }
             catch(Exception e)

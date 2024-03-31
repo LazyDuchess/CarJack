@@ -207,11 +207,11 @@ namespace CarJack.SlopCrew
                 {
                     if (player != null)
                     {
-                        player.GetComponent<Player>().characterVisual.gameObject.SetActive(false);
+                        var reptilePlayer = player.GetComponent<Player>();
+                        reptilePlayer.characterVisual.gameObject.SetActive(false);
+                        player.transform.position = currentCar.transform.position;
+                        reptilePlayer.DisablePlayer();
                     }
-                    player.transform.position = currentCar.transform.position;
-                    //currentCar.Rigidbody.MovePosition(playerCarData.LastPacket.Position);
-                    //currentCar.Rigidbody.MoveRotation(playerCarData.LastPacket.Rotation);
                     currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                     currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
                 }
@@ -219,7 +219,9 @@ namespace CarJack.SlopCrew
                 {
                     if (player != null)
                     {
-                        player.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
+                        var reptilePlayer = player.GetComponent<Player>();
+                        reptilePlayer.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
+                        reptilePlayer.EnablePlayer();
                     }
                 }
 

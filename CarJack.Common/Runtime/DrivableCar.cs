@@ -10,7 +10,7 @@ namespace CarJack.Common
     {
         public string InternalName = "";
 
-        public float SlipMultiplier = 1f;
+        public float SlipMultiplier = 0.75f;
 
         public bool HasSurfaceAngleLimit = true;
         public float SurfaceAngleLimit = 60f;
@@ -39,6 +39,7 @@ namespace CarJack.Common
         public GameObject Chassis;
         public bool Driving = true;
 
+        private const float ControllerRotationDeadZone = 0.2f;
         [HideInInspector]
         public float ThrottleAxis = 0f;
         [HideInInspector]
@@ -78,12 +79,41 @@ namespace CarJack.Common
 
         private bool _grounded = false;
         private bool _steep = false;
+
+        private const float LastSafeLocationInterval = 0.5f;
+        private float _lastSafeLocationTimer = LastSafeLocationInterval;
+        private Vector3 _prevLastSafePosition = Vector3.zero;
+        private Quaternion _prevLastSafeRotation = Quaternion.identity;
         private Vector3 _lastSafePosition = Vector3.zero;
         private Quaternion _lastSafeRotation = Quaternion.identity;
 
         public void Initialize()
         {
             Driving = false;
+        }
+
+        private void PlaceAtLastSafeLocation()
+        {
+            PlaceAt(_prevLastSafePosition, _prevLastSafeRotation, false);
+            ResetLastSafeLocation();
+        }
+
+        private void RecordLastSafeLocation()
+        {
+            _lastSafeLocationTimer = LastSafeLocationInterval;
+            _prevLastSafePosition = _lastSafePosition;
+            _prevLastSafeRotation = _lastSafeRotation;
+            _lastSafePosition = Rigidbody.position;
+            _lastSafeRotation = Rigidbody.rotation;
+        }
+        
+        private void ResetLastSafeLocation()
+        {
+            _lastSafeLocationTimer = LastSafeLocationInterval;
+            _lastSafePosition = Rigidbody.position;
+            _lastSafeRotation = Rigidbody.rotation;
+            _prevLastSafePosition = _lastSafePosition;
+            _prevLastSafeRotation = _lastSafeRotation;
         }
 
         private void OnCrash(float force, Vector3 point)
@@ -174,7 +204,7 @@ namespace CarJack.Common
                     {
                         if (teleport.automaticallyReturnPlayerToLastSafeLocation)
                         {
-                            PlaceAt(_lastSafePosition, _lastSafeRotation, false);
+                            PlaceAtLastSafeLocation();
                         }
                         else if (teleport.teleportTo != null)
                         {
@@ -214,6 +244,17 @@ namespace CarJack.Common
             RollAxis = 0f;
             BrakeHeld = false;
         }
+
+        private float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
+        {
+            var controllerType = gameInput.GetCurrentControllerType(0);
+            var axis = gameInput.GetAxis(actionId, 0);
+            if (controllerType != Rewired.ControllerType.Joystick)
+                return axis;
+            if (Mathf.Abs(axis) <= deadzone)
+                return 0f;
+            return axis;
+        }
         
         private void PollInputs()
         {
@@ -226,15 +267,15 @@ namespace CarJack.Common
             BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
             if (BrakeHeld)
-                RollAxis = gameInput.GetAxis(5, 0);
+                RollAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
             else
-                YawAxis = gameInput.GetAxis(5, 0);
+                YawAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
 
             var controllerType = gameInput.GetCurrentControllerType(0);
 
             if (controllerType == Rewired.ControllerType.Joystick)
             {
-                PitchAxis = gameInput.GetAxis(6, 0);
+                PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
                 ThrottleAxis += gameInput.GetAxis(8, 0);
                 ThrottleAxis -= gameInput.GetAxis(18, 0);
             }
@@ -242,7 +283,7 @@ namespace CarJack.Common
             {
                 ThrottleAxis = gameInput.GetAxis(6, 0);
                 if (BrakeHeld)
-                    PitchAxis = gameInput.GetAxis(6, 0);
+                    PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
             }
             HornHeld = gameInput.GetButtonHeld(10, 0);
             GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
@@ -297,13 +338,12 @@ namespace CarJack.Common
             foreach (var wheel in Wheels)
                 wheel.Initialize(this);
 
-            _lastSafePosition = Rigidbody.position;
-            _lastSafeRotation = Rigidbody.rotation;
+            ResetLastSafeLocation();
 #if PLUGIN
             Core.OnCoreUpdatePaused += OnPause;
             Core.OnCoreUpdateUnPaused += OnUnPause;
             var continuous = CarController.Config.ContinuousCollisionDetection;
-            Rigidbody.collisionDetectionMode = continuous ? CollisionDetectionMode.ContinuousDynamic : CollisionDetectionMode.Discrete;
+            Rigidbody.collisionDetectionMode = continuous ? CollisionDetectionMode.Continuous : CollisionDetectionMode.Discrete;
             Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 #endif
         }
@@ -365,10 +405,11 @@ namespace CarJack.Common
             if (angle >= 50f)
                 _steep = true;
 
-            if (_grounded && !_steep)
+            _lastSafeLocationTimer = Mathf.Max(0f, _lastSafeLocationTimer - Time.deltaTime);
+
+            if (_grounded && !_steep && _lastSafeLocationTimer <= 0f)
             {
-                _lastSafePosition = Rigidbody.position;
-                _lastSafeRotation = Rigidbody.rotation;
+                RecordLastSafeLocation();
             }
 
             //var airControlMultiplier = (-((float)wheelsGrounded / Wheels.Length)) + 1f;

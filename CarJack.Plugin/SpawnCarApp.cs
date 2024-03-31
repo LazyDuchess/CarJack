@@ -1,8 +1,10 @@
 ﻿using CarJack.Common;
+using CommonAPI;
 using CommonAPI.Phone;
 using Reptile;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +13,10 @@ namespace CarJack.Plugin
 {
     public class SpawnCarApp : CustomApp
     {
-        public static void Initialize()
+        public static void Initialize(string location)
         {
-            PhoneAPI.RegisterApp<SpawnCarApp>("carjack");
+            var iconSprite = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
+            PhoneAPI.RegisterApp<SpawnCarApp>("carjack", iconSprite);
         }
 
         public override void OnAppInit()
