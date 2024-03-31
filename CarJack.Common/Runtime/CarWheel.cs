@@ -34,7 +34,7 @@ namespace CarJack.Common
         private DrivableCar _car;
         private float SlipSpeed = 5f;
         private const float MinimumSidewaysSpeedForSlip = 4f;
-        private const float SidewaysSlipMultiplier = 0.04f;
+        private const float SidewaysSlipMultiplier = 0.05f;
         private const float MaximumSuspensionOffsetForRest = 0.5f;
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
