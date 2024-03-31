@@ -349,6 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.octane
+  SlipMultiplier: 0.5
   HasSurfaceAngleLimit: 0
   SurfaceAngleLimit: 60
   AirControlStrength: 15
@@ -397,20 +398,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -1.4411831
-      outSlope: -1.4411831
+      inSlope: -1.2506098
+      outSlope: -1.2506098
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.03084833
+      outWeight: 0.03770367
     - serializedVersion: 3
       time: 1
       value: 0.21053244
-      inSlope: -0.77380484
-      outSlope: -0.77380484
+      inSlope: -0.50310266
+      outSlope: -0.50310266
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.037703514
+      inWeight: 0.042844594
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -483,7 +484,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  TractionCurveMax: 90
+  TractionCurveMax: 200
   GroundMask:
     serializedVersion: 2
     m_Bits: 10494993
@@ -577,7 +578,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -642,7 +643,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -707,7 +708,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5
@@ -772,7 +773,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.65
   RestDistance: 0.5

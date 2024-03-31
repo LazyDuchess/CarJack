@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.trackmaniastadium
-  SlipMultiplier: 1
+  SlipMultiplier: 0.5
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1
@@ -306,8 +306,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.028277636
     - serializedVersion: 3
-      time: 1
-      value: 0.21053244
+      time: 1.005
+      value: 0.113519326
       inSlope: 0.015566665
       outSlope: 0.015566665
       tangentMode: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  TractionCurveMax: 300
+  TractionCurveMax: 200
   GroundMask:
     serializedVersion: 2
     m_Bits: 10494993

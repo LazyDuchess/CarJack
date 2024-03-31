@@ -103,9 +103,7 @@ namespace CarJack.Common
             var sideWaysVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.right));
 
             sideWaysVelocity = Mathf.Max(0f, sideWaysVelocity - MinimumSidewaysSpeedForSlip);
-            slip += sideWaysVelocity * SidewaysSlipMultiplier;
-
-            slip *= _car.SlipMultiplier;
+            slip += sideWaysVelocity * SidewaysSlipMultiplier * _car.SlipMultiplier;
 
             slip = Mathf.Clamp(slip, 0f, 0.9f);
 

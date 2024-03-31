@@ -4,3 +4,6 @@
 [submodule "libs/SlopCrew"]
 	path = libs/SlopCrew
 	url = https://github.com/SlopCrew/SlopCrew
+[submodule "libs/BombRushCamera"]
+	path = libs/BombRushCamera
+	url = https://github.com/NotNite/BombRushCamera

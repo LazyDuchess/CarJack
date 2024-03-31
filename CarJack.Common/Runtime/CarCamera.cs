@@ -14,6 +14,7 @@ namespace CarJack.Common
 {
     public class CarCamera : MonoBehaviour
     {
+        public static bool Enabled = true;
         public float Radius = 0.1f;
         public float MaxLerpSpeed = 5f;
         public float MaxLerpSpeedJoystick = 2f;
@@ -60,6 +61,7 @@ namespace CarJack.Common
 
         private void Update()
         {
+            if (!Enabled) return;
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif

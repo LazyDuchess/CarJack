@@ -40,12 +40,26 @@ namespace CarJack.Plugin
                 Logger.LogInfo("Loading CarJack SlopCrew Plugin!");
                 try
                 {
-                    var slopCrewAssemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.SlopCrew.dll");
-                    LoadPlugin(slopCrewAssemblyLocation);
+                    var assemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.SlopCrew.dll");
+                    LoadPlugin(assemblyLocation);
                 }
                 catch (Exception e)
                 {
                     Logger.LogError($"Failed to load CarJack SlopCrew Plugin!{Environment.NewLine}{e}");
+                }
+            }
+
+            if (Chainloader.PluginInfos.ContainsKey("BombRushCamera"))
+            {
+                Logger.LogInfo("Loading CarJack BombRushCamera Plugin!");
+                try
+                {
+                    var assemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.BombRushCamera.dll");
+                    LoadPlugin(assemblyLocation);
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError($"Failed to load CarJack BombRushCamera Plugin!{Environment.NewLine}{e}");
                 }
             }
         }
