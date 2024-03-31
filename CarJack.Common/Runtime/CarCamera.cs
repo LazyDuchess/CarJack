@@ -27,6 +27,8 @@ namespace CarJack.Common
         private bool _controller = false;
         private float _xAxis = 0f;
         private float _yAxis = 0f;
+        private bool _wasLookingBehind = false;
+        private bool _lookBehind = false;
         private float _currentFreeCameraTimer = 0f;
 
         private void ResetInputs()
@@ -34,6 +36,7 @@ namespace CarJack.Common
             _controller = false;
             _xAxis = 0f;
             _yAxis = 0f;
+            _lookBehind = false;
         }
 
         private void PollInputs()
@@ -42,8 +45,15 @@ namespace CarJack.Common
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
 
+            /*
+            inputBuffer.trick1ButtonHeld = this.gameInput.GetButtonHeld(15, 0);
+			inputBuffer.trick2ButtonHeld = this.gameInput.GetButtonHeld(12, 0);
+			inputBuffer.trick3ButtonHeld = this.gameInput.GetButtonHeld(65, 0);
+            */
+
             _xAxis = gameInput.GetAxis(13, 0);
             _yAxis = gameInput.GetAxis(14, 0);
+            _lookBehind = gameInput.GetButtonHeld(12, 0) || Input.GetKey(KeyCode.Mouse2);
 
             if (gameInput.GetCurrentControllerType(0) == ControllerType.Joystick)
             {
@@ -54,6 +64,7 @@ namespace CarJack.Common
 #else
             _xAxis = Input.GetAxisRaw("Mouse X");
             _yAxis = Input.GetAxisRaw("Mouse Y");
+            _lookBehind = Input.GetKey(KeyCode.Mouse2);
 #endif
             if ((_xAxis != 0f || _yAxis != 0f) && !_controller)
                 _currentFreeCameraTimer = FreeCameraTimer;
@@ -68,7 +79,6 @@ namespace CarJack.Common
             if (Target == null)
                 return;
             PollInputs();
-
 #if PLUGIN
             var aimSensitivity = Core.Instance.SaveManager.Settings.gameplaySettings.aimSensitivity;
             var invertY = Core.Instance.SaveManager.Settings.gameplaySettings.invertY;
@@ -111,6 +121,17 @@ namespace CarJack.Common
             
             if (_currentFreeCameraTimer <= 0f)
                 transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+
+            if (_lookBehind)
+            {
+                transform.rotation = Quaternion.LookRotation(-Target.transform.forward, Vector3.up);
+                _wasLookingBehind = true;
+            }
+            else if (_wasLookingBehind)
+            {
+                transform.rotation = Quaternion.LookRotation(Target.transform.forward, Vector3.up);
+                _wasLookingBehind = false;
+            }
 
             var distance = Distance + Target.ExtraDistance;
             var height = Height + Target.ExtraHeight;

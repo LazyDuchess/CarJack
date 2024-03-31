@@ -211,6 +211,9 @@ namespace CarJack.SlopCrew
                         reptilePlayer.characterVisual.gameObject.SetActive(false);
                         player.transform.position = currentCar.transform.position;
                         reptilePlayer.DisablePlayer();
+                        var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
+                        if (playersPolo != null)
+                            playersPolo.gameObject.SetActive(false);
                     }
                     currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                     currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
@@ -222,6 +225,9 @@ namespace CarJack.SlopCrew
                         var reptilePlayer = player.GetComponent<Player>();
                         reptilePlayer.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
                         reptilePlayer.EnablePlayer();
+                        var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
+                        if (playersPolo != null)
+                            playersPolo.gameObject.SetActive(true);
                     }
                 }
 
