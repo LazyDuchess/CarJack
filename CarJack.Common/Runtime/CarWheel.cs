@@ -39,8 +39,10 @@ namespace CarJack.Common
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
-        private const float AutoSteer = 0.15f;
+        private const float AutoSteer = 0.1f;
         private const float MinimumSpeedToAutoSteer = 1f;
+        private const float WheelSpinSlip = 0.5f;
+        private const float WheelSpinSlipThreshold = 5f;
 
         public void Initialize(DrivableCar car)
         {
@@ -49,7 +51,7 @@ namespace CarJack.Common
 
         public void DoPhysics(ref bool resting)
         {
-            _currentSlip = Mathf.Lerp(_currentSlip, CalculateSlip(), SlipSpeed * Time.deltaTime);
+            CalculateSlip();
             var tooSteep = false;
             if (_car.HasSurfaceAngleLimit)
             {
@@ -103,14 +105,16 @@ namespace CarJack.Common
             DoInput(tooSteep);
         }
 
-        private float CalculateSlip()
+        private void CalculateSlip()
         {
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
             var fwWheelVelocity = Vector3.Dot(wheelVelocity, transform.forward);
             var wheelVelocityDifference = Mathf.Abs(CurrentSpeed - fwWheelVelocity);
             var slip = 0f;
-            if (wheelVelocityDifference >= 5f)
-                slip = 0.5f;
+            if (wheelVelocityDifference >= WheelSpinSlipThreshold)
+            {
+                slip = WheelSpinSlip;
+            }                
 
             var sideWaysVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.right));
 
@@ -119,7 +123,10 @@ namespace CarJack.Common
 
             slip = Mathf.Clamp(slip, 0f, 0.9f);
 
-            return slip;
+            if (_currentSlip < slip)
+                _currentSlip = slip;
+
+            _currentSlip = Mathf.Lerp(_currentSlip, slip, SlipSpeed * Time.deltaTime);
         }
 
         private void DoInput(bool tooSteep)
@@ -204,9 +211,9 @@ namespace CarJack.Common
 
                 var targetSteerAngle = steerAngle * steerAxis;
                 var velForward = wheelVelocityWithoutUp.normalized;
-                if (steerAxis == 0f && wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
+                if (/*steerAxis == 0f && */wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
                 {
-                    targetSteerAngle = (-Mathf.Clamp(Vector3.SignedAngle(velForward, _car.transform.forward, transform.up), -SteerAngle, SteerAngle)) * AutoSteer;
+                    targetSteerAngle += (-Mathf.Clamp(Vector3.SignedAngle(velForward, _car.transform.forward, transform.up), -SteerAngle, SteerAngle)) * AutoSteer;
                 }
                 _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
                 transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle, 0f);
