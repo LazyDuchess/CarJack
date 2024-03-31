@@ -268,7 +268,7 @@ namespace CarJack.Common
             RollAxis = 0f;
             BrakeHeld = false;
         }
-
+#if PLUGIN
         private float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
         {
             var controllerType = gameInput.GetCurrentControllerType(0);
@@ -279,6 +279,7 @@ namespace CarJack.Common
                 return 0f;
             return axis;
         }
+#endif
         
         private void PollInputs()
         {
