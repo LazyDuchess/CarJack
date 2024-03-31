@@ -41,7 +41,9 @@ function ExtractZip($zipPath){
 }
 
 function AddToZip($zip, $path, $pathInZip=$path) {
-    [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $path, $pathInZip) > $Null
+    if(Test-Path $path){
+        [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $path, $pathInZip) > $Null
+    }
 }
 
 function CreatePluginZip(){
@@ -50,13 +52,6 @@ function CreatePluginZip(){
     $bundlePath = "CarJack.Editor/Build/carjack"
     $zip = CreateZip $zipPath
 
-    Push-Location "CarJack.SlopCrew/bin~/$Configuration/net471"
-    Get-ChildItem -Recurse './' -Exclude *.pdb,CommonAPI.dll,SlopCrew.API.dll | ForEach-Object {
-        $path = ($_ | Resolve-Path -Relative).Replace('.\', '')
-        AddToZip $zip $_.FullName $path
-    }
-    Pop-Location
-
     Push-Location "Thunderstore"
     Get-ChildItem -Recurse './' | ForEach-Object {
         $path = ($_ | Resolve-Path -Relative).Replace('.\', '')
@@ -64,14 +59,15 @@ function CreatePluginZip(){
     }
     Pop-Location
 
+    AddToZip $zip "CarJack.Common/bin~/$Configuration/net471/CarJack.Common.dll" "CarJack.Common.dll"
 
-    if(Test-Path $readmePath){
-        AddToZip $zip $readmePath $readmePath
-    }
+    AddToZip $zip "CarJack.Plugin/bin~/$Configuration/net471/CarJack.Plugin.dll" "CarJack.Plugin.dll"
 
-    if(Test-Path $bundlePath){
-        AddToZip $zip $bundlePath "carjack"
-    }
+    AddToZip $zip "CarJack.SlopCrew/bin~/$Configuration/net471/CarJack.SlopCrew.dll" "CarJack.SlopCrew.dll"
+
+    AddToZip $zip $readmePath $readmePath
+
+    AddToZip $zip $bundlePath "carjack"
 
     $zip.Dispose()
 
