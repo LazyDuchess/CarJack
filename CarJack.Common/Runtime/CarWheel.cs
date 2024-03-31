@@ -39,6 +39,7 @@ namespace CarJack.Common
         private float _currentSlip = 0f;
 
         private const float AutoSteer = 0.15f;
+        private const float MinimumSpeedToAutoSteer = 1f;
 
         public void Initialize(DrivableCar car)
         {
@@ -117,6 +118,7 @@ namespace CarJack.Common
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
             var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up));
             var wheelVelocityWithoutUpMagnitude = wheelVelocityWithoutUp.magnitude;
+            var wheelSidewaysVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.right));
 
             var throttleAxis = _car.ThrottleAxis;
             var steerAxis = _car.SteerAxis;
@@ -166,6 +168,8 @@ namespace CarJack.Common
                 if (braking)
                 {
                     speed = _car.BrakeForce;
+                    if (_car.Rigidbody.velocity.magnitude <= DrivableCar.MaximumSpeedForStill || _car.Still)
+                        speed = 0f;
                 }
 
                 var finalSpeed = throttleAxis * speed;
@@ -176,6 +180,8 @@ namespace CarJack.Common
                         finalSpeed = -_car.HandBrakeForce;
                     else if (forwardDot < 0f)
                         finalSpeed = _car.HandBrakeForce;
+                    if (_car.Rigidbody.velocity.magnitude <= DrivableCar.MaximumSpeedForStill || _car.Still)
+                        finalSpeed = 0f;
                 }
 
                 _car.Rigidbody.AddForceAtPosition(transform.forward * finalSpeed, transform.position);
@@ -189,7 +195,7 @@ namespace CarJack.Common
 
                 var targetSteerAngle = steerAngle * steerAxis;
                 var velForward = wheelVelocityWithoutUp.normalized;
-                if (steerAxis == 0f && wheelVelocityWithoutUpMagnitude > 1f && Grounded)
+                if (steerAxis == 0f && wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
                 {
                     targetSteerAngle = (-Mathf.Clamp(Vector3.SignedAngle(velForward, _car.transform.forward, transform.up), -SteerAngle, SteerAngle)) * AutoSteer;
                 }
@@ -213,9 +219,6 @@ namespace CarJack.Common
                 {
                     CurrentSpeed = 50f * Mathf.Sign(_car.ThrottleAxis);
                 }
-
-                if (_car.BrakeHeld && Throttle)
-                    CurrentSpeed = 0f;
             }
             else
             {
@@ -224,6 +227,10 @@ namespace CarJack.Common
                 else
                     CurrentSpeed = Mathf.Min(CurrentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
             }
+
+            if (_car.BrakeHeld && Throttle)
+                CurrentSpeed = 0f;
+
             _currentRoll += CurrentSpeed * RotationMultiplier * Time.deltaTime;
             _currentRoll -= Mathf.Floor(_currentRoll / 360f) * 360f;
             Mesh.transform.localRotation = Quaternion.Euler(_currentRoll, 0f, 0f);

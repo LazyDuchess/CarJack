@@ -77,6 +77,7 @@ namespace CarJack.Common
         public float ExtraDistance = 0f;
         public float ExtraHeight = 0f;
 
+        public bool Grounded => _grounded;
         private bool _grounded = false;
         private bool _steep = false;
 
@@ -86,6 +87,26 @@ namespace CarJack.Common
         private Quaternion _prevLastSafeRotation = Quaternion.identity;
         private Vector3 _lastSafePosition = Vector3.zero;
         private Quaternion _lastSafeRotation = Quaternion.identity;
+
+        public const float MaximumSpeedForStill = 0.1f;
+        private const float MaximumAngleForStill = 20f;
+        public bool Still => _still;
+        private bool _still = false;
+
+        private void UpdateStill()
+        {
+            _still = false;
+            if (!_grounded) return;
+            if (_steep) return;
+            if (ThrottleAxis != 0f && !BrakeHeld) return;
+            var vel = Rigidbody.velocity.magnitude + Rigidbody.angularVelocity.magnitude;
+            if (vel > MaximumSpeedForStill) return;
+            var angle = Vector3.Angle(Vector3.up, transform.up);
+            if (angle >= MaximumAngleForStill) return;
+            _still = true;
+            Rigidbody.velocity = Vector3.zero;
+            Rigidbody.angularVelocity = Vector3.zero;
+        }
 
         public void Initialize()
         {
@@ -416,6 +437,8 @@ namespace CarJack.Common
             //AirControl(airControlMultiplier);
             if (wheelsGrounded == 0)
                 AirControl(1f);
+
+            UpdateStill();
 #if PLUGIN
             if (GetOutOfCarButtonNew && Driving)
             {

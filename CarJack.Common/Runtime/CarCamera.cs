@@ -103,6 +103,8 @@ namespace CarJack.Common
 
             
             var targetRotation = Quaternion.LookRotation(Target.Rigidbody.velocity.normalized, Vector3.up);
+            if (Target.Still)
+                targetRotation = transform.rotation;
             var currentRotation = Quaternion.Lerp(transform.rotation, targetRotation, Mathf.Min(maxLerp, LerpMultiplier * Target.Rigidbody.velocity.magnitude) * Time.deltaTime).eulerAngles;
             
             if (_currentFreeCameraTimer <= 0f)

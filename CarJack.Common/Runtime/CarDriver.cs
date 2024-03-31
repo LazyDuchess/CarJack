@@ -2,10 +2,12 @@
 using Reptile;
 #endif
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Collections;
 using UnityEngine;
 
 namespace CarJack.Common
@@ -22,10 +24,19 @@ namespace CarJack.Common
         private float _currentSteer = 0.5f;
         private float _currentHonk = 0f;
         private float _currentReverse = 0f;
+        private float _blinkTimer = 0f;
+        private const float BlinkDuration = 0.1f;
         private void Awake()
         {
             _car = GetComponentInParent<DrivableCar>();
+            ResetBlinkTimer();
         }
+
+        private void ResetBlinkTimer()
+        {
+            _blinkTimer = UnityEngine.Random.Range(2, 4);
+        }
+
 #if PLUGIN
         private CharacterVisual _currentVisual;
         public void PutInCar(Player player)
@@ -42,7 +53,9 @@ namespace CarJack.Common
         private CharacterVisual VisualFromPlayer(Player player, RuntimeAnimatorController controller)
         {
             var visualObject = Instantiate(player.characterVisual.gameObject);
+            visualObject.SetActive(true);
             var visual = visualObject.GetComponent<CharacterVisual>();
+            visual.mainRenderer.enabled = true;
             visual.SetMoveStyleVisualAnim(null, MoveStyle.ON_FOOT, null);
             visual.SetMoveStyleVisualProps(null, MoveStyle.ON_FOOT, false);
             visual.SetSpraycan(false);
@@ -50,13 +63,51 @@ namespace CarJack.Common
             visual.SetBoostpackEffect(BoostpackEffectMode.OFF);
             visual.VFX.boostpackTrail.SetActive(false);
             visual.Init(Characters.NONE, controller, false, 0f);
+            visual.canBlink = player.characterVisual.canBlink;
+            OpenEyes(visual);
             return visual;
+        }
+
+        private void LateUpdate()
+        {
+            if (Core.Instance.IsCorePaused) return;
+            if (!_currentVisual.canBlink) return;
+            _blinkTimer -= Time.deltaTime;
+            if (_blinkTimer <= 0f)
+            {
+                ResetBlinkTimer();
+                StartCoroutine(DoBlink());
+            }
+        }
+
+        private IEnumerator DoBlink()
+        {
+            CloseEyes(_currentVisual);
+            yield return new WaitForSeconds(BlinkDuration);
+            OpenEyes(_currentVisual);
+        }
+
+        private void CloseEyes(CharacterVisual visual)
+        {
+            if (!visual.canBlink) return;
+            if (visual.mainRenderer.sharedMesh.blendShapeCount <= 0) return;
+            visual.mainRenderer.SetBlendShapeWeight(0, 100f);
+        }
+
+        private void OpenEyes(CharacterVisual visual)
+        {
+            if (!visual.canBlink) return;
+            if (visual.mainRenderer.sharedMesh.blendShapeCount <= 0) return;
+            visual.mainRenderer.SetBlendShapeWeight(0, 0f);
         }
 
         public void ExitCar()
         {
             if (_currentVisual != null)
+            {
+                StopAllCoroutines();
                 Destroy(_currentVisual.gameObject);
+            }
         }
 
         private void Update()
@@ -69,7 +120,7 @@ namespace CarJack.Common
             var targetHonk = 0f;
             var targetReverse = 0f;
             var fwVelocity = Vector3.Dot(_car.Rigidbody.velocity, _car.transform.forward);
-            if (fwVelocity <= 1f && _car.ThrottleAxis < 0f)
+            if (fwVelocity <= 1f && _car.ThrottleAxis < 0f && _car.Grounded)
             {
                 targetReverse = 1f;
             }
