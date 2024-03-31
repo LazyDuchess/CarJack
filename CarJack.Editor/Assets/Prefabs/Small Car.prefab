@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.zele
+  SlipMultiplier: 1
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1
@@ -237,7 +238,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ReverseCurveMax: 15
-  BrakeForce: 1000
+  BrakeForce: 500
   HandBrakeForce: 500
   SteerCurve:
     serializedVersion: 2

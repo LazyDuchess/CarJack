@@ -390,7 +390,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ReverseCurveMax: 15
-  BrakeForce: 1000
+  BrakeForce: 500
   HandBrakeForce: 500
   SteerCurve:
     serializedVersion: 2
