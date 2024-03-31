@@ -35,6 +35,7 @@ namespace CarJack.Common
         private float SlipSpeed = 5f;
         private const float MinimumSidewaysSpeedForSlip = 4f;
         private const float SidewaysSlipMultiplier = 0.05f;
+        private const float MaximumSuspensionOffsetForRest = 0.2f;
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
@@ -46,7 +47,7 @@ namespace CarJack.Common
             _car = car;
         }
 
-        public void DoPhysics()
+        public void DoPhysics(ref bool resting)
         {
             _currentSlip = Mathf.Lerp(_currentSlip, CalculateSlip(), SlipSpeed * Time.deltaTime);
             var tooSteep = false;
@@ -54,7 +55,10 @@ namespace CarJack.Common
             {
                 var angle = Vector3.Angle(Vector3.up, transform.up);
                 if (angle >= _car.SurfaceAngleLimit)
+                {
                     tooSteep = true;
+                    resting = false;
+                }
             }
             var distance = MaxDistance;
             Grounded = false;
@@ -68,6 +72,11 @@ namespace CarJack.Common
                 var force = (offset * Strength) - (velocity * Damping);
                 if (tooSteep)
                     force = Mathf.Max(force, 0f);
+                else
+                {
+                    if (Mathf.Abs(offset) > MaximumSuspensionOffsetForRest)
+                        resting = false;
+                }
                 _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
             }
 

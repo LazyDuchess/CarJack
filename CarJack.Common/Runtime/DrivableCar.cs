@@ -80,6 +80,7 @@ namespace CarJack.Common
         public bool Grounded => _grounded;
         private bool _grounded = false;
         private bool _steep = false;
+        private bool _resting = false;
 
         private const float LastSafeLocationInterval = 0.5f;
         private float _lastSafeLocationTimer = LastSafeLocationInterval;
@@ -96,6 +97,7 @@ namespace CarJack.Common
         private void UpdateStill()
         {
             _still = false;
+            if (!_resting) return;
             if (!_grounded) return;
             if (_steep) return;
             if (ThrottleAxis != 0f && !BrakeHeld) return;
@@ -106,6 +108,7 @@ namespace CarJack.Common
             _still = true;
             Rigidbody.velocity = Vector3.zero;
             Rigidbody.angularVelocity = Vector3.zero;
+            Rigidbody.Sleep();
         }
 
         public void Initialize()
@@ -406,13 +409,14 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            _resting = true;
             _grounded = false;
             _steep = false;
             PollInputs();
             var wheelsGrounded = 0;
             foreach(var wheel in Wheels)
             {
-                wheel.DoPhysics();
+                wheel.DoPhysics(ref _resting);
                 if (wheel.Grounded)
                     wheelsGrounded++;
             }
