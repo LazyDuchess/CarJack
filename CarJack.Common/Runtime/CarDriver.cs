@@ -120,7 +120,7 @@ namespace CarJack.Common
             var targetHonk = 0f;
             var targetReverse = 0f;
             var fwVelocity = Vector3.Dot(_car.Rigidbody.velocity, _car.transform.forward);
-            if (fwVelocity <= 1f && _car.ThrottleAxis < 0f && _car.Grounded)
+            if (fwVelocity <= -1f && _car.ThrottleAxis < 0f && _car.Grounded)
             {
                 targetReverse = 1f;
             }

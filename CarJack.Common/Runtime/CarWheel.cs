@@ -35,7 +35,7 @@ namespace CarJack.Common
         private float SlipSpeed = 5f;
         private const float MinimumSidewaysSpeedForSlip = 4f;
         private const float SidewaysSlipMultiplier = 0.05f;
-        private const float MaximumSuspensionOffsetForRest = 0.2f;
+        private const float MaximumSuspensionOffsetForRest = 0.5f;
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
@@ -155,7 +155,7 @@ namespace CarJack.Common
 
             var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
 
-            var braking = ((forwardDot > 0f && throttleAxis < 0f) || (forwardDot < 0f && throttleAxis > 0f)) && !_car.BrakeHeld;
+            var braking = ((forwardDot > DrivableCar.MaximumSpeedForStill && throttleAxis < 0f) || (forwardDot < -DrivableCar.MaximumSpeedForStill && throttleAxis > 0f)) && !_car.BrakeHeld && !_car.Still;
 
             if ((Throttle || braking) && Grounded && !tooSteep)
             {

@@ -53,7 +53,7 @@ namespace CarJack.Common
 
             _xAxis = gameInput.GetAxis(13, 0);
             _yAxis = gameInput.GetAxis(14, 0);
-            _lookBehind = gameInput.GetButtonHeld(12, 0) || Input.GetKey(KeyCode.Mouse2);
+            _lookBehind = gameInput.GetButtonHeld(12, 0);
 
             if (gameInput.GetCurrentControllerType(0) == ControllerType.Joystick)
             {
@@ -64,7 +64,7 @@ namespace CarJack.Common
 #else
             _xAxis = Input.GetAxisRaw("Mouse X");
             _yAxis = Input.GetAxisRaw("Mouse Y");
-            _lookBehind = Input.GetKey(KeyCode.Mouse2);
+            _lookBehind = Input.GetKey(KeyCode.Mouse0);
 #endif
             if ((_xAxis != 0f || _yAxis != 0f) && !_controller)
                 _currentFreeCameraTimer = FreeCameraTimer;

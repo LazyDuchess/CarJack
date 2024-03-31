@@ -89,26 +89,46 @@ namespace CarJack.Common
         private Vector3 _lastSafePosition = Vector3.zero;
         private Quaternion _lastSafeRotation = Quaternion.identity;
 
-        public const float MaximumSpeedForStill = 0.1f;
+        public const float MaximumSpeedForStill = 0.15f;
         private const float MaximumAngleForStill = 20f;
+        private const float StillTime = 0.25f;
         public bool Still => _still;
         private bool _still = false;
+        private float _stillTimer = 0f;
 
         private void UpdateStill()
         {
             _still = false;
-            if (!_resting) return;
-            if (!_grounded) return;
-            if (_steep) return;
-            if (ThrottleAxis != 0f && !BrakeHeld) return;
+            if (IsStill())
+            {
+                if (_stillTimer >= StillTime)
+                {
+                    Rigidbody.velocity = Vector3.zero;
+                    Rigidbody.angularVelocity = Vector3.zero;
+                    Rigidbody.Sleep();
+                    _still = true;
+                }
+                else
+                    _stillTimer += Time.deltaTime;
+            }
+            else
+            {
+                Rigidbody.WakeUp();
+                _stillTimer = 0f;
+            }
+        }
+
+        private bool IsStill()
+        {
+            if (!_resting) return false;
+            if (!_grounded) return false;
+            if (_steep) return false;
+            if (ThrottleAxis != 0f && !BrakeHeld) return false;
             var vel = Rigidbody.velocity.magnitude + Rigidbody.angularVelocity.magnitude;
-            if (vel > MaximumSpeedForStill) return;
+            if (vel > MaximumSpeedForStill) return false;
             var angle = Vector3.Angle(Vector3.up, transform.up);
-            if (angle >= MaximumAngleForStill) return;
-            _still = true;
-            Rigidbody.velocity = Vector3.zero;
-            Rigidbody.angularVelocity = Vector3.zero;
-            Rigidbody.Sleep();
+            if (angle >= MaximumAngleForStill) return false;
+            return true;
         }
 
         public void Initialize()
