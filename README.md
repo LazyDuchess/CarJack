@@ -9,7 +9,7 @@ A new `carjack` app will be available on your phone. Use it to access this mod's
 ## Controls
 Below are the controls, their default bindings for both Keyboard + Mouse and Controller and their corresponding inputs in the in-game `Settings -> Input` Menu.
 
-| Action      | KBM               | Controller    | BRC Action (KBM) | BRC Action (Controller) |
+| Action      | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
 |-------------|-------------------|---------------|------------------|-------------------------|
 | Accelerate  | W                 | Right Trigger | Forward          | Slide                   |
 | Reverse     | S                 | Left Trigger  | Back             | Boost                   |
