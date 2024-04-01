@@ -238,8 +238,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ReverseCurveMax: 15
-  BrakeForce: 500
-  HandBrakeForce: 500
+  BrakeForce: 1200
+  HandBrakeForce: 800
   SteerCurve:
     serializedVersion: 2
     m_Curve:
@@ -351,7 +351,7 @@ MonoBehaviour:
   RollAxis: 0
   BrakeHeld: 0
   ExtraDistance: 0
-  ExtraHeight: 0
+  ExtraHeight: 0.25
   ExtraPitch: 0
 --- !u!54 &8275566447239126143
 Rigidbody:
@@ -450,9 +450,9 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537846231092239}
-  MeshRadius: 0.375
+  MeshRadius: 0.4
   SteerAngle: 30
-  SteerSpeed: 20
+  SteerSpeed: 15
   ReverseSpeed: 420
   Speed: 520
   Throttle: 0
@@ -515,9 +515,9 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537845225188231}
-  MeshRadius: 0.375
+  MeshRadius: 0.4
   SteerAngle: 30
-  SteerSpeed: 20
+  SteerSpeed: 15
   ReverseSpeed: 420
   Speed: 520
   Throttle: 1
@@ -580,9 +580,9 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537846972395659}
-  MeshRadius: 0.375
+  MeshRadius: 0.4
   SteerAngle: 30
-  SteerSpeed: 20
+  SteerSpeed: 15
   ReverseSpeed: 420
   Speed: 520
   Throttle: 1
@@ -645,9 +645,9 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537845597390025}
-  MeshRadius: 0.375
+  MeshRadius: 0.4
   SteerAngle: 30
-  SteerSpeed: 20
+  SteerSpeed: 15
   ReverseSpeed: 420
   Speed: 520
   Throttle: 0

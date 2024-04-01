@@ -288,10 +288,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Civic
       objectReference: {fileID: 0}
-    - target: {fileID: 8275566447239126081, guid: 468fd128779421a47894c308e4c88680, type: 3}
-      propertyPath: ExtraHeight
-      value: 0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 8275566447239126142, guid: 468fd128779421a47894c308e4c88680, type: 3}
       propertyPath: m_RootOrder
       value: 1

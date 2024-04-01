@@ -39,8 +39,8 @@ namespace CarJack.Common
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
-        private const float AutoSteer = 0.1f;
-        private const float MinimumSpeedToAutoSteer = 1f;
+        private const float AutoSteer = 0.2f;
+        private const float MinimumSpeedToAutoSteer = 0.5f;
         private const float WheelSpinSlip = 0.5f;
         private const float WheelSpinSlipThreshold = 5f;
 
