@@ -3,7 +3,7 @@
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>CarJack.Plugin</AssemblyName>
     <Description>CarJack Plugin</Description>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
