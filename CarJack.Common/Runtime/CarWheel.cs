@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Collections;
+using UnityEngine;
 
 namespace CarJack.Common
 {
@@ -39,10 +40,11 @@ namespace CarJack.Common
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
-        private const float AutoSteer = 0.2f;
+        private const float AutoSteer = 0.1f;
         private const float MinimumSpeedToAutoSteer = 0.5f;
         private const float WheelSpinSlip = 0.5f;
         private const float WheelSpinSlipThreshold = 5f;
+        private const float MaxSlipTractionLoss = 0.9f;
 
         public void Initialize(DrivableCar car)
         {
@@ -121,7 +123,7 @@ namespace CarJack.Common
             sideWaysVelocity = Mathf.Max(0f, sideWaysVelocity - MinimumSidewaysSpeedForSlip);
             slip += sideWaysVelocity * SidewaysSlipMultiplier * _car.SlipMultiplier;
 
-            slip = Mathf.Clamp(slip, 0f, 0.9f);
+            slip = Mathf.Clamp(slip, 0f, MaxSlipTractionLoss);
 
             if (_currentSlip < slip)
                 _currentSlip = slip;
@@ -215,7 +217,7 @@ namespace CarJack.Common
                 var velForward = wheelVelocityWithoutUp.normalized;
                 if (/*steerAxis == 0f && */wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
                 {
-                    targetSteerAngle += (-Mathf.Clamp(Vector3.SignedAngle(velForward, _car.transform.forward, transform.up), -SteerAngle, SteerAngle)) * AutoSteer;
+                    targetSteerAngle += -Vector3.SignedAngle(velForward, _car.transform.forward, transform.up) * AutoSteer;
                 }
                 _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
                 transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle, 0f);
