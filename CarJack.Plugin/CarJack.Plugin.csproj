@@ -1,18 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>CarJack.Plugin</AssemblyName>
     <Description>CarJack Plugin</Description>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-
   <PropertyGroup>
     <ManagedPath>$(BRCPath)/Bomb Rush Cyberfunk_Data/Managed</ManagedPath>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
     <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1">
@@ -23,12 +20,10 @@
     <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
@@ -36,7 +31,6 @@
       <Publicize>true</Publicize>
     </Reference>
   </ItemGroup>
-  
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
