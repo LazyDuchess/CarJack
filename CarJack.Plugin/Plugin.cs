@@ -10,6 +10,9 @@ using System.Diagnostics;
 namespace CarJack.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInDependency("CommonAPI", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("SlopCrew.Plugin", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("BombRushCamera", BepInDependency.DependencyFlags.SoftDependency)]
     internal class Plugin : BaseUnityPlugin
     {
         private static Type ForceLoadCarJackCommonAssembly = typeof(DrivableCar);
@@ -26,6 +29,7 @@ namespace CarJack.Plugin
 #endif
                 CarDatabase.Initialize();
                 SpawnCarApp.Initialize(directory);
+                LoadCompatibilityPlugins();
                 Logger.LogInfo($"Loaded {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}!");
             }
             catch(Exception e)
@@ -34,7 +38,7 @@ namespace CarJack.Plugin
             }
         }
 
-        private void Start()
+        private void LoadCompatibilityPlugins()
         {
             if (Chainloader.PluginInfos.ContainsKey("SlopCrew.Plugin"))
             {
