@@ -75,6 +75,12 @@ Write-Host "Bumping from $oldVersion to $newVersion"
 $projxml.Project.PropertyGroup[0].Version = $newVersion
 $projxml.Save($csprojPath)
 
+$manifestPath = "Thunderstore/manifest.json"
+
+$manifest = Get-Content $manifestPath -raw | ConvertFrom-Json
+$manifest.version_number = $newVersion
+$manifest | ConvertTo-Json -depth 32| set-content $manifestPath
+
 Write-Host "Bumped all versions!"
 
 if($nogit){
@@ -84,6 +90,7 @@ if($nogit){
 Write-Host "Making Git Tag"
 
 git add $csprojPath
+git add $manifestPath
 
 git commit -m "v$newVersion"
 git tag $newVersion
