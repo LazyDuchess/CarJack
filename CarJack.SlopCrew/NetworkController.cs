@@ -159,17 +159,22 @@ namespace CarJack.SlopCrew
                 playerCarData.LastPacket.CarInternalName = "";
                 keep = false;
             }
-            var player = GameObject.Find(_api.GetGameObjectPathForPlayerID(playerCarData.PlayerID));
+            var player = Utility.GetPlayer(playerCarData.PlayerID);
             if (playerCarData.LastPacket.CarInternalName == "")
             {
                 if (player != null)
                 {
-                    player.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
+                    player.characterVisual.gameObject.SetActive(true);
+                    player.EnablePlayer();
                 }
                 if (playerCarData.Car != null)
                 {
                     Destroy(playerCarData.Car.gameObject);
                     playerCarData.Car = null;
+                }
+                if (playerCarData.Polo != null)
+                {
+                    playerCarData.Polo.SetActive(true);
                 }
             }
             else
@@ -191,7 +196,7 @@ namespace CarJack.SlopCrew
                     carGO.transform.rotation = playerCarData.LastPacket.Rotation;
                     currentCar = carGO.GetComponent<DrivableCar>();
                     currentCar.Initialize();
-                    currentCar.EnterCar(player.GetComponent<Player>());
+                    currentCar.EnterCar(player);
                     var playerId = playerCarData.PlayerID;
                     currentCar.OnHandleInput += () =>
                     {
@@ -207,13 +212,15 @@ namespace CarJack.SlopCrew
                 {
                     if (player != null)
                     {
-                        var reptilePlayer = player.GetComponent<Player>();
-                        reptilePlayer.characterVisual.gameObject.SetActive(false);
+                        player.characterVisual.gameObject.SetActive(false);
                         player.transform.position = currentCar.transform.position;
-                        reptilePlayer.DisablePlayer();
+                        player.DisablePlayer();
                         var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
                         if (playersPolo != null)
+                        {
+                            playerCarData.Polo = playersPolo.gameObject;
                             playersPolo.gameObject.SetActive(false);
+                        }
                     }
                     currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                     currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
@@ -222,12 +229,10 @@ namespace CarJack.SlopCrew
                 {
                     if (player != null)
                     {
-                        var reptilePlayer = player.GetComponent<Player>();
-                        reptilePlayer.GetComponent<Player>().characterVisual.gameObject.SetActive(true);
-                        reptilePlayer.EnablePlayer();
-                        var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
-                        if (playersPolo != null)
-                            playersPolo.gameObject.SetActive(true);
+                        player.characterVisual.gameObject.SetActive(true);
+                        player.EnablePlayer();
+                        if (playerCarData.Polo != null)
+                            playerCarData.Polo.SetActive(true);
                     }
                 }
 

@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653122683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.05, z: -1.99}
-  m_LocalScale: {x: 4.699525, y: 2.2103932, z: 11.01146}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8275566447239126142}
@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4.27, y: 6.963617, z: 16.527817}
+  m_Center: {x: 0, y: 2.9818084, z: -0.022155762}
 --- !u!1 &8275566447202283773
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,8 +72,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447202283773}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.033, z: 0}
-  m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
+  m_LocalPosition: {x: 0, y: 0.12599987, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8275566447239126142}
@@ -86,7 +86,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447202283773}
-  m_Mesh: {fileID: 4300000, guid: ecb01710b98646c41bd7839ddeb894e3, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 70a073ec9365424408dc1a4da3fe6f33, type: 2}
 --- !u!23 &8275566447202283770
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f83b1a1b26b81674093e4ae00ddede3c, type: 2}
+  - {fileID: 2100000, guid: c90d1a768785cab4abef91e860e70d4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -142,7 +142,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: ecb01710b98646c41bd7839ddeb894e3, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 70a073ec9365424408dc1a4da3fe6f33, type: 2}
 --- !u!1 &8275566447239126080
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 8275566447239126081}
   - component: {fileID: 8275566447239126143}
   m_Layer: 17
-  m_Name: Benni's Taxi
+  m_Name: Lemon Bus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,6 @@ Transform:
   - {fileID: 8275566447246873220}
   - {fileID: 653122684}
   - {fileID: 1077094333957414405}
-  - {fileID: 795302445166453564}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -199,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InternalName: carjack.benni
+  InternalName: carjack.bus
   SlipMultiplier: 1
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
@@ -290,18 +289,18 @@ MonoBehaviour:
       inWeight: 0.05689013
       outWeight: 0.042142514
     - serializedVersion: 3
-      time: 0.9991455
-      value: 0.00000021699816
-      inSlope: -0.36502627
-      outSlope: -0.36502627
+      time: 0.995
+      value: 0.0000032651005
+      inSlope: -0.07651427
+      outSlope: -0.07651427
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.08382057
+      inWeight: 0.061189782
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  SpeedCurveMax: 200
+  SpeedCurveMax: 120
   TractionCurve:
     serializedVersion: 2
     m_Curve:
@@ -353,8 +352,9 @@ MonoBehaviour:
   YawAxis: 0
   RollAxis: 0
   BrakeHeld: 0
-  ExtraDistance: 2
-  ExtraHeight: 1
+  ExtraDistance: 15
+  ExtraHeight: 5
+  ExtraPitch: 20
 --- !u!54 &8275566447239126143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -395,7 +395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447246873223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: -1.09}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -427,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447730040847}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.955, y: 0.3340001, z: 1.74}
+  m_LocalPosition: {x: 1.313, y: 0.71, z: 4.269}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -452,7 +452,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537846231092239}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -463,7 +463,7 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
@@ -492,7 +492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447753977368}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.955, y: 0.33399975, z: -1.988}
+  m_LocalPosition: {x: -1.313, y: 0.71, z: -3.998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -517,7 +517,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537845225188231}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -528,7 +528,7 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
@@ -557,7 +557,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447797055307}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.955, y: 0.33399975, z: -1.988}
+  m_LocalPosition: {x: 1.313, y: 0.71, z: -3.998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -582,7 +582,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537846972395659}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -593,7 +593,7 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
@@ -622,7 +622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566449113348672}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.955, y: 0.3340001, z: 1.74}
+  m_LocalPosition: {x: -1.313, y: 0.71, z: 4.269}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -647,7 +647,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 9086537845597390025}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -658,60 +658,10 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
---- !u!1 &8413001372223353764
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 795302445166453564}
-  - component: {fileID: 6796503537411374204}
-  m_Layer: 0
-  m_Name: Driver
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &795302445166453564
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8413001372223353764}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.042, y: 0.022, z: 0.054}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8275566447239126142}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6796503537411374204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8413001372223353764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2beb04f9578afd4e9b5d1f71b06c35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HonkLayerIndex: 1
-  ReverseLayerIndex: 3
-  ReverseAnimationLerp: 10
-  HonkAnimationLerp: 20
-  SteerAnimationLerp: 5
-  controller: {fileID: 9100000, guid: 22f33aced706a1a4cae64d1a8baf5cd4, type: 2}
 --- !u!1 &8796714454098800890
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8796714454098800890}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.955, y: 0.33399975, z: -2.809}
+  m_LocalPosition: {x: 1.313, y: 0.71, z: -5.458}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -762,7 +712,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 8702022829885937684}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -773,7 +723,7 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
@@ -802,7 +752,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9023714767209400667}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.955, y: 0.33399975, z: -2.809}
+  m_LocalPosition: {x: -1.313, y: 0.71, z: -5.458}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -827,7 +777,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Grounded: 0
   Mesh: {fileID: 3800164059654483982}
-  MeshRadius: 0.4
+  MeshRadius: 0.65
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -838,7 +788,7 @@ MonoBehaviour:
   Strength: 4000
   StartLength: 0
   MaxDistance: 0.65
-  RestDistance: 0.5
+  RestDistance: 0.6
   Mass: 5
   Traction: 0.8
   CurrentSpeed: 0
@@ -855,15 +805,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -883,15 +833,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -913,6 +863,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel (1)
@@ -1040,15 +994,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1098,6 +1052,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel (2)
@@ -1131,15 +1089,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1189,6 +1147,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel (1)
@@ -1222,15 +1184,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1280,6 +1242,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel
@@ -1313,15 +1279,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1341,15 +1307,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1371,6 +1337,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel (1)
@@ -1404,15 +1374,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.40427497
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.40427494
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1462,6 +1432,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2534964839176971238, guid: 0ec43c8d9cd580049969073e5e5dcbf6, type: 3}
     - target: {fileID: 919132149155446097, guid: 49b98aba67129654b8702a2312e56f8f, type: 3}
       propertyPath: m_Name
       value: BlueCarWheel (2)

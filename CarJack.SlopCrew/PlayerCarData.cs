@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace CarJack.SlopCrew
 {
@@ -12,5 +13,7 @@ namespace CarJack.SlopCrew
         public uint PlayerID;
         public DrivableCar Car;
         public PlayerCarPacket LastPacket;
+        // SlopCrew april fools stuff.
+        public GameObject Polo;
     }
 }

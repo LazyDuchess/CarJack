@@ -162,7 +162,9 @@ namespace CarJack.Common
 
             var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
 
-            var braking = ((forwardDot > DrivableCar.MaximumSpeedForStill && throttleAxis < 0f) || (forwardDot < -DrivableCar.MaximumSpeedForStill && throttleAxis > 0f)) && !_car.BrakeHeld && !_car.Still;
+            var braking = ((forwardDot > DrivableCar.MaximumSpeedForStill && throttleAxis < 0f) || (forwardDot < -DrivableCar.MaximumSpeedForStill && throttleAxis > 0f)) && !_car.Still;
+            if (_car.BrakeHeld && Throttle)
+                braking = false;
 
             if ((Throttle || braking) && Grounded && !tooSteep)
             {

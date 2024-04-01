@@ -115,21 +115,34 @@ namespace CarJack.Common
             var targetRotation = transform.rotation;
 
             if (normalizedVelocity.magnitude > float.Epsilon && !Target.Still)
+            {
                 targetRotation = Quaternion.LookRotation(normalizedVelocity, Vector3.up);
+                var euler = targetRotation.eulerAngles;
+                euler.x += Target.ExtraPitch;
+                targetRotation = Quaternion.Euler(euler);
+            }
 
             var currentRotation = Quaternion.Lerp(transform.rotation, targetRotation, Mathf.Min(maxLerp, LerpMultiplier * Target.Rigidbody.velocity.magnitude) * Time.deltaTime).eulerAngles;
-            
+
             if (_currentFreeCameraTimer <= 0f)
+            {
                 transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+            }
 
             if (_lookBehind)
             {
                 transform.rotation = Quaternion.LookRotation(-Target.transform.forward, Vector3.up);
+                var euler = transform.rotation.eulerAngles;
+                euler.x += Target.ExtraPitch;
+                transform.rotation = Quaternion.Euler(euler);
                 _wasLookingBehind = true;
             }
             else if (_wasLookingBehind)
             {
                 transform.rotation = Quaternion.LookRotation(Target.transform.forward, Vector3.up);
+                var euler = transform.rotation.eulerAngles;
+                euler.x += Target.ExtraPitch;
+                transform.rotation = Quaternion.Euler(euler);
                 _wasLookingBehind = false;
             }
 

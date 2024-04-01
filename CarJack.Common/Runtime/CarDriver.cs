@@ -26,6 +26,10 @@ namespace CarJack.Common
         private float _currentReverse = 0f;
         private float _blinkTimer = 0f;
         private const float BlinkDuration = 0.1f;
+#if PLUGIN
+        private Player _player;
+        private Characters _cachedCharacter;
+#endif
         private void Awake()
         {
             _car = GetComponentInParent<DrivableCar>();
@@ -41,6 +45,8 @@ namespace CarJack.Common
         private CharacterVisual _currentVisual;
         public void PutInCar(Player player)
         {
+            _cachedCharacter = player.character;
+            _player = player;
             _currentSteer = 0.5f;
             _currentVisual = VisualFromPlayer(player, controller);
             var animator = _currentVisual.GetComponentInChildren<Animator>();
@@ -103,6 +109,7 @@ namespace CarJack.Common
 
         public void ExitCar()
         {
+            _player = null;
             if (_currentVisual != null)
             {
                 StopAllCoroutines();
@@ -113,6 +120,15 @@ namespace CarJack.Common
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
+            if (_player != null && _currentVisual != null)
+            {
+                if (_player.character != _cachedCharacter)
+                {
+                    var player = _player;
+                    ExitCar();
+                    PutInCar(player);
+                }
+            }
             if (_currentVisual == null) return;
             var targetSteer = (_car.SteerAxis*0.5f) + 0.5f;
             _currentSteer = Mathf.Lerp(_currentSteer, targetSteer, SteerAnimationLerp * Time.deltaTime);

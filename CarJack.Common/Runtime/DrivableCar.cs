@@ -76,6 +76,7 @@ namespace CarJack.Common
         [Header("Camera")]
         public float ExtraDistance = 0f;
         public float ExtraHeight = 0f;
+        public float ExtraPitch = 0f;
 
         public bool Grounded => _grounded;
         private bool _grounded = false;
