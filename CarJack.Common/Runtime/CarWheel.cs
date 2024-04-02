@@ -215,7 +215,7 @@ namespace CarJack.Common
 
                 var targetSteerAngle = steerAngle * steerAxis;
                 var velForward = wheelVelocityWithoutUp.normalized;
-                if (/*steerAxis == 0f && */wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
+                if (Vector3.Dot(wheelVelocity, transform.forward) > 0f && wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
                 {
                     targetSteerAngle += -Vector3.SignedAngle(velForward, _car.transform.forward, transform.up) * AutoSteer;
                 }
