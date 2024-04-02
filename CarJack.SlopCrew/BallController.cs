@@ -118,6 +118,7 @@ namespace CarJack.SlopCrew
         private void FixedUpdate()
         {
             if (Core.Instance.IsCorePaused) return;
+            if (!_api.Connected) return;
             _currentTick -= Time.deltaTime;
             if (_currentTick <= 0f)
             {
