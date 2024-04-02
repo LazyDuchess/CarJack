@@ -45,7 +45,7 @@ namespace CarJack.Common
         public float ThrottleAxis = 0f;
         [NonSerialized]
         public float SteerAxis = 0f;
-        [HideInInspector]
+        [NonSerialized]
         public bool HornHeld = false;
         [NonSerialized]
         public bool GetOutOfCarButtonNew = false;
