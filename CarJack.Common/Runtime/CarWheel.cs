@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using UnityEngine;
 
 namespace CarJack.Common
@@ -8,7 +9,7 @@ namespace CarJack.Common
         public float RotationAcceleration = 100f;
         public float RotationDeacceleration = 1f;
         public float RotationMultiplier = 1f;
-        [HideInInspector]
+        [NonSerialized]
         public bool Grounded = false;
         public GameObject Mesh;
         public float MeshRadius = 0.5f;

@@ -32,29 +32,30 @@ namespace CarJack.Common
         public float TractionCurveMax = 50f;
         public LayerMask GroundMask;
         public Transform CenterOfMass;
-        [HideInInspector]
+        [NonSerialized]
         public Rigidbody Rigidbody;
-        [HideInInspector]
+        [NonSerialized]
         public CarWheel[] Wheels;
         public GameObject Chassis;
-        public bool Driving = true;
+        [NonSerialized]
+        public bool Driving = false;
 
         private const float ControllerRotationDeadZone = 0.2f;
-        [HideInInspector]
+        [NonSerialized]
         public float ThrottleAxis = 0f;
-        [HideInInspector]
+        [NonSerialized]
         public float SteerAxis = 0f;
         [HideInInspector]
         public bool HornHeld = false;
-        [HideInInspector]
+        [NonSerialized]
         public bool GetOutOfCarButtonNew = false;
-        [HideInInspector]
+        [NonSerialized]
         public float PitchAxis = 0f;
-        [HideInInspector]
+        [NonSerialized]
         public float YawAxis = 0f;
-        [HideInInspector]
+        [NonSerialized]
         public float RollAxis = 0f;
-        [HideInInspector]
+        [NonSerialized]
         public bool BrakeHeld = false;
 
         private Vector3 _velocityBeforePause;
@@ -103,7 +104,7 @@ namespace CarJack.Common
         public const float DriftingLerp = 5f;
         public const float DriftTraction = 0.1f;
 
-        [HideInInspector]
+        [NonSerialized]
         public float DriftingAmount = 0f;
 
         private void UpdateDrift()

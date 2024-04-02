@@ -21,28 +21,6 @@ namespace CarJack.Common
         {
             _car = GetComponentInParent<DrivableCar>();
             _audioSource = GetComponent<AudioSource>();
-#if PLUGIN
-            Core.OnCoreUpdatePaused += OnPause;
-            Core.OnCoreUpdateUnPaused += OnUnPause;
-#endif
-        }
-
-        private void OnPause()
-        {
-            _audioSource.mute = true;
-        }
-
-        private void OnUnPause()
-        {
-            _audioSource.mute = false;
-        }
-
-        private void OnDestroy()
-        {
-#if PLUGIN
-            Core.OnCoreUpdatePaused -= OnPause;
-            Core.OnCoreUpdateUnPaused -= OnUnPause;
-#endif
         }
 
         private void Update()
@@ -50,10 +28,6 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
-            if (_car.Driving)
-                _audioSource.spatialBlend = 0f;
-            else
-                _audioSource.spatialBlend = 1f;
             var targetVolume = 0f;
             if (_car.HornHeld)
                 targetVolume = 1f;

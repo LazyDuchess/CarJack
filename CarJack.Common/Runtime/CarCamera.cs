@@ -15,6 +15,7 @@ namespace CarJack.Common
     public class CarCamera : MonoBehaviour
     {
         public static bool Enabled = true;
+        public static CarCamera Instance { get; private set; }
         public float Radius = 0.1f;
         public float MaxLerpSpeed = 5f;
         public float MaxLerpSpeedJoystick = 2f;
@@ -30,6 +31,11 @@ namespace CarJack.Common
         private bool _wasLookingBehind = false;
         private bool _lookBehind = false;
         private float _currentFreeCameraTimer = 0f;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void ResetInputs()
         {

@@ -25,29 +25,8 @@ namespace CarJack.Common
             _car = GetComponentInParent<DrivableCar>();
             _audioSource = GetComponent<AudioSource>();
             _audioSource.volume = 0f;
-#if PLUGIN
-            Core.OnCoreUpdatePaused += OnPause;
-            Core.OnCoreUpdateUnPaused += OnUnPause;
-#endif
         }
 
-        private void OnPause()
-        {
-            _audioSource.mute = true;
-        }
-
-        private void OnUnPause()
-        {
-            _audioSource.mute = false;
-        }
-
-        private void OnDestroy()
-        {
-#if PLUGIN
-            Core.OnCoreUpdatePaused -= OnPause;
-            Core.OnCoreUpdateUnPaused -= OnUnPause;
-#endif
-        }
         public void OnScrape(Collision other)
         {
             if (other.gameObject.name == "rocket ball")
@@ -77,10 +56,6 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
-            if (_car.Driving)
-                _audioSource.spatialBlend = 0f;
-            else
-                _audioSource.spatialBlend = 1f;
             _audioSource.volume = Mathf.Lerp(_audioSource.volume, _targetVolume, LerpSpeed * Time.deltaTime);
         }
     }

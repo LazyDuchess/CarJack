@@ -9,12 +9,10 @@ namespace CarJack.Common
 {
     public class OneShotAudioSource : MonoBehaviour
     {
-        private DrivableCar _car;
         private AudioSource[] _pooledAudioSources;
         private void Awake()
         {
             _pooledAudioSources = GetComponentsInChildren<AudioSource>();
-            _car = GetComponentInParent<DrivableCar>();
         }
 
         private AudioSource GetPooledAudioSource()
@@ -29,10 +27,6 @@ namespace CarJack.Common
         public void Play(AudioClip clip)
         {
             var audioSource = GetPooledAudioSource();
-            if (_car.Driving)
-                audioSource.spatialBlend = 0f;
-            else
-                audioSource.spatialBlend = 1f;
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();

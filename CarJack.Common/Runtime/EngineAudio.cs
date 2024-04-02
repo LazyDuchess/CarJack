@@ -26,10 +26,6 @@ namespace CarJack.Common
         {
             _car = GetComponentInParent<DrivableCar>();
             _audioSource = GetComponent<AudioSource>();
-#if PLUGIN
-            Core.OnCoreUpdatePaused += OnPause;
-            Core.OnCoreUpdateUnPaused += OnUnPause;
-#endif
         }
 
         private float EvaluatePitchCurve(float value)
@@ -38,33 +34,11 @@ namespace CarJack.Common
             return PitchCurve.Evaluate(val);
         }
 
-        private void OnPause()
-        {
-            _audioSource.mute = true;
-        }
-
-        private void OnUnPause()
-        {
-            _audioSource.mute = false;
-        }
-
-        private void OnDestroy()
-        {
-#if PLUGIN
-            Core.OnCoreUpdatePaused -= OnPause;
-            Core.OnCoreUpdateUnPaused -= OnUnPause;
-#endif
-        }
-
         private void Update()
         {
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
-            if (_car.Driving)
-                _audioSource.spatialBlend = 0f;
-            else
-                _audioSource.spatialBlend = 1f;
             var targetPitch = 1f;
             var highestSpeed = 0f;
             foreach(var wheel in _car.Wheels)
