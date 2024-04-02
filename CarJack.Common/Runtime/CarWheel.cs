@@ -99,6 +99,9 @@ namespace CarJack.Common
                 traction *= curve;
                 traction *= (-_currentSlip) +1f;
 
+                if (traction > DrivableCar.DriftTraction)
+                    traction = Mathf.Lerp(traction, DrivableCar.DriftTraction, _car.DriftingAmount);
+
                 var slippingVelocity = Vector3.Dot(wheelVelocity, transform.right);
                 var force = -slippingVelocity * traction;
                 var acceleration = force / Time.fixedDeltaTime;

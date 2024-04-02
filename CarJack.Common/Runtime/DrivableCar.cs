@@ -97,6 +97,34 @@ namespace CarJack.Common
         private bool _still = false;
         private float _stillTimer = 0f;
 
+
+        public const float MinimumSidewaysVelocityForDrift = 1f;
+        public const float DriftMinimumAngle = 20f;
+        public const float DriftingLerp = 5f;
+        public const float DriftTraction = 0.1f;
+
+        [HideInInspector]
+        public float DriftingAmount = 0f;
+
+        private void UpdateDrift()
+        {
+            var targetDrift = GetTargetDrift();
+            if (targetDrift < DriftingAmount)
+                DriftingAmount = Mathf.Lerp(DriftingAmount, targetDrift, DriftingLerp * Time.deltaTime);
+            else
+                DriftingAmount = targetDrift;
+        }
+
+        private float GetTargetDrift()
+        {
+            //if (!Grounded) return 0f;
+            var sidewaysVelocity = Vector3.Dot(Rigidbody.velocity, transform.right);
+            var angle = Vector3.Angle(transform.forward, Rigidbody.velocity.normalized);
+            if (Mathf.Abs(sidewaysVelocity) < MinimumSidewaysVelocityForDrift) return 0f;
+            if (angle < DriftMinimumAngle) return 0f;
+            return Mathf.Abs(ThrottleAxis);
+        }
+
         private void UpdateStill()
         {
             _still = false;
@@ -151,7 +179,7 @@ namespace CarJack.Common
             _lastSafePosition = Rigidbody.position;
             _lastSafeRotation = Rigidbody.rotation;
         }
-        
+
         private void ResetLastSafeLocation()
         {
             _lastSafeLocationTimer = LastSafeLocationInterval;
@@ -301,7 +329,7 @@ namespace CarJack.Common
             return axis;
         }
 #endif
-        
+
         private void PollInputs()
         {
             ResetInputs();
@@ -397,7 +425,7 @@ namespace CarJack.Common
 #if PLUGIN
         public void EnterCar(Player player)
         {
-            foreach(var driver in _drivers)
+            foreach (var driver in _drivers)
             {
                 driver.PutInCar(player);
             }
@@ -436,7 +464,7 @@ namespace CarJack.Common
             _steep = false;
             PollInputs();
             var wheelsGrounded = 0;
-            foreach(var wheel in Wheels)
+            foreach (var wheel in Wheels)
             {
                 wheel.DoPhysics(ref _resting);
                 if (wheel.Grounded)
@@ -465,6 +493,7 @@ namespace CarJack.Common
                 AirControl(1f);
 
             UpdateStill();
+            UpdateDrift();
 #if PLUGIN
             if (GetOutOfCarButtonNew && Driving)
             {
