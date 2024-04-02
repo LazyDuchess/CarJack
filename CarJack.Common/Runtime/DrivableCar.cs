@@ -120,7 +120,8 @@ namespace CarJack.Common
         {
             //if (!Grounded) return 0f;
             var sidewaysVelocity = Vector3.Dot(Rigidbody.velocity, transform.right);
-            var angle = Vector3.Angle(transform.forward, Rigidbody.velocity.normalized);
+            var backwards = Vector3.Dot(transform.forward, Rigidbody.velocity.normalized) < 0f;
+            var angle = Vector3.Angle(backwards ? -transform.forward : transform.forward, Rigidbody.velocity.normalized);
             if (Mathf.Abs(sidewaysVelocity) < MinimumSidewaysVelocityForDrift) return 0f;
             if (angle < DriftMinimumAngle) return 0f;
             return Mathf.Abs(ThrottleAxis);
@@ -198,7 +199,7 @@ namespace CarJack.Common
                 return;
             var crashSFX = CarResources.Instance.GetCrashSFX();
             _oneShotAudioSource.Play(crashSFX);
-            _crashAudioCooldown = 0.1f;
+            _crashAudioCooldown = 0.5f;
         }
 
         private void OnCollisionStay(Collision other)

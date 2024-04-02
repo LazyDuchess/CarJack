@@ -8,21 +8,24 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace CarJack.Plugin
 {
     public class SpawnCarApp : CustomApp
     {
+        private static Sprite Icon;
+
         public static void Initialize(string location)
         {
-            var iconSprite = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
-            PhoneAPI.RegisterApp<SpawnCarApp>("carjack", iconSprite);
+            Icon = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
+            PhoneAPI.RegisterApp<SpawnCarApp>("carjack", Icon);
         }
 
         public override void OnAppInit()
         {
             base.OnAppInit();
-            CreateIconlessTitleBar("carjack");
+            CreateTitleBar("CarJack", Icon);
             ScrollView = PhoneScrollView.Create(this);
         }
 
