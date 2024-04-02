@@ -18,7 +18,7 @@ namespace CarJack.SlopCrew
         public static NetworkController Instance { get; private set; }
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
-        private const float TickRate = 0f;
+        private const float TickRate = 0.1f;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
         private ISlopCrewAPI _api;
         private float _currentTick = TickRate;

@@ -21,7 +21,7 @@ namespace CarJack.SlopCrew
         private const string BallSubHostPacketGUID = "CarJack-Ball-SubHost";
         private const string BallHostPacketGUID = "CarJack-Ball-Host";
         private const string BallPacketGUID = "CarJack-Ball";
-        private const float TickRate = 0f;
+        private const float TickRate = 0.1f;
         private const string BallGameObjectName = "rocket ball";
         private ISlopCrewAPI _api;
         private GameObject _ball;
