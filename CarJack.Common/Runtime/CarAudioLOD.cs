@@ -12,7 +12,7 @@ namespace CarJack.Common.Runtime
 {
     public class CarAudioLOD : MonoBehaviour
     {
-        private const float LODDistance = 40f;
+        private const float LODDistance = 80f;
         private DrivableCar _car;
 #if PLUGIN
         private void Awake()
