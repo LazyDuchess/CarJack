@@ -344,6 +344,7 @@ namespace CarJack.Common
             BrakeHeld = false;
         }
 
+#if PLUGIN
         private IEnumerator DoTeleport(Teleport teleport)
         {
             var transition = teleport.GetComponent<StageTransition>();
@@ -351,7 +352,7 @@ namespace CarJack.Common
             {
                 DoForcedPause();
                 InputEnabled = false;
-#if PLUGIN
+
                 if (teleport.automaticallyReturnPlayerToLastSafeLocation)
                 {
                     teleport.fadeToBlackDuration = teleport.fadeToBlackDurationDeathzone;
@@ -369,7 +370,6 @@ namespace CarJack.Common
                 Core.Instance.UIManager.effects.fullScreenFade.gameObject.SetActive(true);
                 Core.Instance.UIManager.effects.fullScreenFade.color = EffectsUI.niceBlack;
                 yield return new WaitForSeconds(teleport.blackDuration);
-#endif
                 UndoForcedPause();
                 if (teleport.automaticallyReturnPlayerToLastSafeLocation)
                 {
@@ -384,6 +384,7 @@ namespace CarJack.Common
                 Core.Instance.UIManager.effects.FadeOpen(teleport.fadeOpenDuration);
             }
         }
+#endif
 
 #if PLUGIN
         private float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
