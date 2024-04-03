@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653122684}
   - component: {fileID: 653122685}
-  m_Layer: 17
+  m_Layer: 9
   m_Name: Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653122683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: -0.078}
+  m_LocalPosition: {x: 0, y: 0.73100007, z: -0.078}
   m_LocalScale: {x: 1.7762105, y: 1.2851164, z: 4.1181436}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70,14 +70,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593446163598965}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.112501, y: 3.112501, z: 3.112501}
+  m_LocalScale: {x: -3.112501, y: 3.112501, z: 3.112501}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2368996152336141685}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &549440068399678387
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -152,15 +152,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3960194140744629898}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.74, y: -0.29, z: 1.162563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.739, y: 0.341, z: 1.162563}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2552431858905200254}
   m_Father: {fileID: 8275566447239126142}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1007525959812593443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,20 +177,20 @@ MonoBehaviour:
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Mesh: {fileID: 593446163598965}
-  MeshRadius: 0.4
+  MeshRadius: 0.42
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 420
-  Speed: 520
+  Speed: 660
   Throttle: 0
   Steer: 1
   Damping: 200
   Strength: 4000
   StartLength: 0
-  MaxDistance: 0.65
+  MaxDistance: 0.45
   RestDistance: 0.5
   Mass: 5
-  Traction: 0.8
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &4109881577449000315
 GameObject:
@@ -217,14 +217,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4109881577449000315}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.1125, y: 3.1125, z: 3.1125}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4415940582794209448}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6346703905054717368
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -300,7 +300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6395496775423205246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.727, y: -0.301, z: -1.214}
+  m_LocalPosition: {x: 0.727, y: 0.33, z: -1.214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -324,20 +324,20 @@ MonoBehaviour:
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Mesh: {fileID: 4109881577449000315}
-  MeshRadius: 0.4
+  MeshRadius: 0.42
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 420
-  Speed: 520
+  Speed: 660
   Throttle: 1
   Steer: 0
   Damping: 200
   Strength: 4000
   StartLength: 0
-  MaxDistance: 0.65
+  MaxDistance: 0.45
   RestDistance: 0.5
   Mass: 5
-  Traction: 0.8
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &6740702419384636972
 GameObject:
@@ -350,7 +350,6 @@ GameObject:
   - component: {fileID: 5637789505411487953}
   - component: {fileID: 6581757404646965256}
   - component: {fileID: 1572053637223630674}
-  - component: {fileID: 2150047876104315073}
   - component: {fileID: 4214282418509338696}
   m_Layer: 17
   m_Name: body
@@ -367,7 +366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6740702419384636972}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: -0.59, z: 0.003}
+  m_LocalPosition: {x: 0, y: 0.041000016, z: 0.003}
   m_LocalScale: {x: 3.1125, y: 3.1125, z: 3.1125}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -424,22 +423,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &2150047876104315073
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6740702419384636972}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!64 &4214282418509338696
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -478,15 +461,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7954364509369939983}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.7399926, y: -0.299, z: -1.2153267}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.7394, y: 0.332, z: -1.2153267}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 615951284320273741}
   m_Father: {fileID: 8275566447239126142}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8535115576029371630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,20 +486,20 @@ MonoBehaviour:
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Mesh: {fileID: 8991798015665658820}
-  MeshRadius: 0.4
+  MeshRadius: 0.42
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 420
-  Speed: 520
+  Speed: 660
   Throttle: 1
   Steer: 0
   Damping: 200
   Strength: 4000
   StartLength: 0
-  MaxDistance: 0.65
+  MaxDistance: 0.45
   RestDistance: 0.5
   Mass: 5
-  Traction: 0.8
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &7998525243853943427
 GameObject:
@@ -543,7 +526,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7998525243853943427}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7272, y: -0.292, z: 1.1602}
+  m_LocalPosition: {x: 0.7272, y: 0.33900002, z: 1.1602}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -567,20 +550,20 @@ MonoBehaviour:
   RotationDeacceleration: 5
   RotationMultiplier: 100
   Mesh: {fileID: 8316634982428060749}
-  MeshRadius: 0.4
+  MeshRadius: 0.42
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 420
-  Speed: 520
+  Speed: 660
   Throttle: 0
   Steer: 1
   Damping: 200
   Strength: 4000
   StartLength: 0
-  MaxDistance: 0.65
+  MaxDistance: 0.45
   RestDistance: 0.5
   Mass: 5
-  Traction: 0.8
+  Traction: 0.7
   CurrentSpeed: 0
 --- !u!1 &8275566447239126080
 GameObject:
@@ -594,7 +577,7 @@ GameObject:
   - component: {fileID: 8275566447239126143}
   - component: {fileID: 2380699831230831240}
   m_Layer: 17
-  m_Name: m3gtr
+  m_Name: M3 GTR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,7 +592,7 @@ Transform:
   m_GameObject: {fileID: 8275566447239126080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4618798, y: 1.4618798, z: 1.4618798}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1077094333957414405}
@@ -652,7 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.m3gtr
-  SlipMultiplier: 0.7
+  SlipMultiplier: 0.8
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   AirControlStrength: 1
@@ -794,7 +777,7 @@ MonoBehaviour:
   CenterOfMass: {fileID: 8275566447246873220}
   Chassis: {fileID: 8275566447239126080}
   ExtraDistance: 0
-  ExtraHeight: 0.25
+  ExtraHeight: 0.2
   ExtraPitch: 0
 --- !u!1 &8275566447246873223
 GameObject:
@@ -820,7 +803,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447246873223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.352, z: 0}
+  m_LocalPosition: {x: 0, y: 0.27899998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -852,14 +835,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8316634982428060749}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.1125, y: 3.1125, z: 3.1125}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2470780678049387586}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2655997217102482785
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -935,14 +918,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8991798015665658820}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.112501, y: 3.112501, z: 3.112501}
+  m_LocalScale: {x: -3.112501, y: 3.112501, z: 3.112501}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1818521042004236862}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5395846722146179810
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1038,7 +1021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.63100004
       objectReference: {fileID: 0}
     - target: {fileID: 6039418069983402084, guid: 8812f7795f6669c4d9f0347721ff3ef8, type: 3}
       propertyPath: m_LocalPosition.z
