@@ -139,7 +139,7 @@ namespace CarJack.Common
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
             var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up));
             var wheelVelocityWithoutUpMagnitude = wheelVelocityWithoutUp.magnitude;
-            var wheelSidewaysVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.right));
+            var wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
 
             var throttleAxis = _car.ThrottleAxis;
             var steerAxis = _car.SteerAxis;
@@ -147,7 +147,7 @@ namespace CarJack.Common
             if (Grounded)
             {
                 var deaccelerationAmount = 1f-Mathf.Abs(throttleAxis);
-                var wheelForwardVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+                
                 
                 if (wheelForwardVelocity > 0f)
                 {
@@ -176,14 +176,14 @@ namespace CarJack.Common
                 
 
                 var speed = Speed;
-                var speedT = Mathf.Min(wheelVelocityWithoutUpMagnitude, _car.SpeedCurveMax) / _car.SpeedCurveMax;
+                var speedT = Mathf.Min(Mathf.Abs(wheelForwardVelocity), _car.SpeedCurveMax) / _car.SpeedCurveMax;
                 var curve = _car.SpeedCurve.Evaluate(speedT);
                 speed *= curve;
 
                 if (throttleAxis < 0f)
                 {
                     speed = ReverseSpeed;
-                    speedT = Mathf.Min(wheelVelocityWithoutUpMagnitude, _car.ReverseCurveMax) / _car.ReverseCurveMax;
+                    speedT = Mathf.Min(Mathf.Abs(wheelForwardVelocity), _car.ReverseCurveMax) / _car.ReverseCurveMax;
                     curve = _car.ReverseCurve.Evaluate(speedT);
                     speed *= curve;
                 }
@@ -212,7 +212,7 @@ namespace CarJack.Common
             if (Steer)
             {
                 var steerAngle = SteerAngle;
-                var steerT = Mathf.Min(Mathf.Abs(Vector3.Dot(wheelVelocity, transform.forward)), _car.SteerCurveMax) / _car.SteerCurveMax;
+                var steerT = Mathf.Min(Mathf.Abs(wheelForwardVelocity), _car.SteerCurveMax) / _car.SteerCurveMax;
                 var curve = _car.SteerCurve.Evaluate(steerT);
                 steerAngle *= curve;
 
