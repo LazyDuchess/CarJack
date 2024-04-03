@@ -10,6 +10,8 @@ namespace CarJack.Common
     {
         public string InternalName = "";
 
+        public float CounterSteerMultiplier = 0.1f;
+
         public float SlipMultiplier = 0.75f;
 
         public bool HasSurfaceAngleLimit = true;
@@ -106,6 +108,18 @@ namespace CarJack.Common
 
         [NonSerialized]
         public float DriftingAmount = 0f;
+        [NonSerialized]
+        public float CounterSteering = 0f;
+
+        private void UpdateCounterSteer()
+        {
+            CounterSteering = 0f;
+            if (Rigidbody.velocity.magnitude < 5f) return;
+            var backwards = Vector3.Dot(transform.forward, Rigidbody.velocity.normalized) < 0f;
+            var angle = Vector3.SignedAngle(backwards ? -transform.forward : transform.forward, Rigidbody.velocity.normalized, transform.up);
+            var multiplier = CounterSteerMultiplier * (-Mathf.Abs(SteerAxis) + 1f);
+            CounterSteering = angle * multiplier;
+        }
 
         private void UpdateDrift()
         {
@@ -465,6 +479,7 @@ namespace CarJack.Common
             _grounded = false;
             _steep = false;
             PollInputs();
+            UpdateCounterSteer();
             var wheelsGrounded = 0;
             foreach (var wheel in Wheels)
             {

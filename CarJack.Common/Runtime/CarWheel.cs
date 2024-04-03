@@ -218,7 +218,7 @@ namespace CarJack.Common
                 var targetSteerAngle = steerAngle * steerAxis;
 
                 _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
-                transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle, 0f);
+                transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle + _car.CounterSteering, 0f);
             }
         }
 
