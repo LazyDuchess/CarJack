@@ -1,7 +1,9 @@
 #if PLUGIN
+using DG.Tweening;
 using Reptile;
 #endif
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace CarJack.Common
@@ -43,6 +45,8 @@ namespace CarJack.Common
         public bool Driving = false;
 
         private const float ControllerRotationDeadZone = 0.2f;
+        [NonSerialized]
+        public bool InputEnabled = true;
         [NonSerialized]
         public float ThrottleAxis = 0f;
         [NonSerialized]
@@ -179,6 +183,7 @@ namespace CarJack.Common
         public void Initialize()
         {
             Driving = false;
+            ResetLastSafeLocation();
         }
 
         private void PlaceAtLastSafeLocation()
@@ -280,29 +285,20 @@ namespace CarJack.Common
             }
 #endif
         }
+
         private void OnTriggerStay(Collider other)
         {
 #if PLUGIN
             if (other.gameObject.layer == Layers.TriggerDetectPlayer)
             {
                 var teleport = other.GetComponentInParent<Teleport>();
-                if (teleport != null)
+                if (teleport != null && InputEnabled)
                 {
-                    var transition = teleport.GetComponent<StageTransition>();
-                    if (transition == null)
-                    {
-                        if (teleport.automaticallyReturnPlayerToLastSafeLocation)
-                        {
-                            PlaceAtLastSafeLocation();
-                        }
-                        else if (teleport.teleportTo != null)
-                        {
-                            PlaceAt(teleport.teleportTo.position, teleport.teleportTo.rotation, teleport.giveSpeedAtSpawn);
-                        }
-                    }
+                    StartCoroutine(DoTeleport(teleport));
                 }
                 return;
             }
+
             if (other.CompareTag("MovingObject"))
             {
                 other.GetComponentInParent<MoveAlongPoints>().TriggerDetectLayer(9);
@@ -313,12 +309,26 @@ namespace CarJack.Common
 
         public void PlaceAt(Vector3 position, Quaternion rotation, bool keepSpeed = false)
         {
+            var oldRightSpeed = Vector3.Dot(transform.right, Rigidbody.velocity);
+            var oldUpSpeed = Vector3.Dot(transform.up, Rigidbody.velocity);
+            var oldForwardSpeed = Vector3.Dot(transform.forward, Rigidbody.velocity);
+
+            var oldAngularRightSpeed = Vector3.Dot(transform.right, Rigidbody.angularVelocity);
+            var oldAngularUpSpeed = Vector3.Dot(transform.up, Rigidbody.angularVelocity);
+            var oldAngularForwardSpeed = Vector3.Dot(transform.forward, Rigidbody.angularVelocity);
+
             transform.position = position;
             transform.rotation = rotation;
+
             if (!keepSpeed)
             {
                 Rigidbody.velocity = Vector3.zero;
                 Rigidbody.angularVelocity = Vector3.zero;
+            }
+            else
+            {
+                Rigidbody.velocity = (oldRightSpeed * transform.right) + (oldUpSpeed * transform.up) + (oldForwardSpeed * transform.forward);
+                Rigidbody.angularVelocity = (oldAngularRightSpeed * transform.right) + (oldAngularUpSpeed * transform.up) + (oldAngularForwardSpeed * transform.forward);
             }
         }
 
@@ -333,6 +343,48 @@ namespace CarJack.Common
             RollAxis = 0f;
             BrakeHeld = false;
         }
+
+        private IEnumerator DoTeleport(Teleport teleport)
+        {
+            var transition = teleport.GetComponent<StageTransition>();
+            if (transition == null)
+            {
+                DoForcedPause();
+                InputEnabled = false;
+#if PLUGIN
+                if (teleport.automaticallyReturnPlayerToLastSafeLocation)
+                {
+                    teleport.fadeToBlackDuration = teleport.fadeToBlackDurationDeathzone;
+                    teleport.blackDuration = teleport.blackDurationDeathzone;
+                    teleport.fadeOpenDuration = teleport.fadeOpenDurationDeathzone;
+                }
+                else
+                {
+                    teleport.fadeToBlackDuration = teleport.fadeToBlackDurationDoor;
+                    teleport.blackDuration = teleport.blackDurationDoor;
+                    teleport.fadeOpenDuration = teleport.fadeOpenDurationDoor;
+                }
+                var tween = Core.Instance.UIManager.effects.FadeToBlack(teleport.fadeToBlackDuration);
+                yield return tween.WaitForCompletion();
+                Core.Instance.UIManager.effects.fullScreenFade.gameObject.SetActive(true);
+                Core.Instance.UIManager.effects.fullScreenFade.color = EffectsUI.niceBlack;
+                yield return new WaitForSeconds(teleport.blackDuration);
+#endif
+                UndoForcedPause();
+                if (teleport.automaticallyReturnPlayerToLastSafeLocation)
+                {
+                    PlaceAtLastSafeLocation();
+
+                }
+                else if (teleport.teleportTo != null)
+                {
+                    PlaceAt(teleport.teleportTo.position, teleport.teleportTo.rotation, teleport.giveSpeedAtSpawn);
+                }
+                InputEnabled = true;
+                Core.Instance.UIManager.effects.FadeOpen(teleport.fadeOpenDuration);
+            }
+        }
+
 #if PLUGIN
         private float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
         {
@@ -349,6 +401,8 @@ namespace CarJack.Common
         private void PollInputs()
         {
             ResetInputs();
+            if (!InputEnabled) return;
+
             OnHandleInput?.Invoke();
 
             if (!Driving) return;
@@ -455,9 +509,23 @@ namespace CarJack.Common
             }
         }
 #endif
+        private bool _forcedPause = false;
+
+        private void DoForcedPause()
+        {
+            OnPause();
+            _forcedPause = true;
+        }
+
+        private void UndoForcedPause()
+        {
+            _forcedPause = false;
+            OnUnPause();
+        }
 
         private void OnPause()
         {
+            if (_forcedPause) return;
             _velocityBeforePause = Rigidbody.velocity;
             _angularVelocityBeforePause = Rigidbody.angularVelocity;
             Rigidbody.isKinematic = true;
@@ -465,6 +533,7 @@ namespace CarJack.Common
 
         private void OnUnPause()
         {
+            if (_forcedPause) return;
             Rigidbody.isKinematic = false;
             Rigidbody.velocity = _velocityBeforePause;
             Rigidbody.angularVelocity = _angularVelocityBeforePause;

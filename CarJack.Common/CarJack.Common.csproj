@@ -57,5 +57,13 @@
       <HintPath>$(ManagedPath)/Rewired_Core.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>$(ManagedPath)/DOTween.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedPath)/UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
 </Project>
