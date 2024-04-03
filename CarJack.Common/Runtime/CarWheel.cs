@@ -41,8 +41,6 @@ namespace CarJack.Common
         public float Slipping => _currentSlip;
         private float _currentSlip = 0f;
 
-        private const float AutoSteer = 0.1f;
-        private const float MinimumSpeedToAutoSteer = 0.5f;
         private const float WheelSpinSlip = 0.5f;
         private const float WheelSpinSlipThreshold = 5f;
         private const float MaxSlipTractionLoss = 0.9f;
@@ -218,11 +216,7 @@ namespace CarJack.Common
                 steerAngle *= curve;
 
                 var targetSteerAngle = steerAngle * steerAxis;
-                var velForward = wheelVelocityWithoutUp.normalized;
-                if (Vector3.Dot(wheelVelocity, transform.forward) > 0f && wheelSidewaysVelocity > MinimumSpeedToAutoSteer && Grounded)
-                {
-                    targetSteerAngle += -Vector3.SignedAngle(velForward, _car.transform.forward, transform.up) * AutoSteer;
-                }
+
                 _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
                 transform.localRotation = Quaternion.Euler(0f, _currentSteerAngle, 0f);
             }
