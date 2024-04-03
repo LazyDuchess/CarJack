@@ -179,6 +179,7 @@ namespace CarJack.Common
         public void Initialize()
         {
             Driving = false;
+            ResetLastSafeLocation();
         }
 
         private void PlaceAtLastSafeLocation()
