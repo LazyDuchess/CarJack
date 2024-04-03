@@ -80,7 +80,8 @@ namespace CarJack.Common
                     if (Mathf.Abs(offset) > MaximumSuspensionOffsetForRest)
                         resting = false;
                 }
-                _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
+                if (!_car.Still)
+                    _car.Rigidbody.AddForceAtPosition(transform.up * force, transform.position);
             }
 
             if (Mesh != null)
