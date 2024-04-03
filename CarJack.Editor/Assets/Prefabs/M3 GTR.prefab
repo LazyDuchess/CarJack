@@ -178,7 +178,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Mesh: {fileID: 593446163598965}
   MeshRadius: 0.42
-  SteerAngle: 30
+  SteerAngle: 32
   SteerSpeed: 20
   ReverseSpeed: 420
   Speed: 660
@@ -325,7 +325,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Mesh: {fileID: 4109881577449000315}
   MeshRadius: 0.42
-  SteerAngle: 30
+  SteerAngle: 32
   SteerSpeed: 20
   ReverseSpeed: 420
   Speed: 660
@@ -487,7 +487,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Mesh: {fileID: 8991798015665658820}
   MeshRadius: 0.42
-  SteerAngle: 30
+  SteerAngle: 32
   SteerSpeed: 20
   ReverseSpeed: 420
   Speed: 660
@@ -551,7 +551,7 @@ MonoBehaviour:
   RotationMultiplier: 100
   Mesh: {fileID: 8316634982428060749}
   MeshRadius: 0.42
-  SteerAngle: 30
+  SteerAngle: 32
   SteerSpeed: 20
   ReverseSpeed: 420
   Speed: 660
@@ -635,6 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.m3gtr
+  CounterSteerMultiplier: 0
   SlipMultiplier: 0.8
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
@@ -677,7 +678,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   ReverseCurveMax: 15
   BrakeForce: 1000
-  HandBrakeForce: 500
+  HandBrakeForce: 700
   SteerCurve:
     serializedVersion: 2
     m_Curve:
@@ -707,31 +708,31 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0015505742
+      time: -0.0006922673
       value: 0.9996276
-      inSlope: 1.5945477
-      outSlope: 1.5945477
+      inSlope: 0.06522362
+      outSlope: 0.06522362
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.17311466
+      outWeight: 0.11092569
     - serializedVersion: 3
-      time: 0.16482222
-      value: 0.7473398
-      inSlope: -2.5373151
-      outSlope: -2.5373151
+      time: 0.27106035
+      value: 0.5699224
+      inSlope: -2.0615873
+      outSlope: -2.0615873
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.14515138
+      inWeight: 0.05689013
       outWeight: 0.042142514
     - serializedVersion: 3
-      time: 1.0008614
+      time: 0.9991455
       value: 0.00000021699816
-      inSlope: -0.12190066
-      outSlope: -0.12190066
+      inSlope: -0.36502627
+      outSlope: -0.36502627
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.05037185
+      inWeight: 0.08382057
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -803,7 +804,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8275566447246873223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.27899998, z: 0}
+  m_LocalPosition: {x: 0, y: 0.351, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
