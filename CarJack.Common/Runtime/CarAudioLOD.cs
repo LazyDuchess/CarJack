@@ -36,8 +36,9 @@ namespace CarJack.Common.Runtime
 
         private void CoreUpdate()
         {
+            var carCamera = CarCamera.Instance;
 
-            if (_car.Driving)
+            if (carCamera != null && carCamera.Target == _car)
             {
                 SetActive(true);
                 return;
