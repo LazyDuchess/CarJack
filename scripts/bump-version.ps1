@@ -81,6 +81,12 @@ $manifest = Get-Content $manifestPath -raw | ConvertFrom-Json
 $manifest.version_number = $newVersion
 $manifest | ConvertTo-Json -depth 32| set-content $manifestPath
 
+$packagePath = "CarJack.Common/package.json"
+
+$package = Get-Content $packagePath -raw | ConvertFrom-Json
+$package.version = $newVersion
+$package | ConvertTo-Json -depth 32| set-content $packagePath
+
 Write-Host "Bumped all versions!"
 
 if($nogit){
@@ -91,6 +97,7 @@ Write-Host "Making Git Tag"
 
 git add $csprojPath
 git add $manifestPath
+git add $packagePath
 
 git commit -m "v$newVersion"
 git tag $newVersion
