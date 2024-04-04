@@ -300,7 +300,7 @@ namespace CarJack.Common
             if (other.gameObject.layer == Layers.TriggerDetectPlayer)
             {
                 var teleport = other.GetComponentInParent<Teleport>();
-                if (teleport != null && InputEnabled)
+                if (teleport != null && InputEnabled && InCar)
                 {
                     StartCoroutine(DoTeleport(teleport));
                 }

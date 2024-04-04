@@ -173,9 +173,12 @@ namespace CarJack.SlopCrew
                 {
                     interpolatedPos = car.LastPacket.Position;
                     interpolatedRot = car.LastPacket.Rotation;
+                    car.Car.transform.position = interpolatedPos;
+                    car.Car.transform.rotation = interpolatedRot;
                 }
-                car.Car.Rigidbody.MovePosition(interpolatedPos);
-                car.Car.Rigidbody.MoveRotation(interpolatedRot);
+                else
+                    car.Car.Rigidbody.MovePosition(interpolatedPos);
+                    car.Car.Rigidbody.MoveRotation(interpolatedRot);
             }
         }
 
