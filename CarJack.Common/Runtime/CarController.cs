@@ -88,6 +88,7 @@ namespace CarJack.Common
             car.InCar = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff(false);
+            player.StopHoldSpraycan();
             player.characterVisual.SetPhone(false);
             car.GroundMask = player.motor.groundDetection.groundMask;
             player.DisablePlayer();
@@ -116,6 +117,7 @@ namespace CarJack.Common
             car.InCar = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff(false);
+            player.StopHoldSpraycan();
             player.characterVisual.SetPhone(false);
             car.GroundMask = player.motor.groundDetection.groundMask;
             player.DisablePlayer();
