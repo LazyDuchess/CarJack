@@ -19,6 +19,7 @@ Below are the controls, their default bindings for both Keyboard + Mouse and Con
 | Leave Car   | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
 | Look Behind | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
 | Horn        | E                 | Right Bumper  | Spray            | Spray                   |
+| Lock/Unlock Car Doors       | Right Arrow                | D-Pad Right  | Phone right            | Phone right                   |
 
 ### Air Control
 On Controller, the left stick lets you adjust the pitch and yaw of your vehicle. Holding handbrake will let you adjust the roll of your car rather than the yaw.
