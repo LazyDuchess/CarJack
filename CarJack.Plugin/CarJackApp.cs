@@ -43,9 +43,9 @@ namespace CarJack.Plugin
             UpdateDoorsLockedLabel();
         }
 
-        public override void OnAppEnable()
+        public override void OnAppUpdate()
         {
-            base.OnAppEnable();
+            base.OnAppUpdate();
             UpdateDoorsLockedLabel();
         }
 
