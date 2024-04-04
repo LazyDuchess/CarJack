@@ -12,27 +12,19 @@ using UnityEngine;
 
 namespace CarJack.Common
 {
-    public class CarDriver : MonoBehaviour
+    public abstract class CarSeat : MonoBehaviour
     {
-        public int HonkLayerIndex = -1;
-        public int ReverseLayerIndex = -1;
-        public float ReverseAnimationLerp = 10f;
-        public float HonkAnimationLerp = 20f;
-        public float SteerAnimationLerp = 5f;
         public RuntimeAnimatorController controller;
-        private DrivableCar _car;
-        private float _currentSteer = 0.5f;
-        private float _currentHonk = 0f;
-        private float _currentReverse = 0f;
+        protected DrivableCar Car;
         private float _blinkTimer = 0f;
         private const float BlinkDuration = 0.1f;
 #if PLUGIN
-        private Player _player;
+        protected Player Player;
         private Characters _cachedCharacter;
 #endif
         private void Awake()
         {
-            _car = GetComponentInParent<DrivableCar>();
+            Car = GetComponentInParent<DrivableCar>();
             ResetBlinkTimer();
         }
 
@@ -42,20 +34,27 @@ namespace CarJack.Common
         }
 
 #if PLUGIN
-        private CharacterVisual _currentVisual;
-        public void PutInCar(Player player)
+        protected CharacterVisual CurrentVisual;
+        public void PutInSeat(Player player)
         {
             _cachedCharacter = player.character;
-            _player = player;
-            _currentSteer = 0.5f;
-            _currentVisual = VisualFromPlayer(player, controller);
-            var animator = _currentVisual.GetComponentInChildren<Animator>();
+            Player = player;
+            CurrentVisual = VisualFromPlayer(player, controller);
+            var animator = CurrentVisual.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = controller;
-            _currentVisual.transform.SetParent(transform);
-            _currentVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            CurrentVisual.transform.SetParent(transform);
+            CurrentVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+        public void ExitSeat()
+        {
+            Player = null;
+            if (CurrentVisual != null)
+            {
+                StopAllCoroutines();
+                Destroy(CurrentVisual.gameObject);
+            }
         }
 
-        // Copy the players visuals for driving.
         private CharacterVisual VisualFromPlayer(Player player, RuntimeAnimatorController controller)
         {
             var visualObject = Instantiate(player.characterVisual.gameObject);
@@ -77,7 +76,7 @@ namespace CarJack.Common
         private void LateUpdate()
         {
             if (Core.Instance.IsCorePaused) return;
-            if (!_currentVisual.canBlink) return;
+            if (!CurrentVisual.canBlink) return;
             _blinkTimer -= Time.deltaTime;
             if (_blinkTimer <= 0f)
             {
@@ -88,9 +87,9 @@ namespace CarJack.Common
 
         private IEnumerator DoBlink()
         {
-            CloseEyes(_currentVisual);
+            CloseEyes(CurrentVisual);
             yield return new WaitForSeconds(BlinkDuration);
-            OpenEyes(_currentVisual);
+            OpenEyes(CurrentVisual);
         }
 
         private void CloseEyes(CharacterVisual visual)
@@ -107,47 +106,18 @@ namespace CarJack.Common
             visual.mainRenderer.SetBlendShapeWeight(0, 0f);
         }
 
-        public void ExitCar()
-        {
-            _player = null;
-            if (_currentVisual != null)
-            {
-                StopAllCoroutines();
-                Destroy(_currentVisual.gameObject);
-            }
-        }
-
-        private void Update()
+        protected virtual void Update()
         {
             if (Core.Instance.IsCorePaused) return;
-            if (_player != null && _currentVisual != null)
+            if (Player != null && CurrentVisual != null)
             {
-                if (_player.character != _cachedCharacter)
+                if (Player.character != _cachedCharacter)
                 {
-                    var player = _player;
-                    ExitCar();
-                    PutInCar(player);
+                    var player = Player;
+                    ExitSeat();
+                    PutInSeat(player);
                 }
             }
-            if (_currentVisual == null) return;
-            var targetSteer = (_car.SteerAxis*0.5f) + 0.5f;
-            _currentSteer = Mathf.Lerp(_currentSteer, targetSteer, SteerAnimationLerp * Time.deltaTime);
-            _currentVisual.anim.SetFloat("Steer", _currentSteer);
-            var targetHonk = 0f;
-            var targetReverse = 0f;
-            var fwVelocity = Vector3.Dot(_car.Rigidbody.velocity, _car.transform.forward);
-            if (fwVelocity <= -1f && _car.ThrottleAxis < 0f && _car.Grounded)
-            {
-                targetReverse = 1f;
-            }
-            if (_car.HornHeld)
-                targetHonk = 1f;
-            _currentHonk = Mathf.Lerp(_currentHonk, targetHonk, HonkAnimationLerp * Time.deltaTime);
-            _currentReverse = Mathf.Lerp(_currentReverse, targetReverse, ReverseAnimationLerp * Time.deltaTime);
-            if (HonkLayerIndex != -1)
-                _currentVisual.anim.SetLayerWeight(HonkLayerIndex, _currentHonk);
-            if (ReverseLayerIndex != -1)
-                _currentVisual.anim.SetLayerWeight(ReverseLayerIndex, _currentReverse);
         }
 #endif
     }

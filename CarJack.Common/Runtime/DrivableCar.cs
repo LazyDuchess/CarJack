@@ -76,7 +76,7 @@ namespace CarJack.Common
 
         private float _crashAudioCooldown = 0f;
 
-        private CarDriver[] _drivers;
+        private CarDriverSeat _driverSeat;
 
         public Action OnHandleInput;
 
@@ -471,7 +471,7 @@ namespace CarJack.Common
 
         private void Awake()
         {
-            _drivers = Chassis.GetComponentsInChildren<CarDriver>();
+            _driverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
             _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
             _oneShotAudioSource = Chassis.GetComponentInChildren<OneShotAudioSource>();
             Rigidbody = Chassis.GetComponent<Rigidbody>();
@@ -496,18 +496,14 @@ namespace CarJack.Common
 #if PLUGIN
         public void EnterCar(Player player)
         {
-            foreach (var driver in _drivers)
-            {
-                driver.PutInCar(player);
-            }
+            if (_driverSeat == null) return;
+            _driverSeat.PutInSeat(player);
         }
 
         public void ExitCar()
         {
-            foreach (var driver in _drivers)
-            {
-                driver.ExitCar();
-            }
+            if (_driverSeat == null) return;
+            _driverSeat.ExitSeat();
         }
 #endif
         private bool _forcedPause = false;
