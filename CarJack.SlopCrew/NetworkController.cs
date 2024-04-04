@@ -246,6 +246,7 @@ namespace CarJack.SlopCrew
                                 }
 
                                 player.characterVisual.gameObject.SetActive(false);
+                                player.CompletelyStop();
                                 player.DisablePlayer();
                                 var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
                                 if (playersPolo != null)
@@ -299,6 +300,7 @@ namespace CarJack.SlopCrew
                         {
                             player.characterVisual.gameObject.SetActive(false);
                             player.transform.position = currentCar.transform.position;
+                            player.CompletelyStop();
                             player.DisablePlayer();
                             var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
                             if (playersPolo != null)
