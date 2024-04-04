@@ -414,10 +414,10 @@ namespace CarJack.Common
             if (!InputEnabled) return;
 
             OnHandleInput?.Invoke();
-
+#if PLUGIN
             var player = WorldHandler.instance.GetCurrentPlayer();
-
             if (player.IsBusyWithSequence() && InCar) return;
+#endif
 
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
@@ -578,12 +578,14 @@ namespace CarJack.Common
             _grounded = false;
             _steep = false;
             PollInputs();
+#if PLUGIN
             if (LockDoorsButtonNew)
             {
                 PlayerData.Instance.DoorsLocked = !PlayerData.Instance.DoorsLocked;
                 PlayerData.Instance.Save();
                 Core.Instance.UIManager.ShowNotification("Car doors are now <color=yellow>"+(PlayerData.Instance.DoorsLocked ? "Locked" : "Unlocked")+"</color>");
             }
+#endif
             UpdateCounterSteer();
             var wheelsGrounded = 0;
             foreach (var wheel in Wheels)

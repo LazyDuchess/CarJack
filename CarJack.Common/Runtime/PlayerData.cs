@@ -28,7 +28,7 @@ namespace CarJack.Common
         {
             Instance = this;
         }
-
+#if PLUGIN
         public void LoadOrCreate()
         {
             try
@@ -53,6 +53,7 @@ namespace CarJack.Common
         {
             return Path.Combine(BepInEx.Paths.ConfigPath, "CarJack", "playerdata.json");
         }
+#endif
 
         [Serializable]
         public class SerializedData
