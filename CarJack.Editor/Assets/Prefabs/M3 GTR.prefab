@@ -187,8 +187,8 @@ MonoBehaviour:
   Damping: 200
   Strength: 2500
   StartLength: 0
-  MaxDistance: 0.45
-  RestDistance: 0.5
+  MaxDistance: 0.57
+  RestDistance: 0.54
   Mass: 5
   Traction: 0.7
   CurrentSpeed: 0
@@ -334,8 +334,8 @@ MonoBehaviour:
   Damping: 200
   Strength: 2500
   StartLength: 0
-  MaxDistance: 0.45
-  RestDistance: 0.5
+  MaxDistance: 0.57
+  RestDistance: 0.54
   Mass: 5
   Traction: 0.7
   CurrentSpeed: 0
@@ -496,8 +496,8 @@ MonoBehaviour:
   Damping: 200
   Strength: 2500
   StartLength: 0
-  MaxDistance: 0.45
-  RestDistance: 0.5
+  MaxDistance: 0.57
+  RestDistance: 0.54
   Mass: 5
   Traction: 0.7
   CurrentSpeed: 0
@@ -560,8 +560,8 @@ MonoBehaviour:
   Damping: 200
   Strength: 2500
   StartLength: 0
-  MaxDistance: 0.45
-  RestDistance: 0.5
+  MaxDistance: 0.57
+  RestDistance: 0.54
   Mass: 5
   Traction: 0.7
   CurrentSpeed: 0
