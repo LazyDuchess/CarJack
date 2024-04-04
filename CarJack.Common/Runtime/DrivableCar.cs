@@ -147,6 +147,7 @@ namespace CarJack.Common
             //if (!Grounded) return 0f;
             var sidewaysVelocity = Vector3.Dot(Rigidbody.velocity, transform.right);
             var backwards = Vector3.Dot(transform.forward, Rigidbody.velocity.normalized) < 0f;
+            if (backwards) return 0f;
             var angle = Vector3.Angle(backwards ? -transform.forward : transform.forward, Rigidbody.velocity.normalized);
             if (Mathf.Abs(sidewaysVelocity) < MinimumSidewaysVelocityForDrift) return 0f;
             if (angle < DriftMinimumAngle) return 0f;

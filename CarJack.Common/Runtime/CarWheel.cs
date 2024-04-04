@@ -94,8 +94,7 @@ namespace CarJack.Common
                 var traction = Traction;
                 var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
                 var wheelVelocityWithoutUp = (wheelVelocity - Vector3.Project(wheelVelocity, transform.up)).magnitude;
-                var tractionT = Mathf.Min(wheelVelocityWithoutUp, _car.TractionCurveMax) / _car.TractionCurveMax;
-                var curve = _car.TractionCurve.Evaluate(tractionT);
+                var curve = Evaluate(_car.TractionCurve, wheelVelocityWithoutUp, _car.TractionCurveMax);
                 traction *= curve;
                 traction *= (-_currentSlip) +1f;
 
@@ -107,6 +106,13 @@ namespace CarJack.Common
                 _car.Rigidbody.AddForceAtPosition(transform.right * Mass * acceleration, transform.position);
             }
             DoInput(tooSteep);
+        }
+
+        private float Evaluate(AnimationCurve curve, float value, float maxValue)
+        {
+            value = Mathf.Abs(value);
+            var t = Mathf.Min(value, maxValue) / maxValue;
+            return curve.Evaluate(t);
         }
 
         private void CalculateSlip()
@@ -211,8 +217,7 @@ namespace CarJack.Common
             if (Steer)
             {
                 var steerAngle = SteerAngle;
-                var steerT = Mathf.Min(Mathf.Abs(wheelForwardVelocity), _car.SteerCurveMax) / _car.SteerCurveMax;
-                var curve = _car.SteerCurve.Evaluate(steerT);
+                var curve = Evaluate(_car.SteerCurve, wheelForwardVelocity, _car.SteerCurveMax);
                 steerAngle *= curve;
 
                 var targetSteerAngle = steerAngle * steerAxis;
