@@ -411,14 +411,14 @@ namespace CarJack.Common
             if (!InputEnabled) return;
 
             OnHandleInput?.Invoke();
-
+#if PLUGIN
             var gameInput = Core.Instance.GameInput;
 
             if (InCar)
             {
                 GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
             }
-
+#endif
             if (!Driving) return;
 #if PLUGIN
             
@@ -662,6 +662,10 @@ namespace CarJack.Common
         private void OnDestroy()
         {
 #if PLUGIN
+            if (CarController.Instance.CurrentCar == this)
+            {
+                CarController.Instance.ExitCar();
+            }
             Core.OnCoreUpdatePaused -= OnPause;
             Core.OnCoreUpdateUnPaused -= OnUnPause;
 #endif

@@ -10,6 +10,7 @@ namespace CarJack.SlopCrew
 {
     public class PlayerCarPacket
     {
+        private const byte Version = 1;
         public const string GUID = "CarJack-PlayerCar";
         public string CarInternalName = "";
         public Vector3 Position = Vector3.zero;
@@ -25,10 +26,13 @@ namespace CarJack.SlopCrew
         public float YawAxis = 0f;
         public float RollAxis = 0f;
 
+        public int PassengerSeat = -1;
+        public uint DriverPlayerID = uint.MaxValue;
+
         public void Serialize(BinaryWriter writer)
         {
             //version
-            writer.Write((byte)0);
+            writer.Write(Version);
 
             writer.Write(CarInternalName);
 
@@ -57,6 +61,9 @@ namespace CarJack.SlopCrew
             writer.Write(PitchAxis);
             writer.Write(YawAxis);
             writer.Write(RollAxis);
+
+            writer.Write(PassengerSeat);
+            writer.Write(DriverPlayerID);
         }
 
         public void Deserialize(BinaryReader reader)
@@ -95,6 +102,12 @@ namespace CarJack.SlopCrew
             PitchAxis = reader.ReadSingle();
             YawAxis = reader.ReadSingle();
             RollAxis = reader.ReadSingle();
+
+            if (version >= 1)
+            {
+                PassengerSeat = reader.ReadInt32();
+                DriverPlayerID = reader.ReadUInt32();
+            }
 
             Position = new Vector3(posX, posY, posZ);
             Rotation = new Quaternion(rotX, rotY, rotZ, rotW);

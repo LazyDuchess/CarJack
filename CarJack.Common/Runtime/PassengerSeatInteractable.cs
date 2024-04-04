@@ -20,7 +20,7 @@ namespace CarJack.Common
         }
         public override bool Test(Player player)
         {
-            return _seat.Player == null;
+            return _seat.Player == null && _seat.Car.DoorsLocked == false;
         }
 
         public override void Interact(Player player)

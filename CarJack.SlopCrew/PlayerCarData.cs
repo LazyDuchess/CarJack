@@ -15,5 +15,6 @@ namespace CarJack.SlopCrew
         public PlayerCarPacket LastPacket;
         // SlopCrew april fools stuff.
         public GameObject Polo;
+        public CarSeat Seat;
     }
 }

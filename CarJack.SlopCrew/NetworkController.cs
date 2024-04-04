@@ -81,6 +81,15 @@ namespace CarJack.SlopCrew
             return false;
         }
 
+        public DrivableCar GetPlayersCar(uint playerId)
+        {
+            if (_api.PlayerIDExists(playerId) == false)
+                return CarController.Instance.CurrentCar;
+            if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
+                return null;
+            return playerCarData.Car;
+        }
+
         private void FixedUpdate()
         {
             if (!_api.Connected) return;
@@ -92,6 +101,16 @@ namespace CarJack.SlopCrew
             }
         }
 
+        public uint GetDriver(DrivableCar car)
+        {
+            foreach(var playerCar in PlayerCars)
+            {
+                if (playerCar.Car == car)
+                    return playerCar.PlayerID;
+            }
+            return uint.MaxValue;
+        }
+
         private void Tick()
         {
             var packet = new PlayerCarPacket();
@@ -99,7 +118,8 @@ namespace CarJack.SlopCrew
             {
                 var car = CarController.Instance.CurrentCar;
 
-                packet.CarInternalName = car.InternalName;
+                if (CarController.Instance.CurrentSeat == null)
+                    packet.CarInternalName = car.InternalName;
 
                 packet.Position = car.Rigidbody.position;
                 packet.Rotation = car.Rigidbody.rotation;
@@ -110,6 +130,12 @@ namespace CarJack.SlopCrew
                 packet.ThrottleAxis = car.ThrottleAxis;
                 packet.SteerAxis = car.SteerAxis;
                 packet.HornHeld = car.HornHeld;
+
+                if (CarController.Instance.CurrentSeat != null)
+                {
+                    packet.PassengerSeat = CarController.Instance.CurrentSeat.SeatIndex;
+                    packet.DriverPlayerID = GetDriver(car);
+                }
             }
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
@@ -139,6 +165,7 @@ namespace CarJack.SlopCrew
             foreach (var car in PlayerCars)
             {
                 if (car.Car == null) continue;
+                if (car.Seat != null) continue;
                 var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);
                 var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.LastPacket.Rotation, Lerp * Time.deltaTime);
                 var dist = (car.Car.Rigidbody.position - car.LastPacket.Position).magnitude;
@@ -155,6 +182,9 @@ namespace CarJack.SlopCrew
         private bool TickCar(PlayerCarData playerCarData)
         {
             var keep = true;
+            if (playerCarData.LastPacket.PassengerSeat != -1)
+                playerCarData.LastPacket.CarInternalName = "carjack.bluecar";
+
             if (_api.PlayerIDExists(playerCarData.PlayerID) == false)
             {
                 playerCarData.LastPacket.CarInternalName = "";
@@ -170,7 +200,14 @@ namespace CarJack.SlopCrew
                 }
                 if (playerCarData.Car != null)
                 {
-                    Destroy(playerCarData.Car.gameObject);
+                    if (playerCarData.Seat == null)
+                        Destroy(playerCarData.Car.gameObject);
+                    else
+                    {
+                        if (playerCarData.Seat.Player == player)
+                            playerCarData.Seat.ExitSeat();
+                    }
+                    playerCarData.Seat = null;
                     playerCarData.Car = null;
                 }
                 if (playerCarData.Polo != null)
@@ -185,58 +222,102 @@ namespace CarJack.SlopCrew
                     car = result.GetComponent<DrivableCar>().InternalName;
 
                 var currentCar = playerCarData.Car;
-                if (currentCar == null || currentCar.InternalName != car)
-                {
-                    
-                    if (currentCar != null)
-                    {
-                        Destroy(currentCar.gameObject);
-                    }
-                    var carGO = Instantiate(CarDatabase.CarByInternalName[car]);
-                    carGO.transform.position = playerCarData.LastPacket.Position;
-                    carGO.transform.rotation = playerCarData.LastPacket.Rotation;
-                    currentCar = carGO.GetComponent<DrivableCar>();
-                    currentCar.Initialize();
-                    currentCar.EnterCar(player);
-                    var playerId = playerCarData.PlayerID;
-                    currentCar.OnHandleInput += () =>
-                    {
-                        if (_playerCarsById.TryGetValue(playerId, out var result)){
-                            currentCar.ThrottleAxis = result.LastPacket.ThrottleAxis;
-                            currentCar.SteerAxis = result.LastPacket.SteerAxis;
-                            currentCar.HornHeld = result.LastPacket.HornHeld;
-                        }
-                    };
-                }
 
-                if (currentCar != null)
+                if (playerCarData.LastPacket.PassengerSeat != -1)
                 {
-                    if (player != null)
+                    var pasCar = GetPlayersCar(playerCarData.LastPacket.DriverPlayerID);
+                    currentCar = pasCar;
+                    if (pasCar != null)
                     {
-                        player.characterVisual.gameObject.SetActive(false);
-                        player.transform.position = currentCar.transform.position;
-                        player.DisablePlayer();
-                        var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
-                        if (playersPolo != null)
+                        var targetSeat = pasCar.GetPassengerSeat(playerCarData.LastPacket.PassengerSeat);
+                        if (targetSeat != null)
                         {
-                            playerCarData.Polo = playersPolo.gameObject;
-                            playersPolo.gameObject.SetActive(false);
+                            player.transform.position = targetSeat.transform.position;
+                            if (targetSeat != playerCarData.Seat)
+                            {
+                                var oldSeat = playerCarData.Seat;
+                                if (oldSeat != null)
+                                {
+                                    if (oldSeat.Player == player)
+                                        oldSeat.ExitSeat();
+                                }
+
+                                player.characterVisual.gameObject.SetActive(false);
+                                player.DisablePlayer();
+                                var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
+                                if (playersPolo != null)
+                                {
+                                    playerCarData.Polo = playersPolo.gameObject;
+                                    playersPolo.gameObject.SetActive(false);
+                                }
+
+                                playerCarData.Seat = targetSeat;
+                                targetSeat.PutInSeat(player);
+                            }
                         }
                     }
-                    currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
-                    currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
                 }
                 else
                 {
-                    if (player != null)
+                    if (playerCarData.Seat != null)
                     {
-                        player.characterVisual.gameObject.SetActive(true);
-                        player.EnablePlayer();
-                        if (playerCarData.Polo != null)
-                            playerCarData.Polo.SetActive(true);
+                        if (playerCarData.Seat.Player == player)
+                            playerCarData.Seat.ExitSeat();
+                        playerCarData.Seat = null;
+                    }
+                    if (currentCar == null || currentCar.InternalName != car)
+                    {
+
+                        if (currentCar != null)
+                        {
+                            Destroy(currentCar.gameObject);
+                        }
+                        var carGO = Instantiate(CarDatabase.CarByInternalName[car]);
+                        carGO.transform.position = playerCarData.LastPacket.Position;
+                        carGO.transform.rotation = playerCarData.LastPacket.Rotation;
+                        currentCar = carGO.GetComponent<DrivableCar>();
+                        currentCar.Initialize();
+                        currentCar.EnterCar(player);
+                        var playerId = playerCarData.PlayerID;
+                        currentCar.OnHandleInput += () =>
+                        {
+                            if (_playerCarsById.TryGetValue(playerId, out var result))
+                            {
+                                currentCar.ThrottleAxis = result.LastPacket.ThrottleAxis;
+                                currentCar.SteerAxis = result.LastPacket.SteerAxis;
+                                currentCar.HornHeld = result.LastPacket.HornHeld;
+                            }
+                        };
+                    }
+
+                    if (currentCar != null)
+                    {
+                        if (player != null)
+                        {
+                            player.characterVisual.gameObject.SetActive(false);
+                            player.transform.position = currentCar.transform.position;
+                            player.DisablePlayer();
+                            var playersPolo = player.transform.Find("Mascot_Polo_street(Clone)");
+                            if (playersPolo != null)
+                            {
+                                playerCarData.Polo = playersPolo.gameObject;
+                                playersPolo.gameObject.SetActive(false);
+                            }
+                        }
+                        currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
+                        currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
+                    }
+                    else
+                    {
+                        if (player != null)
+                        {
+                            player.characterVisual.gameObject.SetActive(true);
+                            player.EnablePlayer();
+                            if (playerCarData.Polo != null)
+                                playerCarData.Polo.SetActive(true);
+                        }
                     }
                 }
-
                 playerCarData.Car = currentCar;
             }
             return keep;

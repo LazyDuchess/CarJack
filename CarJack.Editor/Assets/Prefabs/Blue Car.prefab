@@ -45,6 +45,152 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3936474056854775037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8558458145219517365}
+  - component: {fileID: 8999860582932992599}
+  - component: {fileID: 7507417177752766808}
+  - component: {fileID: 2212960591451537403}
+  m_Layer: 19
+  m_Name: trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8558458145219517365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936474056854775037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5554, y: 0.768, z: 0}
+  m_LocalScale: {x: 1.6750522, y: 2.536, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8871160973978876583}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8999860582932992599
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936474056854775037}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7507417177752766808
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936474056854775037}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7fce6da8d6974d94990dc404f1b62c80, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2212960591451537403
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936474056854775037}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7815867561824333199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8871160973978876583}
+  - component: {fileID: 401812395120959168}
+  m_Layer: 0
+  m_Name: Front Seat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8871160973978876583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815867561824333199}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.49, y: 0, z: -0.472}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8558458145219517365}
+  m_Father: {fileID: 8275566447239126142}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401812395120959168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7815867561824333199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9b80d8204b5f943bee84c17eb75726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerVisible: 0
+  controller: {fileID: 0}
+  Car: {fileID: 0}
+  SeatIndex: 0
 --- !u!1 &8275566447202283773
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +327,7 @@ Transform:
   - {fileID: 8275566447246873220}
   - {fileID: 653122684}
   - {fileID: 1077094333957414405}
+  - {fileID: 8871160973978876583}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -197,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.bluecar
+  CounterSteerMultiplier: 0.1
   SlipMultiplier: 0.75
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
@@ -337,21 +485,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 10494993
   CenterOfMass: {fileID: 8275566447246873220}
-  Rigidbody: {fileID: 0}
-  Wheels:
-  - {fileID: 8275566447730040844}
   Chassis: {fileID: 8275566447239126080}
-  Driving: 0
-  ThrottleAxis: 0
-  SteerAxis: 0
-  HornHeld: 0
-  GetOutOfCarButtonNew: 0
-  PitchAxis: 0
-  YawAxis: 0
-  RollAxis: 0
-  BrakeHeld: 0
+  DriverSeat: {fileID: 0}
   ExtraDistance: 0
   ExtraHeight: 0
+  ExtraPitch: 0
 --- !u!54 &8275566447239126143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -447,7 +585,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537846231092239}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -512,7 +649,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537845225188231}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -577,7 +713,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537846972395659}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -642,7 +777,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537845597390025}
   MeshRadius: 0.4
   SteerAngle: 30

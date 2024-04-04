@@ -14,6 +14,7 @@ namespace CarJack.Common
 {
     public abstract class CarSeat : MonoBehaviour
     {
+        public bool PlayerVisible = true;
         public RuntimeAnimatorController controller;
         public DrivableCar Car;
         private float _blinkTimer = 0f;
@@ -39,11 +40,14 @@ namespace CarJack.Common
         {
             _cachedCharacter = player.character;
             Player = player;
-            CurrentVisual = VisualFromPlayer(player, controller);
-            var animator = CurrentVisual.GetComponentInChildren<Animator>();
-            animator.runtimeAnimatorController = controller;
-            CurrentVisual.transform.SetParent(transform);
-            CurrentVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            if (PlayerVisible)
+            {
+                CurrentVisual = VisualFromPlayer(player, controller);
+                var animator = CurrentVisual.GetComponentInChildren<Animator>();
+                animator.runtimeAnimatorController = controller;
+                CurrentVisual.transform.SetParent(transform);
+                CurrentVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
         }
         public void ExitSeat()
         {

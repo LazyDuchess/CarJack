@@ -39,6 +39,13 @@ namespace CarJack.Plugin
 
                 car.Initialize();
             }
+
+            if (Input.GetKeyDown(KeyCode.F10))
+            {
+                var currentCar = CarController.Instance.CurrentCar;
+                if (currentCar == null) return;
+                Destroy(currentCar.gameObject);
+            }
         }
     }
 }

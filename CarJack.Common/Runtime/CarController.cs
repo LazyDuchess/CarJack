@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Video;
+
 #if PLUGIN
 using Reptile;
 #endif
@@ -17,7 +19,7 @@ namespace CarJack.Common
         public static CarController Instance { get; private set; }
         public static ICarConfig Config;
         public DrivableCar CurrentCar;
-        public CarSeat CurrentSeat;
+        public CarPassengerSeat CurrentSeat;
         public static void Initialize(ICarConfig config)
         {
             Config = config;
@@ -56,7 +58,10 @@ namespace CarJack.Common
             if (CurrentCar != null)
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
-                player.transform.position = CurrentCar.transform.position;
+                if (CurrentSeat != null)
+                    player.transform.position = CurrentSeat.transform.position;
+                else
+                    player.transform.position = CurrentCar.transform.position;
                 var flatForward = (CurrentCar.transform.forward - Vector3.Project(CurrentCar.transform.forward, Vector3.up)).normalized;
                 player.SetRotHard(Quaternion.LookRotation(flatForward, Vector3.up));
             }
@@ -94,7 +99,7 @@ namespace CarJack.Common
             if (cameraComponent == null)
                 cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.SetTarget(car);
-            
+            player.FlushInput();
             seat.PutInSeat(player);
         }
 
@@ -122,6 +127,7 @@ namespace CarJack.Common
             if (cameraComponent == null)
                 cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.SetTarget(car);
+            player.FlushInput();
             car.EnterCar(player);
         }
 
@@ -129,10 +135,12 @@ namespace CarJack.Common
         {
             var car = CurrentCar;
             if (CurrentCar == null) return;
+            var wasPassenger = false;
             if (CurrentCar.Driving)
                 CurrentCar.ExitCar();
             else
             {
+                wasPassenger = true;
                 CurrentSeat.ExitSeat();
             }
             CurrentCar.Driving = false;
@@ -148,8 +156,8 @@ namespace CarJack.Common
             player.gameObject.SetActive(true);
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
-            // maybe delete this some other time? implement limits for cars laying around the map?
-            Destroy(car.gameObject);
+            if (!wasPassenger)
+                Destroy(car.gameObject);
         }
 #endif
     }
