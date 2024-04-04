@@ -13,25 +13,6 @@ namespace CarJack.Common
     public class PassengerSeatInteractable : CustomInteractable
     {
         private CarPassengerSeat _seat;
-        private void Awake()
-        {
-            Core.OnAlwaysUpdate += CoreOnAlwaysUpdate;
-        }
-
-        private void CoreOnAlwaysUpdate()
-        {
-            var player = WorldHandler.instance.GetCurrentPlayer();
-            if (player == null) return;
-            var test = Test(player);
-            if (test != gameObject.activeSelf)
-                gameObject.SetActive(test);
-        }
-
-        private void OnDestroy()
-        {
-            Core.OnAlwaysUpdate -= CoreOnAlwaysUpdate;
-        }
-
         public void Initialize(CarPassengerSeat seat)
         {
             _seat = seat;
