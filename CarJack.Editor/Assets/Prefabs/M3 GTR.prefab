@@ -185,7 +185,7 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.45
   RestDistance: 0.5
@@ -332,7 +332,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.45
   RestDistance: 0.5
@@ -494,7 +494,7 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.45
   RestDistance: 0.5
@@ -558,7 +558,7 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   Damping: 200
-  Strength: 4000
+  Strength: 2500
   StartLength: 0
   MaxDistance: 0.45
   RestDistance: 0.5

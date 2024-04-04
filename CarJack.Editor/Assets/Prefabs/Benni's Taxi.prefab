@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InternalName: carjack.benni
+  CounterSteerMultiplier: 0.1
   SlipMultiplier: 1
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
@@ -340,21 +341,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 10494993
   CenterOfMass: {fileID: 8275566447246873220}
-  Rigidbody: {fileID: 0}
-  Wheels:
-  - {fileID: 8275566447730040844}
   Chassis: {fileID: 8275566447239126080}
-  Driving: 0
-  ThrottleAxis: 0
-  SteerAxis: 0
-  HornHeld: 0
-  GetOutOfCarButtonNew: 0
-  PitchAxis: 0
-  YawAxis: 0
-  RollAxis: 0
-  BrakeHeld: 0
   ExtraDistance: 2
   ExtraHeight: 1
+  ExtraPitch: 0
 --- !u!54 &8275566447239126143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -450,7 +440,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537846231092239}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -515,7 +504,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537845225188231}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -580,7 +568,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537846972395659}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -645,7 +632,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 9086537845597390025}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -703,15 +689,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8413001372223353764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2beb04f9578afd4e9b5d1f71b06c35e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c8a228a052422642985e790b8dd1aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 9100000, guid: 22f33aced706a1a4cae64d1a8baf5cd4, type: 2}
   HonkLayerIndex: 1
   ReverseLayerIndex: 3
   ReverseAnimationLerp: 10
   HonkAnimationLerp: 20
   SteerAnimationLerp: 5
-  controller: {fileID: 9100000, guid: 22f33aced706a1a4cae64d1a8baf5cd4, type: 2}
 --- !u!1 &8796714454098800890
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +746,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 8702022829885937684}
   MeshRadius: 0.4
   SteerAngle: 30
@@ -825,7 +810,6 @@ MonoBehaviour:
   RotationAcceleration: 50
   RotationDeacceleration: 5
   RotationMultiplier: 100
-  Grounded: 0
   Mesh: {fileID: 3800164059654483982}
   MeshRadius: 0.4
   SteerAngle: 30
