@@ -235,7 +235,7 @@ namespace CarJack.Common
 
                 if (throttle >= 0.9f && wheelFwAbs <= throttle * 4f && Mathf.Sign(wheelVelocityFw) == Mathf.Sign(_car.ThrottleAxis) && Throttle)
                 {
-                    CurrentSpeed = -50f * Mathf.Sign(_car.ThrottleAxis);
+                    CurrentSpeed = 50f * Mathf.Sign(_car.ThrottleAxis);
                 }
             }
             else
