@@ -65,6 +65,8 @@ namespace CarJack.Common
         public float RollAxis = 0f;
         [NonSerialized]
         public bool BrakeHeld = false;
+        [NonSerialized]
+        public bool LockDoorsButtonNew = false;
 
         private Vector3 _velocityBeforePause;
         private Vector3 _angularVelocityBeforePause;
@@ -348,6 +350,7 @@ namespace CarJack.Common
             YawAxis = 0f;
             RollAxis = 0f;
             BrakeHeld = false;
+            LockDoorsButtonNew = false;
         }
 
 #if PLUGIN
@@ -411,6 +414,11 @@ namespace CarJack.Common
             if (!InputEnabled) return;
 
             OnHandleInput?.Invoke();
+
+            var player = WorldHandler.instance.GetCurrentPlayer();
+
+            if (player.IsBusyWithSequence() && InCar) return;
+
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
 
@@ -421,7 +429,7 @@ namespace CarJack.Common
 #endif
             if (!Driving) return;
 #if PLUGIN
-            
+            LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
             BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
             if (BrakeHeld)
@@ -570,6 +578,12 @@ namespace CarJack.Common
             _grounded = false;
             _steep = false;
             PollInputs();
+            if (LockDoorsButtonNew)
+            {
+                PlayerData.Instance.DoorsLocked = !PlayerData.Instance.DoorsLocked;
+                PlayerData.Instance.Save();
+                Core.Instance.UIManager.ShowNotification("Car doors are now <color=yellow>"+(PlayerData.Instance.DoorsLocked ? "Locked" : "Unlocked")+"</color>");
+            }
             UpdateCounterSteer();
             var wheelsGrounded = 0;
             foreach (var wheel in Wheels)
@@ -652,6 +666,10 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            if (Driving)
+            {
+                DoorsLocked = PlayerData.Instance.DoorsLocked;
+            }
             _crashAudioCooldown = Mathf.Max(0f, _crashAudioCooldown - Time.deltaTime);
             foreach (var wheel in Wheels)
             {

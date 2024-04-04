@@ -14,18 +14,12 @@ namespace CarJack.Plugin
 {
     public class SpawnCarApp : CustomApp
     {
-        private static Sprite Icon;
-
-        public static void Initialize(string location)
-        {
-            Icon = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
-            PhoneAPI.RegisterApp<SpawnCarApp>("carjack", Icon);
-        }
+        public override bool Available => false;
 
         public override void OnAppInit()
         {
             base.OnAppInit();
-            CreateTitleBar("CarJack", Icon);
+            CreateIconlessTitleBar("Spawn Car");
             ScrollView = PhoneScrollView.Create(this);
         }
 
@@ -56,6 +50,7 @@ namespace CarJack.Plugin
                 carGO.transform.rotation = player.transform.rotation;
                 var car = carGO.GetComponent<DrivableCar>();
                 car.Initialize();
+                car.DoorsLocked = PlayerData.Instance.DoorsLocked;
                 CarController.Instance.EnterCar(car);
             };
             return button;

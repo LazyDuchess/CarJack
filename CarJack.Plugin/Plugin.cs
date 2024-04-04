@@ -28,8 +28,10 @@ namespace CarJack.Plugin
                 CarDebugController.Create();
 #endif
                 CarDatabase.Initialize();
-                SpawnCarApp.Initialize(directory);
+                CarJackApp.Initialize(directory);
                 LoadCompatibilityPlugins();
+                var playerData = new PlayerData();
+                playerData.LoadOrCreate();
                 Logger.LogInfo($"Loaded {PluginInfo.PLUGIN_NAME} {PluginInfo.PLUGIN_VERSION}!");
             }
             catch(Exception e)

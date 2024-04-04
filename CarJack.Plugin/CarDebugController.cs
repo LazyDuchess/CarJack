@@ -38,6 +38,7 @@ namespace CarJack.Plugin
                 car.transform.rotation = player.transform.rotation;
 
                 car.Initialize();
+                car.DoorsLocked = PlayerData.Instance.DoorsLocked;
             }
 
             if (Input.GetKeyDown(KeyCode.F10))

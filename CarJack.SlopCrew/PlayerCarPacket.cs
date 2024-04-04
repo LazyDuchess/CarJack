@@ -10,7 +10,7 @@ namespace CarJack.SlopCrew
 {
     public class PlayerCarPacket
     {
-        private const byte Version = 1;
+        private const byte Version = 2;
         public const string GUID = "CarJack-PlayerCar";
         public string CarInternalName = "";
         public Vector3 Position = Vector3.zero;
@@ -28,6 +28,7 @@ namespace CarJack.SlopCrew
 
         public int PassengerSeat = -1;
         public uint DriverPlayerID = uint.MaxValue;
+        public bool DoorsLocked = false;
 
         public void Serialize(BinaryWriter writer)
         {
@@ -64,6 +65,7 @@ namespace CarJack.SlopCrew
 
             writer.Write(PassengerSeat);
             writer.Write(DriverPlayerID);
+            writer.Write(DoorsLocked);
         }
 
         public void Deserialize(BinaryReader reader)
@@ -107,6 +109,8 @@ namespace CarJack.SlopCrew
             {
                 PassengerSeat = reader.ReadInt32();
                 DriverPlayerID = reader.ReadUInt32();
+                if (version >= 2)
+                    DoorsLocked = reader.ReadBoolean();
             }
 
             Position = new Vector3(posX, posY, posZ);

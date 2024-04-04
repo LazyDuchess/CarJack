@@ -306,6 +306,7 @@ namespace CarJack.SlopCrew
                         }
                         currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                         currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
+                        currentCar.DoorsLocked = playerCarData.LastPacket.DoorsLocked;
                     }
                     else
                     {
