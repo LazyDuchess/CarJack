@@ -130,7 +130,7 @@ namespace CarJack.Common
             var backwards = Vector3.Dot(transform.forward, Rigidbody.velocity.normalized) < 0f;
             var angle = Vector3.SignedAngle(backwards ? -transform.forward : transform.forward, Rigidbody.velocity.normalized, transform.up);
             var multiplier = CounterSteerMultiplier * (-Mathf.Abs(SteerAxis) + 1f);
-            CounterSteering = angle * multiplier;
+            CounterSteering = angle * multiplier * (backwards ? -1f : 1f);
         }
 
         private void UpdateDrift()
