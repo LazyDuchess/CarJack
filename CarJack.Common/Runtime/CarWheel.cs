@@ -112,7 +112,7 @@ namespace CarJack.Common
         private void CalculateSlip()
         {
             var wheelVelocity = _car.Rigidbody.GetPointVelocity(transform.position);
-            var fwWheelVelocity = Vector3.Dot(wheelVelocity, transform.forward);
+            var fwWheelVelocity = Mathf.Abs(Vector3.Dot(wheelVelocity, transform.forward));
             var wheelVelocityDifference = Mathf.Abs(CurrentSpeed - fwWheelVelocity);
             var slip = 0f;
             if (wheelVelocityDifference >= WheelSpinSlipThreshold)
