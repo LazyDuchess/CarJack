@@ -667,11 +667,12 @@ namespace CarJack.Common
         {
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
-#endif
+
             if (Driving)
             {
                 DoorsLocked = PlayerData.Instance.DoorsLocked;
             }
+#endif
             _crashAudioCooldown = Mathf.Max(0f, _crashAudioCooldown - Time.deltaTime);
             foreach (var wheel in Wheels)
             {
