@@ -20,11 +20,24 @@ namespace CarJack.Plugin
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F5))
+            if (Input.GetKeyDown(KeyCode.F8))
             {
                 var stageManager = Core.Instance.BaseModule.StageManager;
                 stageManager.ExitCurrentStage(Utility.GetCurrentStage());
                 CarAssets.Instance.ReloadAssets();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                var player = WorldHandler.instance.GetCurrentPlayer();
+                var carPrefab = CarDatabase.CarByInternalName["carjack.benni"];
+                var carGO = Instantiate(carPrefab);
+                var car = carGO.GetComponent<DrivableCar>();
+
+                car.transform.position = player.transform.position;
+                car.transform.rotation = player.transform.rotation;
+
+                car.Initialize();
             }
         }
     }

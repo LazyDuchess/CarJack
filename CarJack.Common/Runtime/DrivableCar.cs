@@ -114,6 +114,8 @@ namespace CarJack.Common
         public float DriftingAmount = 0f;
         [NonSerialized]
         public float CounterSteering = 0f;
+        [NonSerialized]
+        public bool DoorsLocked = false;
 
         private void UpdateCounterSteer()
         {
