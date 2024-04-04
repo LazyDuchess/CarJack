@@ -184,6 +184,7 @@ namespace CarJack.SlopCrew
 
         private bool TickCar(PlayerCarData playerCarData)
         {
+            var missingCar = false;
             var keep = true;
             if (playerCarData.LastPacket.PassengerSeat != -1)
                 playerCarData.LastPacket.CarInternalName = "carjack.bluecar";
@@ -223,6 +224,8 @@ namespace CarJack.SlopCrew
                 var car = "carjack.bluecar";
                 if (CarDatabase.CarByInternalName.TryGetValue(playerCarData.LastPacket.CarInternalName, out var result))
                     car = result.GetComponent<DrivableCar>().InternalName;
+                else
+                    missingCar = true;
 
                 var currentCar = playerCarData.Car;
 
@@ -311,7 +314,7 @@ namespace CarJack.SlopCrew
                         }
                         currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                         currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
-                        currentCar.DoorsLocked = playerCarData.LastPacket.DoorsLocked;
+                        currentCar.DoorsLocked = missingCar ? true : playerCarData.LastPacket.DoorsLocked;
                     }
                     else
                     {
