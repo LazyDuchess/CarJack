@@ -17,6 +17,7 @@ namespace CarJack.Common
         public static CarController Instance { get; private set; }
         public static ICarConfig Config;
         public DrivableCar CurrentCar;
+        public CarSeat CurrentSeat;
         public static void Initialize(ICarConfig config)
         {
             Config = config;
@@ -68,12 +69,46 @@ namespace CarJack.Common
             return cam;
         }
 
+        public void EnterCarAsPassenger(DrivableCar car, int seatIndex)
+        {
+            if (CurrentCar != null)
+            {
+                CurrentCar.Driving = false;
+                CurrentCar.InCar = false;
+            }
+            var seat = car.GetPassengerSeat(seatIndex);
+            CurrentCar = car;
+            CurrentSeat = seat;
+            car.Driving = false;
+            car.InCar = true;
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            player.phone.TurnOff(false);
+            player.characterVisual.SetPhone(false);
+            car.GroundMask = player.motor.groundDetection.groundMask;
+            player.DisablePlayer();
+            player.CompletelyStop();
+            player.gameObject.SetActive(false);
+            var gameplayCamera = GameplayCamera.instance;
+            gameplayCamera.enabled = false;
+            var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
+            if (cameraComponent == null)
+                cameraComponent = MakeCamera(gameplayCamera.gameObject);
+            cameraComponent.SetTarget(car);
+            
+            seat.PutInSeat(player);
+        }
+
         public void EnterCar(DrivableCar car)
         {
             if (CurrentCar != null)
+            {
                 CurrentCar.Driving = false;
+                CurrentCar.InCar = false;
+            }
             CurrentCar = car;
+            CurrentSeat = null;
             car.Driving = true;
+            car.InCar = true;
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff(false);
             player.characterVisual.SetPhone(false);
@@ -94,8 +129,15 @@ namespace CarJack.Common
         {
             var car = CurrentCar;
             if (CurrentCar == null) return;
-            CurrentCar.ExitCar();
+            if (CurrentCar.Driving)
+                CurrentCar.ExitCar();
+            else
+            {
+                CurrentSeat.ExitSeat();
+            }
             CurrentCar.Driving = false;
+            CurrentCar.InCar = false;
+            CurrentSeat = null;
             CurrentCar = null;
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = true;

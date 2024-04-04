@@ -15,14 +15,14 @@ namespace CarJack.Common
     public abstract class CarSeat : MonoBehaviour
     {
         public RuntimeAnimatorController controller;
-        protected DrivableCar Car;
+        public DrivableCar Car;
         private float _blinkTimer = 0f;
         private const float BlinkDuration = 0.1f;
 #if PLUGIN
-        protected Player Player;
+        public Player Player;
         private Characters _cachedCharacter;
 #endif
-        private void Awake()
+        protected virtual void Awake()
         {
             Car = GetComponentInParent<DrivableCar>();
             ResetBlinkTimer();
@@ -76,6 +76,7 @@ namespace CarJack.Common
         private void LateUpdate()
         {
             if (Core.Instance.IsCorePaused) return;
+            if (CurrentVisual == null) return;
             if (!CurrentVisual.canBlink) return;
             _blinkTimer -= Time.deltaTime;
             if (_blinkTimer <= 0f)

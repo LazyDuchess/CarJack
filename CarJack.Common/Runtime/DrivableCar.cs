@@ -43,6 +43,8 @@ namespace CarJack.Common
         public GameObject Chassis;
         [NonSerialized]
         public bool Driving = false;
+        [NonSerialized]
+        public bool InCar = false;
 
         private const float ControllerRotationDeadZone = 0.2f;
         [NonSerialized]
@@ -76,7 +78,7 @@ namespace CarJack.Common
 
         private float _crashAudioCooldown = 0f;
 
-        private CarDriverSeat _driverSeat;
+        public CarDriverSeat DriverSeat;
 
         public Action OnHandleInput;
 
@@ -116,6 +118,8 @@ namespace CarJack.Common
         public float CounterSteering = 0f;
         [NonSerialized]
         public bool DoorsLocked = false;
+
+        private CarPassengerSeat[] _passengerSeats;
 
         private void UpdateCounterSteer()
         {
@@ -408,9 +412,16 @@ namespace CarJack.Common
 
             OnHandleInput?.Invoke();
 
+            var gameInput = Core.Instance.GameInput;
+
+            if (InCar)
+            {
+                GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
+            }
+
             if (!Driving) return;
 #if PLUGIN
-            var gameInput = Core.Instance.GameInput;
+            
             BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
             if (BrakeHeld)
@@ -433,7 +444,7 @@ namespace CarJack.Common
                     PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
             }
             HornHeld = gameInput.GetButtonHeld(10, 0);
-            GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
+            
 #else
             BrakeHeld = Input.GetKey(KeyCode.Space);
 
@@ -473,7 +484,8 @@ namespace CarJack.Common
 
         private void Awake()
         {
-            _driverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
+            _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
+            DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
             _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
             _oneShotAudioSource = Chassis.GetComponentInChildren<OneShotAudioSource>();
             Rigidbody = Chassis.GetComponent<Rigidbody>();
@@ -496,16 +508,27 @@ namespace CarJack.Common
         }
 
 #if PLUGIN
+
+        public CarPassengerSeat GetPassengerSeat(int index)
+        {
+            foreach(var seat in _passengerSeats)
+            {
+                if (seat.SeatIndex == index)
+                    return seat;
+            }
+            return null;
+        }
+
         public void EnterCar(Player player)
         {
-            if (_driverSeat == null) return;
-            _driverSeat.PutInSeat(player);
+            if (DriverSeat == null) return;
+            DriverSeat.PutInSeat(player);
         }
 
         public void ExitCar()
         {
-            if (_driverSeat == null) return;
-            _driverSeat.ExitSeat();
+            if (DriverSeat == null) return;
+            DriverSeat.ExitSeat();
         }
 #endif
         private bool _forcedPause = false;
@@ -580,7 +603,7 @@ namespace CarJack.Common
             UpdateStill();
             UpdateDrift();
 #if PLUGIN
-            if (GetOutOfCarButtonNew && Driving)
+            if (GetOutOfCarButtonNew && InCar)
             {
                 CarController.Instance.ExitCar();
             }
