@@ -24,7 +24,9 @@ namespace CarJack.Plugin
             {
                 var stageManager = Core.Instance.BaseModule.StageManager;
                 stageManager.ExitCurrentStage(Utility.GetCurrentStage());
-                CarAssets.Instance.ReloadAssets();
+                CarAssets.Instance.UnloadAllBundles();
+                CarAssets.Instance.LoadBundles();
+                CarDatabase.Initialize();
             }
 
             if (Input.GetKeyDown(KeyCode.F9))

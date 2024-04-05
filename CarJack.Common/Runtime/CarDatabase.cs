@@ -13,12 +13,18 @@ namespace CarJack.Common
         public static Dictionary<string, GameObject> CarByInternalName;
         public static void Initialize()
         {
-            CarAssets.OnReload -= Initialize;
-            CarAssets.OnReload += Initialize;
-            var bundle = CarAssets.Instance.Bundle;
-            Cars = bundle.LoadAllAssets<GameObject>().Where(x => x.GetComponent<DrivableCar>() != null).ToList();
-            CarByInternalName = new Dictionary<string, GameObject>();
-            foreach(var car in Cars)
+            CarByInternalName = new();
+            var bundles = CarAssets.Instance.Bundles;
+            foreach(var bundle in bundles)
+            {
+                LoadBundle(bundle);
+            }
+        }
+
+        private static void LoadBundle(CarBundle bundle)
+        {
+            Cars = bundle.Bundle.LoadAllAssets<GameObject>().Where(x => x.GetComponent<DrivableCar>() != null).ToList();
+            foreach (var car in Cars)
             {
                 var drivableCar = car.GetComponent<DrivableCar>();
                 CarByInternalName[drivableCar.InternalName] = car;

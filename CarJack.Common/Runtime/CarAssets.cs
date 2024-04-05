@@ -10,23 +10,36 @@ namespace CarJack.Common
 {
     public class CarAssets
     {
-        public static Action OnReload;
         public static CarAssets Instance { get; private set; }
-        public AssetBundle Bundle;
-        private string _path;
-        public CarAssets(string path)
+        public CarBundle MainBundle;
+        public List<CarBundle> Bundles;
+        public string MainBundlePath;
+        public string AddonBundlePath;
+        public CarAssets()
         {
+            Bundles = new();
             Instance = this;
-            _path = path;
-            ReloadAssets();
         }
 
-        public void ReloadAssets()
+        public void UnloadAllBundles()
         {
-            if (Bundle != null)
-                Bundle.Unload(true);
-            Bundle = AssetBundle.LoadFromFile(_path);
-            OnReload?.Invoke();
+            foreach(var bundle in Bundles)
+            {
+                bundle.Bundle.Unload(true);
+            }
+            Bundles = new();
+        }
+
+        public void LoadBundles()
+        {
+            MainBundle = new CarBundle(MainBundlePath);
+            Bundles.Add(MainBundle);
+            var carBundlePaths = Directory.GetFiles(AddonBundlePath, "*.carbundle", SearchOption.AllDirectories);
+            foreach(var carBundlePath in carBundlePaths)
+            {
+                var bundle = new CarBundle(carBundlePath);
+                Bundles.Add(bundle);
+            }
         }
     }
 }

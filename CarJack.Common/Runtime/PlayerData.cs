@@ -22,6 +22,17 @@ namespace CarJack.Common
                 _data.DoorsLocked = value;
             }
         }
+        public bool MutePlayers
+        {
+            get
+            {
+                return _data.MutePlayers;
+            }
+            set
+            {
+                _data.MutePlayers = value;
+            }
+        }
         private SerializedData _data;
 
         public PlayerData()
@@ -59,6 +70,7 @@ namespace CarJack.Common
         public class SerializedData
         {
             public bool DoorsLocked = false;
+            public bool MutePlayers = false;
         }
     }
 }

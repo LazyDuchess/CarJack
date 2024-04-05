@@ -24,7 +24,12 @@ namespace CarJack.Plugin
                 var harmony = new Harmony(PluginInfo.PLUGIN_GUID);
                 harmony.PatchAll();
                 var directory = Path.GetDirectoryName(Info.Location);
-                new CarAssets(Path.Combine(directory, "carjack"));
+
+                var carAssets = new CarAssets();
+                carAssets.MainBundlePath = Path.Combine(directory, "carjack");
+                carAssets.AddonBundlePath = Paths.PluginPath;
+                carAssets.LoadBundles();
+
                 CarController.Initialize(new PluginCarConfig(Config));
 #if DEBUG
                 CarDebugController.Create();

@@ -36,6 +36,14 @@ namespace CarJack.Common.Runtime
 
         private void CoreUpdate()
         {
+            if (PlayerData.Instance.MutePlayers)
+            {
+                if (!_car.InCar)
+                {
+                    SetActive(false);
+                    return;
+                }
+            }
             var carCamera = CarCamera.Instance;
 
             if (carCamera != null && carCamera.Target == _car)
