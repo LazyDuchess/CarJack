@@ -136,6 +136,8 @@ namespace CarJack.SlopCrew
                     packet.PassengerSeat = CarController.Instance.CurrentSeat.SeatIndex;
                     packet.DriverPlayerID = GetDriver(car);
                 }
+
+                packet.DoorsLocked = PlayerData.Instance.DoorsLocked;
             }
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
