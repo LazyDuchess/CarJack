@@ -6,9 +6,6 @@ namespace CarJack.Common
 {
     public class CarWheel : MonoBehaviour
     {
-        public float RotationAcceleration = 100f;
-        public float RotationDeacceleration = 1f;
-        public float RotationMultiplier = 1f;
         [NonSerialized]
         public bool Grounded = false;
         public GameObject Mesh;
@@ -28,6 +25,7 @@ namespace CarJack.Common
         public float Mass = 10f;
 
         public float Traction = 0.5f;
+        [NonSerialized]
         public float CurrentSpeed = 0f;
 
         private float _currentRoll = 0f;
@@ -44,6 +42,10 @@ namespace CarJack.Common
         private const float WheelSpinSlip = 0.35f;
         private const float WheelSpinSlipThreshold = 5f;
         private const float MaxSlipTractionLoss = 0.9f;
+
+        public float RotationAcceleration = 100f;
+        public float RotationDeacceleration = 1f;
+        public float RotationMultiplier = 1f;
 
         public void Initialize(DrivableCar car)
         {

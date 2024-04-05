@@ -80,6 +80,7 @@ namespace CarJack.Common
 
         private float _crashAudioCooldown = 0f;
 
+        [NonSerialized]
         public CarDriverSeat DriverSeat;
 
         public Action OnHandleInput;
