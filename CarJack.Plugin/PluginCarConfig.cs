@@ -5,11 +5,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace CarJack.Plugin
 {
     public class PluginCarConfig : ICarConfig
     {
+        public bool DeveloperMode
+        {
+            get
+            {
+                return _developerMode.Value;
+            }
+            set
+            {
+                _developerMode.Value = value;
+            }
+        }
+
+        public KeyCode ReloadBundlesKey
+        {
+            get
+            {
+                return _reloadBundlesKey.Value;
+            }
+            set
+            {
+                _reloadBundlesKey.Value = value;
+            }
+        }
+
         public bool SlopCrewIntegration
         {
             get
@@ -36,6 +61,10 @@ namespace CarJack.Plugin
 
         private ConfigEntry<bool> _slopCrewIntegration;
         private ConfigEntry<bool> _continuousCollisionDetection;
+
+        private ConfigEntry<bool> _developerMode;
+        private ConfigEntry<KeyCode> _reloadBundlesKey;
+
         public PluginCarConfig(ConfigFile configFile)
         {
             _continuousCollisionDetection = configFile.Bind(
@@ -50,6 +79,20 @@ namespace CarJack.Plugin
                 "SlopCrewIntegration",
                 true,
                 "Synchronize cars in SlopCrew."
+                );
+
+            _developerMode = configFile.Bind(
+                "Development",
+                "DeveloperMode",
+                false,
+                "Enables development features."
+                );
+
+            _reloadBundlesKey = configFile.Bind(
+                "Development",
+                "ReloadBundlesKey",
+                KeyCode.F8,
+                "Key to reload all bundles when in developer mode."
                 );
         }
     }

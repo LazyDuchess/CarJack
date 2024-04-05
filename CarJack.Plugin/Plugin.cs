@@ -31,9 +31,10 @@ namespace CarJack.Plugin
                 carAssets.LoadBundles();
 
                 CarController.Initialize(new PluginCarConfig(Config));
-#if DEBUG
-                CarDebugController.Create();
-#endif
+
+                if (CarController.Config.DeveloperMode)
+                    CarDebugController.Create();
+
                 CarDatabase.Initialize();
                 CarJackApp.Initialize(directory);
                 LoadCompatibilityPlugins();

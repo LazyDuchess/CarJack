@@ -20,7 +20,7 @@ namespace CarJack.Plugin
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F8))
+            if (Input.GetKeyDown(CarController.Config.ReloadBundlesKey))
             {
                 var stageManager = Core.Instance.BaseModule.StageManager;
                 stageManager.ExitCurrentStage(Utility.GetCurrentStage());
@@ -29,6 +29,7 @@ namespace CarJack.Plugin
                 CarDatabase.Initialize();
             }
 
+#if DEBUG
             if (Input.GetKeyDown(KeyCode.F9))
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
@@ -49,6 +50,7 @@ namespace CarJack.Plugin
                 if (currentCar == null) return;
                 Destroy(currentCar.gameObject);
             }
+#endif
         }
     }
 }
