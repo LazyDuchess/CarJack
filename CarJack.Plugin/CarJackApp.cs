@@ -23,6 +23,7 @@ namespace CarJack.Plugin
             Icon = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
             PhoneAPI.RegisterApp<CarJackApp>("carjack", Icon);
             PhoneAPI.RegisterApp<SpawnCarApp>("spawn car", Icon);
+            PhoneAPI.RegisterApp<SpawnCarByBundleApp>("choose bundle", Icon);
         }
 
         public override void OnAppInit()
@@ -34,8 +35,15 @@ namespace CarJack.Plugin
             var button = PhoneUIUtility.CreateSimpleButton("Spawn Car");
             button.OnConfirm += () =>
             {
-                MyPhone.GetAppInstance<SpawnCarApp>().SetBundleFilter(null);
-                MyPhone.OpenApp(typeof(SpawnCarApp));
+                if (CarAssets.Instance.Bundles.Count == 1)
+                {
+                    MyPhone.GetAppInstance<SpawnCarApp>().SetBundleFilter(null);
+                    MyPhone.OpenApp(typeof(SpawnCarApp));
+                }
+                else
+                {
+                    MyPhone.OpenApp(typeof(SpawnCarByBundleApp));
+                }
             };
 
             ScrollView.AddButton(button);
