@@ -38,7 +38,7 @@ namespace CarJack.Common
         private static void CreateResources()
         {
             var assets = CarAssets.Instance;
-            var resources = assets.Bundle.LoadAsset<GameObject>("Car Resources");
+            var resources = assets.MainBundle.Bundle.LoadAsset<GameObject>("Car Resources");
             Instantiate(resources);
         }
 
