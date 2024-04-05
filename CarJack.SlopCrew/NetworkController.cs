@@ -223,7 +223,7 @@ namespace CarJack.SlopCrew
             {
                 var car = "carjack.bluecar";
                 if (CarDatabase.CarByInternalName.TryGetValue(playerCarData.LastPacket.CarInternalName, out var result))
-                    car = result.GetComponent<DrivableCar>().InternalName;
+                    car = result.Prefab.GetComponent<DrivableCar>().InternalName;
                 else
                     missingCar = true;
 
@@ -279,7 +279,7 @@ namespace CarJack.SlopCrew
                         {
                             Destroy(currentCar.gameObject);
                         }
-                        var carGO = Instantiate(CarDatabase.CarByInternalName[car]);
+                        var carGO = Instantiate(CarDatabase.CarByInternalName[car].Prefab);
                         carGO.transform.position = playerCarData.LastPacket.Position;
                         carGO.transform.rotation = playerCarData.LastPacket.Rotation;
                         currentCar = carGO.GetComponent<DrivableCar>();
