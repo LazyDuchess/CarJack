@@ -31,9 +31,13 @@ If you're using a mod manager such as r2modman dependencies are automatically in
 * [CommonAPI](https://github.com/LazyDuchess/BRC-CommonAPI)
 
 ## Custom Cars (Work In Progress)
-While tools aren't currently developed, if you know what you're doing you can clone the repo and open the `CarJack.Editor` project with Unity 2021.3.27f1 to create custom cars by cloning their prefabs and changing their Asset Bundle to a new one. Remember to also change their `Internal Name` so that they show up and sync correctly in SlopCrew. You can have multiple cars in a single bundle.
+While tools aren't currently developed, you can clone the repo and open the `CarJack.Editor` project with Unity 2021.3.27f1 to create custom cars.
 
-You can build the asset bundles with the `CarJack -> Build Asset Bundles` button, then copy the resulting asset bundle into your BepInEx plugins folder or any subfolder with the extension `.carbundle` (e.g. `AE86.carbundle`)
+All default cars are located in the `Assets/Prefabs` folder. You can copy one of them, change their asset bundle to a new bundle with the extension `.carbundle` and work from there. Remember to change the car's `Internal Name` to something unique.
+
+![image](https://github.com/LazyDuchess/CarJack/assets/42678262/1dd54ef6-61a4-4376-a924-73902aef33ac)
+
+You can build the asset bundles with the `CarJack -> Build Asset Bundles` button and find the resulting asset bundles inside `CarJack.Editor/Build`. Copy the `.carbundle` files from here into your BepInEx plugins folder to see them in-game - the other files can be safely ignored.
 
 If `DeveloperMode` is enabled in this mod's BepInEx configuration file you can also reload car bundles in-game to test changes.
 
