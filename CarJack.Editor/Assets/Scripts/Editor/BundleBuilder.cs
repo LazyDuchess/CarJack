@@ -6,10 +6,10 @@ using System.IO;
 
 public class BundleBuilder : MonoBehaviour
 {
-    [MenuItem("CarJack/Build Asset Bundle")]
+    [MenuItem("CarJack/Build Asset Bundles")]
     private static void BuildAssetBundle()
     {
         Directory.CreateDirectory("Build");
-        BuildPipeline.BuildAssetBundles("Build", BuildAssetBundleOptions.UncompressedAssetBundle, BuildTarget.StandaloneWindows64);
+        BuildPipeline.BuildAssetBundles("Build", BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
     }
 }
