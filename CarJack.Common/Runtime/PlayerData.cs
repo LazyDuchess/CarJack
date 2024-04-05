@@ -44,7 +44,7 @@ namespace CarJack.Common
         {
             try
             {
-                _data = JsonUtility.FromJson<SerializedData>(GetSaveLocation());
+                _data = JsonUtility.FromJson<SerializedData>(File.ReadAllText(GetSaveLocation()));
             }
             catch(Exception e)
             {
