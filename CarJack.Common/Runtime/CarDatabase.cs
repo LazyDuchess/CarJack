@@ -9,7 +9,7 @@ namespace CarJack.Common
 {
     public static class CarDatabase
     {
-        public static Dictionary<string, GameObject> CarByInternalName;
+        public static Dictionary<string, CarEntry> CarByInternalName;
         public static void Initialize()
         {
             CarByInternalName = new();
@@ -26,7 +26,10 @@ namespace CarJack.Common
             foreach (var car in cars)
             {
                 var drivableCar = car.GetComponent<DrivableCar>();
-                CarByInternalName[drivableCar.InternalName] = car;
+                var entry = new CarEntry();
+                entry.Bundle = bundle;
+                entry.Prefab = car;
+                CarByInternalName[drivableCar.InternalName] = entry;
             }
         }
     }

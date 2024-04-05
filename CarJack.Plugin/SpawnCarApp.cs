@@ -40,11 +40,11 @@ namespace CarJack.Plugin
         private SimplePhoneButton CreateCarButton(string carInternalName)
         {
             var car = CarDatabase.CarByInternalName[carInternalName];
-            var button = PhoneUIUtility.CreateSimpleButton(car.name);
+            var button = PhoneUIUtility.CreateSimpleButton(car.Prefab.name);
             button.OnConfirm += () =>
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
-                var carPrefab = CarDatabase.CarByInternalName[carInternalName];
+                var carPrefab = CarDatabase.CarByInternalName[carInternalName].Prefab;
                 var carGO = Instantiate(carPrefab);
                 carGO.transform.position = player.transform.position;
                 carGO.transform.rotation = player.transform.rotation;
