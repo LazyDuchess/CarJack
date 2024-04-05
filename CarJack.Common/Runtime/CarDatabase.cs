@@ -9,7 +9,6 @@ namespace CarJack.Common
 {
     public static class CarDatabase
     {
-        public static List<GameObject> Cars;
         public static Dictionary<string, GameObject> CarByInternalName;
         public static void Initialize()
         {
@@ -23,8 +22,8 @@ namespace CarJack.Common
 
         private static void LoadBundle(CarBundle bundle)
         {
-            Cars = bundle.Bundle.LoadAllAssets<GameObject>().Where(x => x.GetComponent<DrivableCar>() != null).ToList();
-            foreach (var car in Cars)
+            var cars = bundle.Bundle.LoadAllAssets<GameObject>().Where(x => x.GetComponent<DrivableCar>() != null).ToList();
+            foreach (var car in cars)
             {
                 var drivableCar = car.GetComponent<DrivableCar>();
                 CarByInternalName[drivableCar.InternalName] = car;

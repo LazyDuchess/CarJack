@@ -30,21 +30,21 @@ namespace CarJack.Plugin
             // Temp workarounds for scrolling being messed up when coming back to the app. Should probably move this to CommonAPI itself but I'm lazy atm.
             ScrollView.ResetScroll();
             ScrollView.CancelAnimation();
-            for (var i = 0; i < CarDatabase.Cars.Count; i++)
+            foreach(var car in CarDatabase.CarByInternalName)
             {
-                var carButton = CreateCarButton(i);
+                var carButton = CreateCarButton(car.Key);
                 ScrollView.AddButton(carButton);
             }
         }
 
-        private SimplePhoneButton CreateCarButton(int carIndex)
+        private SimplePhoneButton CreateCarButton(string carInternalName)
         {
-            var car = CarDatabase.Cars[carIndex];
+            var car = CarDatabase.CarByInternalName[carInternalName];
             var button = PhoneUIUtility.CreateSimpleButton(car.name);
             button.OnConfirm += () =>
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
-                var carPrefab = CarDatabase.Cars[carIndex];
+                var carPrefab = CarDatabase.CarByInternalName[carInternalName];
                 var carGO = Instantiate(carPrefab);
                 carGO.transform.position = player.transform.position;
                 carGO.transform.rotation = player.transform.rotation;
