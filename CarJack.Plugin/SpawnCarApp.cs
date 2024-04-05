@@ -16,25 +16,26 @@ namespace CarJack.Plugin
     {
         public override bool Available => false;
 
+        public void SetBundleFilter(CarBundle bundle = null)
+        {
+            ScrollView.RemoveAllButtons();
+            // Temp workarounds for scrolling being messed up when coming back to the app. Should probably move this to CommonAPI itself but I'm lazy atm.
+            ScrollView.ResetScroll();
+            ScrollView.CancelAnimation();
+            foreach (var car in CarDatabase.CarByInternalName)
+            {
+                if (bundle != null && car.Value.Bundle != bundle)
+                    continue;
+                var carButton = CreateCarButton(car.Key);
+                ScrollView.AddButton(carButton);
+            }
+        }
+
         public override void OnAppInit()
         {
             base.OnAppInit();
             CreateIconlessTitleBar("Spawn Car");
             ScrollView = PhoneScrollView.Create(this);
-        }
-
-        public override void OnAppEnable()
-        {
-            base.OnAppEnable();
-            ScrollView.RemoveAllButtons();
-            // Temp workarounds for scrolling being messed up when coming back to the app. Should probably move this to CommonAPI itself but I'm lazy atm.
-            ScrollView.ResetScroll();
-            ScrollView.CancelAnimation();
-            foreach(var car in CarDatabase.CarByInternalName)
-            {
-                var carButton = CreateCarButton(car.Key);
-                ScrollView.AddButton(carButton);
-            }
         }
 
         private SimplePhoneButton CreateCarButton(string carInternalName)

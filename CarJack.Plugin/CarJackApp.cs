@@ -34,6 +34,7 @@ namespace CarJack.Plugin
             var button = PhoneUIUtility.CreateSimpleButton("Spawn Car");
             button.OnConfirm += () =>
             {
+                MyPhone.GetAppInstance<SpawnCarApp>().SetBundleFilter(null);
                 MyPhone.OpenApp(typeof(SpawnCarApp));
             };
 
