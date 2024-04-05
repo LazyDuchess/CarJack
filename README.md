@@ -36,3 +36,5 @@ While tools aren't currently developed, if you know what you're doing you can cl
 You can build the asset bundles with the `CarJack -> Build Asset Bundles` button, then copy the resulting asset bundle into your BepInEx plugins folder or any subfolder with the extension `.carbundle` (e.g. `AE86.carbundle`)
 
 If `DeveloperMode` is enabled in this mod's BepInEx configuration file you can also reload car bundles in-game to test changes.
+
+Keep in mind that this is still a WIP - it's not user friendly and breaking changes to custom cars may happen at anytime.
