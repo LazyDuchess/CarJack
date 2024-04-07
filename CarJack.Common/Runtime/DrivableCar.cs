@@ -196,6 +196,17 @@ namespace CarJack.Common
             ResetLastSafeLocation();
         }
 
+        /// <summary>
+        /// Fix layers and stuff custom cars might not have set properly.
+        /// </summary>
+        private void FixUp()
+        {
+            gameObject.layer = Layers.Enemies;
+            var interactionTrigger = transform.Find("Interaction");
+            if (interactionTrigger != null)
+                interactionTrigger.gameObject.layer = Layers.PlayerInteract;
+        }
+
         private void PlaceAtLastSafeLocation()
         {
             PlaceAt(_prevLastSafePosition, _prevLastSafeRotation, false);
@@ -494,6 +505,8 @@ namespace CarJack.Common
 
         private void Awake()
         {
+            FixUp();
+
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
             DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
             _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
