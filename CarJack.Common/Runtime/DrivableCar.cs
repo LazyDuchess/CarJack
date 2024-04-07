@@ -602,6 +602,7 @@ namespace CarJack.Common
         private void OnUnPause()
         {
             if (_forcedPause) return;
+            if (Rigidbody == null) return;
             Rigidbody.isKinematic = false;
             Rigidbody.velocity = _velocityBeforePause;
             Rigidbody.angularVelocity = _angularVelocityBeforePause;
