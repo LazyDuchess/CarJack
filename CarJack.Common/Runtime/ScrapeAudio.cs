@@ -41,7 +41,7 @@ namespace CarJack.Common
             if (velocityAway > MinimumSpeed)
             {
                 velocityAway -= MinimumSpeed;
-                velocityAway = Mathf.Min(1f, velocityAway * SpeedMultiplier);
+                velocityAway = Mathf.Min(0.5f, velocityAway * SpeedMultiplier);
                 _targetVolume = velocityAway;
             }
         }
