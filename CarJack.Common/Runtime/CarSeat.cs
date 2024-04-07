@@ -73,6 +73,7 @@ namespace CarJack.Common
             visual.VFX.boostpackTrail.SetActive(false);
             visual.Init(Characters.NONE, controller, false, 0f);
             visual.canBlink = player.characterVisual.canBlink;
+            visual.characterObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             OpenEyes(visual);
             return visual;
         }
