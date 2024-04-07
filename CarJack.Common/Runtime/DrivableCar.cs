@@ -10,20 +10,21 @@ namespace CarJack.Common
 {
     public class DrivableCar : MonoBehaviour
     {
+        [Header("Unique identifier")]
         public string InternalName = "";
 
+        [Header("How much the car should countersteer to avoid losing control")]
         public float CounterSteerMultiplier = 0.1f;
 
+        [Header("How sensible the car is to sliding")]
         public float SlipMultiplier = 0.75f;
 
         public bool HasSurfaceAngleLimit = true;
         public float SurfaceAngleLimit = 60f;
 
-        public float AirControlStrength = 1f;
-        public float AirControlTopSpeed = 2f;
-        public float AirDeacceleration = 1f;
-
         public float Deacceleration = 100f;
+
+        [Header("Curves based on the car's speed")]
         public AnimationCurve ReverseCurve;
         public float ReverseCurveMax = 50f;
         public float BrakeForce = 1000f;
@@ -40,6 +41,7 @@ namespace CarJack.Common
         public Rigidbody Rigidbody;
         [NonSerialized]
         public CarWheel[] Wheels;
+        [NonSerialized]
         public GameObject Chassis;
         [NonSerialized]
         public bool Driving = false;
@@ -85,6 +87,14 @@ namespace CarJack.Common
 
         public Action OnHandleInput;
 
+        [Header("Air Control")]
+        public float AirControlStrength = 1f;
+        public float AirControlTopSpeed = 2f;
+        public float AirDeacceleration = 1f;
+
+        [Header("How much you can alter the car's direction in the air.")]
+        public float AirAerodynamics = 0f;
+
         [Header("Camera")]
         public float ExtraDistance = 0f;
         public float ExtraHeight = 0f;
@@ -123,6 +133,16 @@ namespace CarJack.Common
         public bool DoorsLocked = false;
 
         private CarPassengerSeat[] _passengerSeats;
+
+        private void UpdateAirAero()
+        {
+            var fwVelocity = Vector3.Dot(Rigidbody.velocity, transform.forward);
+            var velocityMinusForward = Rigidbody.velocity - Vector3.Project(Rigidbody.velocity, transform.forward);
+
+            velocityMinusForward = Vector3.Lerp(velocityMinusForward, Vector3.zero, AirAerodynamics * Time.deltaTime);
+
+            Rigidbody.velocity = velocityMinusForward + (fwVelocity * transform.forward);
+        }
 
         private void UpdateCounterSteer()
         {
@@ -201,10 +221,12 @@ namespace CarJack.Common
         /// </summary>
         private void FixUp()
         {
-            gameObject.layer = Layers.Enemies;
+            //Enemies
+            gameObject.layer = 17;
             var interactionTrigger = transform.Find("Interaction");
+            //PlayerInteract
             if (interactionTrigger != null)
-                interactionTrigger.gameObject.layer = Layers.PlayerInteract;
+                interactionTrigger.gameObject.layer = 9;
         }
 
         private void PlaceAtLastSafeLocation()
@@ -507,6 +529,7 @@ namespace CarJack.Common
         {
             FixUp();
 
+            Chassis = gameObject;
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
             DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
             _scrapeAudio = Chassis.GetComponentInChildren<ScrapeAudio>();
@@ -629,7 +652,10 @@ namespace CarJack.Common
             //var airControlMultiplier = (-((float)wheelsGrounded / Wheels.Length)) + 1f;
             //AirControl(airControlMultiplier);
             if (wheelsGrounded == 0)
+            {
                 AirControl(1f);
+                UpdateAirAero();
+            }
 
             UpdateStill();
             UpdateDrift();
