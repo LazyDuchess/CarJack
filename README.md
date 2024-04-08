@@ -9,17 +9,45 @@ A new `carjack` app will be available on your phone. Use it to access this mod's
 ## Controls
 Below are the controls, their default bindings for both Keyboard + Mouse and Controller and their corresponding inputs in the in-game `Settings -> Input` Menu.
 
-| Action      | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
-|-------------|-------------------|---------------|------------------|-------------------------|
-| Accelerate  | W                 | Right Trigger | Forward          | Slide                   |
-| Reverse     | S                 | Left Trigger  | Back             | Boost                   |
-| Steer Right | D                 | Left Stick    | Right            |                         |
-| Steer Left  | A                 | Left Stick    | Left             |                         |
-| Handbrake   | Space             | A             | Jump             | Jump                    |
-| Leave Car   | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
-| Look Behind | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
-| Horn        | E                 | Right Bumper  | Spray            | Spray                   |
-| Lock/Unlock Car Doors       | Right Arrow                | D-Pad Right  | Phone right            | Phone right                   |
+| Action                | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
+|-----------------------|-------------------|---------------|------------------|-------------------------|
+| Accelerate            | W                 | Right Trigger | Forward          | Slide                   |
+| Reverse               | S                 | Left Trigger  | Back             | Boost                   |
+| Steer Right           | D                 | Left Stick    | Right            |                         |
+| Steer Left            | A                 | Left Stick    | Left             |                         |
+| Handbrake             | Space             | A             | Jump             | Jump                    |
+| Leave Car             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
+| Look Behind           | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
+| Horn                  | E                 | Right Bumper  | Spray            | Spray                   |
+| Lock/Unlock Car Doors | Right Arrow       | D-Pad Right   | Phone right      | Phone right             |
+
+### Helicopter (Type A)
+
+| Action                       | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
+|------------------------------|-------------------|---------------|------------------|-------------------------|
+| Lift/Thrust                  | W                 | Right Trigger | Forward          | Slide                   |
+| Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
+| Roll Right                   | Right Arrow       | Left Stick    | Right            |                         |
+| Roll Left                    | Left Arrow        | Left Stick    | Left             |                         |
+| Turn Right                   | D                 | B             | Right            | Trick 3                 |
+| Turn Left                    | A                 | X             | Left             | Trick 1                 |
+| Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
+| Look Behind                  | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
+| Lock/Unlock Helicopter Doors | Space             | D-Pad Right   | Jump             | Phone right             |
+
+### Helicopter (Type B)
+
+| Action                       | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
+|------------------------------|-------------------|---------------|------------------|-------------------------|
+| Lift/Thrust                  | W                 | Right Trigger | Forward          | Slide                   |
+| Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
+| Roll Right                   | Right Arrow       | B             | Right            | Trick 3                 |
+| Roll Left                    | Left Arrow        | X             | Left             | Trick 1                 |
+| Turn Right                   | D                 | Left Stick    | Right            |                         |
+| Turn Left                    | A                 | Left Stick    | Left             |                         |
+| Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
+| Look Behind                  | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
+| Lock/Unlock Helicopter Doors | Space             | D-Pad Right   | Jump             | Phone right             |
 
 ### Air Control
 On Controller, the left stick lets you adjust the pitch and yaw of your vehicle. Holding handbrake will let you adjust the roll of your car rather than the yaw.
