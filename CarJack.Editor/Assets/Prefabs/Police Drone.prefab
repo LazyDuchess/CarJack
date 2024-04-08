@@ -725,6 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Version: 0
   InternalName: carjack.policedrone
   CounterSteerMultiplier: 0.1
   SlipMultiplier: 0.75
@@ -972,7 +973,7 @@ PrefabInstance:
     - target: {fileID: -2880124182433509194, guid: 613cb003302155f4495ddb75a48af336, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 575a50ec147cb4841a84c329e29b059a, type: 2}
+      objectReference: {fileID: 2100000, guid: fd1c5264a9a07d740b1b930a12f31660, type: 2}
     - target: {fileID: 919132149155446097, guid: 613cb003302155f4495ddb75a48af336, type: 3}
       propertyPath: m_Name
       value: Propeller Left
@@ -1193,7 +1194,7 @@ PrefabInstance:
     - target: {fileID: -2880124182433509194, guid: 613cb003302155f4495ddb75a48af336, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 575a50ec147cb4841a84c329e29b059a, type: 2}
+      objectReference: {fileID: 2100000, guid: fd1c5264a9a07d740b1b930a12f31660, type: 2}
     - target: {fileID: 919132149155446097, guid: 613cb003302155f4495ddb75a48af336, type: 3}
       propertyPath: m_Name
       value: Propeller Right
