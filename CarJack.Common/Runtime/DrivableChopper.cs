@@ -36,14 +36,30 @@ namespace CarJack.Common
         {
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
-            BrakeHeld = gameInput.GetButtonHeld(7, 0);
-            PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
-            if (BrakeHeld)
-                RollAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+            var controllerType = gameInput.GetCurrentControllerType(0);
+
+            if (controllerType == Rewired.ControllerType.Joystick)
+            {
+                BrakeHeld = gameInput.GetButtonHeld(7, 0);
+                PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
+                if (BrakeHeld)
+                    RollAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+                else
+                    YawAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+                ThrottleAxis += gameInput.GetAxis(8, 0);
+                ThrottleAxis -= gameInput.GetAxis(18, 0);
+            }
             else
-                YawAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
-            ThrottleAxis += gameInput.GetAxis(8, 0);
-            ThrottleAxis -= gameInput.GetAxis(18, 0);
+            {
+                YawAxis = gameInput.GetAxis(5, 0);
+                ThrottleAxis = gameInput.GetAxis(6, 0);
+
+                RollAxis += gameInput.GetButtonHeld(29, 0) ? 1f : 0f;
+                RollAxis -= gameInput.GetButtonHeld(57, 0) ? 1f : 0f;
+
+                PitchAxis += gameInput.GetButtonHeld(21, 0) ? 1f : 0f;
+                PitchAxis -= gameInput.GetButtonHeld(56, 0) ? 1f : 0f;
+            }
 #else
             if (Input.GetKey(KeyCode.D))
                 YawAxis += 1f;
@@ -103,8 +119,8 @@ namespace CarJack.Common
                 if (0.9f > ThrottleAmount)
                     throttleAxis = 1f;
 
-                if (ThrottleAmount > 0.9f)
-                    ThrottleAmount = 0.9f;
+                if (ThrottleAmount > 0.99f)
+                    ThrottleAmount = 0.99f;
             }
 
             ThrottleAmount += throttleAxis * ThrottleSpeed * Time.deltaTime;
