@@ -21,6 +21,11 @@ Below are the controls, their default bindings for both Keyboard + Mouse and Con
 | Horn                  | E                 | Right Bumper  | Spray            | Spray                   |
 | Lock/Unlock Car Doors | Right Arrow       | D-Pad Right   | Phone right      | Phone right             |
 
+### Air Control
+On Controller, the left stick lets you adjust the pitch and yaw of your vehicle. Holding handbrake will let you adjust the roll of your car rather than the yaw.
+
+On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. Holding handbrake lets you adjust the pitch with the accelerate and reverse keys and the roll with the steering keys.
+
 ### Helicopter (Type A)
 
 | Action                       | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
@@ -48,11 +53,6 @@ Below are the controls, their default bindings for both Keyboard + Mouse and Con
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
 | Look Behind                  | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
 | Lock/Unlock Helicopter Doors | Space             | D-Pad Right   | Jump             | Phone right             |
-
-### Air Control
-On Controller, the left stick lets you adjust the pitch and yaw of your vehicle. Holding handbrake will let you adjust the roll of your car rather than the yaw.
-
-On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. Holding handbrake lets you adjust the pitch with the accelerate and reverse keys and the roll with the steering keys.
 
 ## Dependencies
 If you're using a mod manager such as r2modman dependencies are automatically installed for you.
