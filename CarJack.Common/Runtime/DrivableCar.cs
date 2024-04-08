@@ -10,6 +10,10 @@ namespace CarJack.Common
 {
     public class DrivableCar : MonoBehaviour
     {
+        private const int CurrentVersion = 1;
+        [SerializeField]
+        private int Version = 0;
+
         [Header("Unique identifier")]
         public string InternalName = "";
 
@@ -133,6 +137,13 @@ namespace CarJack.Common
         public bool DoorsLocked = false;
 
         private CarPassengerSeat[] _passengerSeats;
+
+#if !PLUGIN
+        private void OnValidate()
+        {
+            Version = CurrentVersion;
+        }
+#endif
 
         private void UpdateAirAero()
         {
