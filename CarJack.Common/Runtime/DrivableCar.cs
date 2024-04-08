@@ -1,7 +1,7 @@
 #if PLUGIN
 using DG.Tweening;
-using Reptile;
 #endif
+using Reptile;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -141,6 +141,10 @@ namespace CarJack.Common
 
         private CarPassengerSeat[] _passengerSeats;
 
+        public bool IsHelicopter => Helicopter != null;
+        [NonSerialized]
+        public HelicopterCarType Helicopter;
+
 #if !PLUGIN
         private void OnValidate()
         {
@@ -237,12 +241,11 @@ namespace CarJack.Common
         /// </summary>
         private void FixUp()
         {
-            //Enemies
-            gameObject.layer = 17;
+            gameObject.layer = Layers.Enemies;
             var interactionTrigger = transform.Find("Interaction");
-            //PlayerInteract
+
             if (interactionTrigger != null)
-                interactionTrigger.gameObject.layer = 9;
+                interactionTrigger.gameObject.layer = Layers.PlayerInteract;
 
             FixUpVersion();
         }
@@ -252,7 +255,8 @@ namespace CarJack.Common
             // Update cars
             if (Version < 1)
             {
-                foreach (var wheel in Wheels)
+                var wheels = GetComponentsInChildren<CarWheel>();
+                foreach (var wheel in wheels)
                 {
                     wheel.HandBrake = wheel.Throttle;
                 }
@@ -557,6 +561,7 @@ namespace CarJack.Common
 
         private void Awake()
         {
+            Helicopter = GetComponent<HelicopterCarType>();
             Chassis = gameObject;
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
             DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
