@@ -176,12 +176,10 @@ namespace CarJack.Common
             var forwardDot = Vector3.Dot(wheelVelocity, transform.forward);
 
             var braking = ((forwardDot > DrivableCar.MaximumSpeedForStill && throttleAxis < 0f) || (forwardDot < -DrivableCar.MaximumSpeedForStill && throttleAxis > 0f)) && !_car.Still;
-            if (_car.BrakeHeld && Throttle)
-                braking = false;
 
-            if ((Throttle || braking) && Grounded && !tooSteep)
+            if (Grounded && !tooSteep)
             {
-                
+                var addForce = false;
 
                 var speed = Speed;
                 var speedT = Mathf.Min(Mathf.Abs(wheelForwardVelocity), _car.SpeedCurveMax) / _car.SpeedCurveMax;
@@ -205,17 +203,24 @@ namespace CarJack.Common
 
                 var finalSpeed = throttleAxis * speed;
 
-                if (_car.BrakeHeld)
-                {
+                if (Throttle)
+                    addForce = true;
+
+                if (braking)
+                    addForce = true;
+
+                if (_car.BrakeHeld && HandBrake) {
                     if (forwardDot > 0f)
                         finalSpeed = -_car.HandBrakeForce;
                     else if (forwardDot < 0f)
                         finalSpeed = _car.HandBrakeForce;
                     if (_car.Rigidbody.velocity.magnitude <= DrivableCar.MaximumSpeedForStill || _car.Still)
                         finalSpeed = 0f;
+                    addForce = true;
                 }
 
-                _car.Rigidbody.AddForceAtPosition(transform.forward * finalSpeed, transform.position);
+                if (addForce)
+                    _car.Rigidbody.AddForceAtPosition(transform.forward * finalSpeed, transform.position);
             }
             if (Steer)
             {
@@ -257,7 +262,7 @@ namespace CarJack.Common
                     CurrentSpeed = Mathf.Min(CurrentSpeed + (RotationDeacceleration * Time.deltaTime), 0f);
             }
 
-            if (_car.BrakeHeld && Throttle)
+            if (_car.BrakeHeld && HandBrake)
                 CurrentSpeed = 0f;
 
             _currentRoll += CurrentSpeed * RotationMultiplier * Time.deltaTime;

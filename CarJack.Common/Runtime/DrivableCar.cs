@@ -12,6 +12,8 @@ namespace CarJack.Common
     public class DrivableCar : MonoBehaviour
     {
         private const int CurrentVersion = 1;
+
+        [HideInInspector]
         [SerializeField]
         private int Version = 0;
 
@@ -142,6 +144,8 @@ namespace CarJack.Common
 #if !PLUGIN
         private void OnValidate()
         {
+            if (CurrentVersion != Version)
+                FixUpVersion();
             Version = CurrentVersion;
         }
 #endif
@@ -240,10 +244,15 @@ namespace CarJack.Common
             if (interactionTrigger != null)
                 interactionTrigger.gameObject.layer = 9;
 
+            FixUpVersion();
+        }
+
+        private void FixUpVersion()
+        {
             // Update cars
             if (Version < 1)
             {
-                foreach(var wheel in Wheels)
+                foreach (var wheel in Wheels)
                 {
                     wheel.HandBrake = wheel.Throttle;
                 }

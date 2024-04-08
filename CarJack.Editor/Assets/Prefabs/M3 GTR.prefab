@@ -173,9 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
   Mesh: {fileID: 593446163598965}
   MeshRadius: 0.42
   SteerAngle: 32
@@ -184,6 +181,7 @@ MonoBehaviour:
   Speed: 660
   Throttle: 0
   Steer: 1
+  HandBrake: 0
   Damping: 200
   Strength: 2500
   StartLength: 0
@@ -191,7 +189,9 @@ MonoBehaviour:
   RestDistance: 0.54
   Mass: 5
   Traction: 0.7
-  CurrentSpeed: 0
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
 --- !u!1 &4109881577449000315
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,9 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
   Mesh: {fileID: 4109881577449000315}
   MeshRadius: 0.42
   SteerAngle: 32
@@ -331,6 +328,7 @@ MonoBehaviour:
   Speed: 660
   Throttle: 1
   Steer: 0
+  HandBrake: 1
   Damping: 200
   Strength: 2500
   StartLength: 0
@@ -338,7 +336,9 @@ MonoBehaviour:
   RestDistance: 0.54
   Mass: 5
   Traction: 0.7
-  CurrentSpeed: 0
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
 --- !u!1 &6740702419384636972
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,9 +482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
   Mesh: {fileID: 8991798015665658820}
   MeshRadius: 0.42
   SteerAngle: 32
@@ -493,6 +490,7 @@ MonoBehaviour:
   Speed: 660
   Throttle: 1
   Steer: 0
+  HandBrake: 1
   Damping: 200
   Strength: 2500
   StartLength: 0
@@ -500,7 +498,9 @@ MonoBehaviour:
   RestDistance: 0.54
   Mass: 5
   Traction: 0.7
-  CurrentSpeed: 0
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
 --- !u!1 &7998525243853943427
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,9 +546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
   Mesh: {fileID: 8316634982428060749}
   MeshRadius: 0.42
   SteerAngle: 32
@@ -557,6 +554,7 @@ MonoBehaviour:
   Speed: 660
   Throttle: 0
   Steer: 1
+  HandBrake: 0
   Damping: 200
   Strength: 2500
   StartLength: 0
@@ -564,7 +562,9 @@ MonoBehaviour:
   RestDistance: 0.54
   Mass: 5
   Traction: 0.7
-  CurrentSpeed: 0
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
 --- !u!1 &8275566447239126080
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,14 +634,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Version: 1
   InternalName: carjack.m3gtr
   CounterSteerMultiplier: 0
   SlipMultiplier: 0.8
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
-  AirControlStrength: 1
-  AirControlTopSpeed: 2
-  AirDeacceleration: 0.75
   Deacceleration: 100
   ReverseCurve:
     serializedVersion: 2
@@ -776,7 +774,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 10494993
   CenterOfMass: {fileID: 8275566447246873220}
-  Chassis: {fileID: 8275566447239126080}
+  AirControlStrength: 1
+  AirControlTopSpeed: 2
+  AirDeacceleration: 0.75
+  AirAerodynamics: 0
   ExtraDistance: 0
   ExtraHeight: 0.2
   ExtraPitch: 5
