@@ -55,7 +55,7 @@ namespace CarJack.Common
         [NonSerialized]
         public bool InCar = false;
 
-        private const float ControllerRotationDeadZone = 0.2f;
+        protected const float ControllerRotationDeadZone = 0.2f;
         [NonSerialized]
         public bool InputEnabled = true;
         [NonSerialized]
@@ -461,7 +461,7 @@ namespace CarJack.Common
 #endif
 
 #if PLUGIN
-        private float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
+        protected float GetAxisDeadZone(GameInput gameInput, int actionId, float deadzone)
         {
             var controllerType = gameInput.GetCurrentControllerType(0);
             var axis = gameInput.GetAxis(actionId, 0);
@@ -473,27 +473,10 @@ namespace CarJack.Common
         }
 #endif
 
-        private void PollInputs()
+        protected virtual void PollDrivingInputs()
         {
-            ResetInputs();
-            if (!InputEnabled) return;
-
-            OnHandleInput?.Invoke();
-#if PLUGIN
-            var player = WorldHandler.instance.GetCurrentPlayer();
-            if (player.IsBusyWithSequence() && InCar) return;
-#endif
-
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
-
-            if (InCar)
-            {
-                GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
-            }
-#endif
-            if (!Driving) return;
-#if PLUGIN
             LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
             BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
@@ -553,6 +536,29 @@ namespace CarJack.Common
 
             HornHeld = Input.GetKey(KeyCode.H);
 #endif
+        }
+
+        private void PollInputs()
+        {
+            ResetInputs();
+            if (!InputEnabled) return;
+
+            OnHandleInput?.Invoke();
+#if PLUGIN
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            if (player.IsBusyWithSequence() && InCar) return;
+#endif
+
+#if PLUGIN
+            var gameInput = Core.Instance.GameInput;
+
+            if (InCar)
+            {
+                GetOutOfCarButtonNew = gameInput.GetButtonNew(11, 0);
+            }
+#endif
+            if (!Driving) return;
+            PollDrivingInputs();
         }
 
         private void Awake()
@@ -647,6 +653,11 @@ namespace CarJack.Common
             return true;
         }
 
+        protected virtual void FixedUpdateCar()
+        {
+
+        }
+
         private void FixedUpdate()
         {
 #if PLUGIN
@@ -695,6 +706,7 @@ namespace CarJack.Common
 
             UpdateStill();
             UpdateDrift();
+            FixedUpdateCar();
 #if PLUGIN
             if (GetOutOfCarButtonNew && InCar)
             {

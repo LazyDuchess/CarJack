@@ -117,7 +117,13 @@ namespace CarJack.Common
                 transform.rotation = Quaternion.Euler(euler);
             }
 
-            var normalizedVelocity = Target.Rigidbody.velocity.normalized;
+            var vel = Target.Rigidbody.velocity;
+            if (Target is DrivableChopper)
+                vel.y = 0f;
+
+            var normalizedVelocity = vel.normalized;
+
+
             var targetRotation = transform.rotation;
 
             if (normalizedVelocity.magnitude > float.Epsilon && !Target.Still)
@@ -128,7 +134,7 @@ namespace CarJack.Common
                 targetRotation = Quaternion.Euler(euler);
             }
 
-            var currentRotation = Quaternion.Lerp(transform.rotation, targetRotation, Mathf.Min(maxLerp, LerpMultiplier * Target.Rigidbody.velocity.magnitude) * Time.deltaTime).eulerAngles;
+            var currentRotation = Quaternion.Lerp(transform.rotation, targetRotation, Mathf.Min(maxLerp, LerpMultiplier * vel.magnitude) * Time.deltaTime).eulerAngles;
 
             if (_currentFreeCameraTimer <= 0f)
             {
