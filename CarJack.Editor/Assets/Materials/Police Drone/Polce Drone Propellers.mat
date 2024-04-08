@@ -8,16 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Polce Drone Propellers
-  m_Shader: {fileID: 4800000, guid: 3b9fa45dfde9bcc4585ed407c6f27544, type: 3}
+  m_Shader: {fileID: 4800000, guid: 643b348886d318a44962ed19fd734723, type: 3}
   m_ValidKeywords:
   - _EMISSIONUV_UV0
   - _MAINTEXUV_UV0
-  - _TRANSPARENCY_OPAQUE
+  - _TRANSPARENCY_CUTOUT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -65,7 +65,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendDst: 0
+    - _BlendSrc: 1
     - _BumpScale: 1
+    - _Cull: 2
     - _CutOut: 0.1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -91,7 +94,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Transparency: 0
+    - _Transparency: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

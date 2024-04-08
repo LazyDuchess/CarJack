@@ -45,6 +45,41 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.06, y: 2.6210785, z: 1.2995288}
   m_Center: {x: 0, y: 0.8105388, z: -0.3254465}
+--- !u!1 &1402429521197850791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5217600007484841501}
+  m_Layer: 0
+  m_Name: Land Sensors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5217600007484841501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402429521197850791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5028851489208561702}
+  - {fileID: 8577442315651810536}
+  - {fileID: 6554221341881735889}
+  - {fileID: 4508083722359834832}
+  m_Father: {fileID: 8275566447239126142}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1444120322026873981
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 1
   controller: {fileID: 9100000, guid: 0c1f2dd3d7ceae546824e20f7f546222, type: 2}
-  Car: {fileID: 8275566447239126081}
+  Car: {fileID: 0}
   HonkLayerIndex: -1
   ReverseLayerIndex: -1
   ReverseAnimationLerp: 10
@@ -142,6 +177,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1085075, y: 0.25102687, z: 1.7964523}
   m_Center: {x: -1.2424592, y: -0.004197232, z: 1.8316523}
+--- !u!1 &3229065571648840669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5028851489208561702}
+  m_Layer: 0
+  m_Name: SensorR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5028851489208561702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3229065571648840669}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.728, y: 0, z: 1.163}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5217600007484841501}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3307079187318730718
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +447,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &4779228869826067783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8577442315651810536}
+  m_Layer: 0
+  m_Name: SensorR (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8577442315651810536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4779228869826067783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.728, y: 0, z: -2.075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5217600007484841501}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5675234274735719179
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,8 +525,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 8275566447239126081}
+  Car: {fileID: 0}
   SeatIndex: 2
+--- !u!1 &7114154920980698110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4508083722359834832}
+  m_Layer: 0
+  m_Name: SensorL (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4508083722359834832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7114154920980698110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.728, y: 0, z: -2.075}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5217600007484841501}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7164657803896314984
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 8275566447239126081}
+  Car: {fileID: 0}
   SeatIndex: 1
 --- !u!1 &7767011874431151520
 GameObject:
@@ -571,8 +699,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 8275566447239126081}
+  Car: {fileID: 0}
   SeatIndex: 0
+--- !u!1 &7945549253848009085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6554221341881735889}
+  m_Layer: 0
+  m_Name: SensorL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6554221341881735889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7945549253848009085}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.728, y: 0, z: 1.163}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5217600007484841501}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8231168376041185584
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,9 +838,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8275566447239126142}
-  - component: {fileID: 8275566447239126081}
-  - component: {fileID: 5950162169294604391}
   - component: {fileID: 8275566447239126143}
+  - component: {fileID: 4085168761087728210}
   m_Layer: 17
   m_Name: Police Drone
   m_TagString: Untagged
@@ -711,180 +869,10 @@ Transform:
   - {fileID: 8275566447246873220}
   - {fileID: 653122684}
   - {fileID: 1077094333957414405}
+  - {fileID: 5217600007484841501}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8275566447239126081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275566447239126080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf528f8ee4aa56246a46f1643c213765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Version: 1
-  InternalName: carjack.policedrone
-  CounterSteerMultiplier: 0.1
-  SlipMultiplier: 0.75
-  HasSurfaceAngleLimit: 1
-  SurfaceAngleLimit: 60
-  Deacceleration: 100
-  ReverseCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.95047265
-      inSlope: -0.02867245
-      outSlope: -0.02867245
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.114588186
-    - serializedVersion: 3
-      time: 0.05381821
-      value: 0.93406576
-      inSlope: -0.96107084
-      outSlope: -0.96107084
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.038212616
-    - serializedVersion: 3
-      time: 1
-      value: 0.00023611449
-      inSlope: -0.5996323
-      outSlope: -0.5996323
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.050715696
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  ReverseCurveMax: 15
-  BrakeForce: 500
-  HandBrakeForce: 500
-  SteerCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -1.4411831
-      outSlope: -1.4411831
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.03084833
-    - serializedVersion: 3
-      time: 1
-      value: 0.21053244
-      inSlope: -0.77380484
-      outSlope: -0.77380484
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.037703514
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SteerCurveMax: 60
-  SpeedCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0006922673
-      value: 0.9996276
-      inSlope: 0.06522362
-      outSlope: 0.06522362
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.11092569
-    - serializedVersion: 3
-      time: 0.27106035
-      value: 0.5699224
-      inSlope: -2.0615873
-      outSlope: -2.0615873
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.05689013
-      outWeight: 0.042142514
-    - serializedVersion: 3
-      time: 0.9991455
-      value: 0.00000021699816
-      inSlope: -0.36502627
-      outSlope: -0.36502627
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.08382057
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SpeedCurveMax: 150
-  TractionCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -1.1015166
-      outSlope: -1.1015166
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.53030396
-      value: 0.41586137
-      inSlope: -0.8372832
-      outSlope: -0.8372832
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.11027503
-      outWeight: 0.15419851
-    - serializedVersion: 3
-      time: 0.998211
-      value: 0.14476925
-      inSlope: -0.15900438
-      outSlope: -0.15900438
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.18140158
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  TractionCurveMax: 90
-  GroundMask:
-    serializedVersion: 2
-    m_Bits: 10494993
-  CenterOfMass: {fileID: 8275566447246873220}
-  AirControlStrength: 1
-  AirControlTopSpeed: 2
-  AirDeacceleration: 0.75
-  AirAerodynamics: 0
-  ExtraDistance: 0
-  ExtraHeight: 0
-  ExtraPitch: 0
---- !u!114 &5950162169294604391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8275566447239126080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b07fa54700c052c4ebad8cf8ace6fc44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &8275566447239126143
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -901,6 +889,71 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &4085168761087728210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275566447239126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7af60cb3b9cdeaf43ab343776ef61fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Version: 1
+  InternalName: carjack.policedrone
+  CounterSteerMultiplier: 0.1
+  SlipMultiplier: 0.75
+  HasSurfaceAngleLimit: 1
+  SurfaceAngleLimit: 60
+  Deacceleration: 100
+  ReverseCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ReverseCurveMax: 50
+  BrakeForce: 1000
+  HandBrakeForce: 500
+  SteerCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SteerCurveMax: 50
+  SpeedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpeedCurveMax: 50
+  TractionCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  TractionCurveMax: 50
+  GroundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  CenterOfMass: {fileID: 0}
+  AirControlStrength: 1
+  AirControlTopSpeed: 2
+  AirDeacceleration: 1
+  AirAerodynamics: 0
+  ExtraDistance: 0
+  ExtraHeight: 0
+  ExtraPitch: 0
+  _landingSensors:
+  - {fileID: 5028851489208561702}
+  - {fileID: 8577442315651810536}
+  - {fileID: 6554221341881735889}
+  - {fileID: 4508083722359834832}
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0

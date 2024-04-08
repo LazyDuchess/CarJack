@@ -141,10 +141,6 @@ namespace CarJack.Common
 
         private CarPassengerSeat[] _passengerSeats;
 
-        public bool IsHelicopter => Helicopter != null;
-        [NonSerialized]
-        public HelicopterCarType Helicopter;
-
 #if !PLUGIN
         private void OnValidate()
         {
@@ -561,7 +557,6 @@ namespace CarJack.Common
 
         private void Awake()
         {
-            Helicopter = GetComponent<HelicopterCarType>();
             Chassis = gameObject;
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
             DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
@@ -642,6 +637,16 @@ namespace CarJack.Common
             Rigidbody.angularVelocity = _angularVelocityBeforePause;
         }
 
+        protected virtual bool CheckGrounded()
+        {
+            foreach (var wheel in Wheels)
+            {
+                if (!wheel.Grounded)
+                    return false;
+            }
+            return true;
+        }
+
         private void FixedUpdate()
         {
 #if PLUGIN
@@ -660,18 +665,14 @@ namespace CarJack.Common
             }
 #endif
             UpdateCounterSteer();
-            var wheelsGrounded = 0;
             foreach (var wheel in Wheels)
             {
                 wheel.DoPhysics(ref _resting);
-                if (wheel.Grounded)
-                    wheelsGrounded++;
             }
             _previousAngularVelocity = Rigidbody.angularVelocity;
             _previousVelocity = Rigidbody.velocity;
 
-            if (wheelsGrounded == Wheels.Length)
-                _grounded = true;
+            _grounded = CheckGrounded();
 
             var angle = Vector3.Angle(Vector3.up, transform.up);
             if (angle >= 50f)
@@ -686,7 +687,7 @@ namespace CarJack.Common
 
             //var airControlMultiplier = (-((float)wheelsGrounded / Wheels.Length)) + 1f;
             //AirControl(airControlMultiplier);
-            if (wheelsGrounded == 0)
+            if (!_grounded)
             {
                 AirControl(1f);
                 UpdateAirAero();
