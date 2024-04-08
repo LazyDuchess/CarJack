@@ -26,6 +26,8 @@ On Controller, the left stick lets you adjust the pitch and yaw of your vehicle.
 
 On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. Holding handbrake lets you adjust the pitch with the accelerate and reverse keys and the roll with the steering keys.
 
+Helicopter control type can be changed from the BepInEx plugin settings.
+
 ### Helicopter (Type A)
 
 | Action                       | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
