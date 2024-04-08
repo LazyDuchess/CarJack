@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace CarJack.Common
 {
-    public class Propeller : MonoBehaviour
+    public class Rotor : MonoBehaviour
     {
         public float Speed = 1f;
         private DrivableChopper _chopper;

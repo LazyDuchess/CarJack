@@ -96,6 +96,17 @@ namespace CarJack.Common
                 throttleAxis = -1f;
             }
 
+            if (ThrottleAmount >= 0.5f && Grounded && ThrottleAxis == 0f)
+            {
+                throttleAxis = 0f;
+
+                if (0.9f > ThrottleAmount)
+                    throttleAxis = 1f;
+
+                if (ThrottleAmount > 0.9f)
+                    ThrottleAmount = 0.9f;
+            }
+
             ThrottleAmount += throttleAxis * ThrottleSpeed * Time.deltaTime;
             ThrottleAmount = Mathf.Clamp(ThrottleAmount, 0f, 1f);
 
@@ -113,6 +124,8 @@ namespace CarJack.Common
 
             var howMuchVerticalFrictionToApply = (-Mathf.Abs(Vector3.Dot(transform.up, Vector3.up)) + 1f) * NoseDownMultiplier;
             howMuchVerticalFrictionToApply = Mathf.Min(1f, howMuchVerticalFrictionToApply);
+
+            howMuchVerticalFrictionToApply *= Mathf.Min(0f, ThrottleAxis) + 1f;
             //var howMuchVerticalFrictionToApply = Mathf.Abs(PitchAxis);
             //howMuchVerticalFrictionToApply = Mathf.Clamp(howMuchVerticalFrictionToApply, 0f, 1f);
 
@@ -137,11 +150,12 @@ namespace CarJack.Common
                 var velWithoutUp = Rigidbody.velocity - Vector3.Project(Rigidbody.velocity, Vector3.up);
                 Rigidbody.velocity = Vector3.Lerp(Rigidbody.velocity, velWithoutUp, AirVerticalFriction * howMuchVerticalFrictionToApply * Time.deltaTime);
 
-                var facing = (transform.up - Vector3.Project(transform.up, Vector3.up)).normalized;
+                var facing = new Vector3(transform.up.x, 0f, transform.up.z).normalized;
                 //var facing = transform.up;
 
                 Rigidbody.AddForce(facing * (MovementAcceleration * Mathf.Max(0f, ThrottleAxis)) * howMuchVerticalFrictionToApply, ForceMode.Acceleration);
                 Rigidbody.AddForce(facing * IdleAcceleration * howMuchVerticalFrictionToApply, ForceMode.Acceleration);
+
             }
         }
 

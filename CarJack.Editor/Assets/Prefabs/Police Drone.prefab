@@ -945,7 +945,7 @@ MonoBehaviour:
   AirControlStrength: 1
   AirControlTopSpeed: 2
   AirDeacceleration: 1
-  AirAerodynamics: 1
+  AirAerodynamics: 0.5
   ExtraDistance: 6
   ExtraHeight: 2
   ExtraPitch: 20
@@ -957,12 +957,10 @@ MonoBehaviour:
   ThrottleSpeed: 0.25
   LiftAcceleration: 6
   LiftLerp: 5
-  AirFriction: 0
   UprightForce: 0.025
-  MovementAcceleration: 20
-  IdleAcceleration: 2
-  AirVerticalFriction: 1
-  SpinSpeed: 1
+  MovementAcceleration: 35
+  IdleAcceleration: 5
+  AirVerticalFriction: 5
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1067,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2374737908318640437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08164a7d23381b348b7805b606a153df, type: 3}
+  m_Script: {fileID: 11500000, guid: 651e9d70c9911d64ab5b57848ae51a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1000
@@ -1308,7 +1306,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6968283897328499645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08164a7d23381b348b7805b606a153df, type: 3}
+  m_Script: {fileID: 11500000, guid: 651e9d70c9911d64ab5b57848ae51a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1000
