@@ -11,6 +11,17 @@ namespace CarJack.Plugin
 {
     public class PluginCarConfig : ICarConfig
     {
+        public ChopperControlTypes ChopperControlType
+        {
+            get
+            {
+                return _chopperControlType.Value;
+            }
+            set
+            {
+                _chopperControlType.Value = value;
+            }
+        }
         public bool DeveloperMode
         {
             get
@@ -65,6 +76,8 @@ namespace CarJack.Plugin
         private ConfigEntry<bool> _developerMode;
         private ConfigEntry<KeyCode> _reloadBundlesKey;
 
+        private ConfigEntry<ChopperControlTypes> _chopperControlType;
+
         public PluginCarConfig(ConfigFile configFile)
         {
             _continuousCollisionDetection = configFile.Bind(
@@ -93,6 +106,15 @@ namespace CarJack.Plugin
                 "ReloadBundlesKey",
                 KeyCode.F8,
                 "Key to reload all bundles when in developer mode."
+                );
+
+            _chopperControlType = configFile.Bind(
+                "Controls",
+                "ChopperControlType",
+                ChopperControlTypes.A,
+                @"Control type for helicopters on controller.
+A: Left Stick to adjust pitch/roll, face buttons to adjust yaw.
+B: Left Stick to adjust pitch/yaw, face buttons to adjust roll."
                 );
         }
     }

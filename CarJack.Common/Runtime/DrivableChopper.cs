@@ -37,17 +37,30 @@ namespace CarJack.Common
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
             var controllerType = gameInput.GetCurrentControllerType(0);
+            var controlType = CarController.Config.ChopperControlType;
 
             if (controllerType == Rewired.ControllerType.Joystick)
             {
                 BrakeHeld = gameInput.GetButtonHeld(7, 0);
                 PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
-                if (BrakeHeld)
-                    RollAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
-                else
-                    YawAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+                
                 ThrottleAxis += gameInput.GetAxis(8, 0);
                 ThrottleAxis -= gameInput.GetAxis(18, 0);
+
+                if (controlType == ChopperControlTypes.A)
+                {
+                    YawAxis += gameInput.GetButtonHeld(65, 0) ? 1f : 0f;
+                    YawAxis -= gameInput.GetButtonHeld(15, 0) ? 1f : 0f;
+
+                    RollAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+                }
+                else
+                {
+                    RollAxis += gameInput.GetButtonHeld(65, 0) ? 1f : 0f;
+                    RollAxis -= gameInput.GetButtonHeld(15, 0) ? 1f : 0f;
+
+                    YawAxis = GetAxisDeadZone(gameInput, 5, ControllerRotationDeadZone);
+                }
             }
             else
             {
