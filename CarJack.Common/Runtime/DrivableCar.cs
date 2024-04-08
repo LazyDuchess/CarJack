@@ -5,6 +5,7 @@ using Reptile;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace CarJack.Common
 {
@@ -238,6 +239,15 @@ namespace CarJack.Common
             //PlayerInteract
             if (interactionTrigger != null)
                 interactionTrigger.gameObject.layer = 9;
+
+            // Update cars
+            if (Version < 1)
+            {
+                foreach(var wheel in Wheels)
+                {
+                    wheel.HandBrake = wheel.Throttle;
+                }
+            }
         }
 
         private void PlaceAtLastSafeLocation()
@@ -538,8 +548,6 @@ namespace CarJack.Common
 
         private void Awake()
         {
-            FixUp();
-
             Chassis = gameObject;
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
             DriverSeat = Chassis.GetComponentInChildren<CarDriverSeat>();
@@ -555,6 +563,7 @@ namespace CarJack.Common
                 wheel.Initialize(this);
 
             ResetLastSafeLocation();
+            FixUp();
 #if PLUGIN
             Core.OnCoreUpdatePaused += OnPause;
             Core.OnCoreUpdateUnPaused += OnUnPause;

@@ -17,6 +17,7 @@ namespace CarJack.Common
         public float Speed = 10f;
         public bool Throttle = false;
         public bool Steer = false;
+        public bool HandBrake = false;
         public float Damping = 0f;
         public float Strength = 0f;
         public float StartLength = 0f;
