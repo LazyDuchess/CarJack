@@ -15,6 +15,7 @@ namespace CarJack.Common
     public class CarCamera : MonoBehaviour
     {
         public static bool Enabled = true;
+        private const float ReferenceDeltaTime = 1f / 60f;
         public static CarCamera Instance { get; private set; }
         public float Radius = 0.1f;
         public float MaxLerpSpeed = 5f;
@@ -63,6 +64,10 @@ namespace CarJack.Common
 
             if (gameInput.GetCurrentControllerType(0) == ControllerType.Joystick)
             {
+                var dt = ReferenceDeltaTime / Time.deltaTime;
+                _xAxis *= dt;
+                _yAxis *= dt;
+
                 _currentFreeCameraTimer = 0f;
                 _controller = true;
             }
