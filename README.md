@@ -36,6 +36,8 @@ Helicopter control type can be changed from the BepInEx plugin settings.
 | Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
 | Roll Right                   | Right Arrow       | Left Stick    | Right            |                         |
 | Roll Left                    | Left Arrow        | Left Stick    | Left             |                         |
+| Pitch Down                   | Up Arrow          | Left Stick    | Phone up         |                         |
+| Pitch Up                     | Down Arrow        | Left Stick    | Phone down       |                         |
 | Turn Right                   | D                 | B             | Right            | Trick 3                 |
 | Turn Left                    | A                 | X             | Left             | Trick 1                 |
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
@@ -50,6 +52,8 @@ Helicopter control type can be changed from the BepInEx plugin settings.
 | Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
 | Roll Right                   | Right Arrow       | B             | Right            | Trick 3                 |
 | Roll Left                    | Left Arrow        | X             | Left             | Trick 1                 |
+| Pitch Down                   | Up Arrow          | Left Stick    | Phone up         |                         |
+| Pitch Up                     | Down Arrow        | Left Stick    | Phone down       |                         |
 | Turn Right                   | D                 | Left Stick    | Right            |                         |
 | Turn Left                    | A                 | Left Stick    | Left             |                         |
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
