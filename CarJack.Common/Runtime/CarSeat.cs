@@ -16,6 +16,7 @@ namespace CarJack.Common
     {
         public bool PlayerVisible = true;
         public RuntimeAnimatorController controller;
+        [NonSerialized]
         public DrivableCar Car;
         private float _blinkTimer = 0f;
         private const float BlinkDuration = 0.1f;

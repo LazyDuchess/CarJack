@@ -8,24 +8,35 @@ namespace CarJack.Common
     {
         [NonSerialized]
         public bool Grounded = false;
-        public GameObject Mesh;
-        public float MeshRadius = 0.5f;
 
-        public float SteerAngle = 45f;
-        public float SteerSpeed = 5f;
-        public float ReverseSpeed = 400f;
-        public float Speed = 10f;
-        public bool Throttle = false;
-        public bool Steer = false;
-        public bool HandBrake = false;
+        [Header("Suspension")]
         public float Damping = 0f;
         public float Strength = 0f;
         public float StartLength = 0f;
         public float MaxDistance = 0f;
         public float RestDistance = 0f;
-        public float Mass = 10f;
 
+        [Header("Visuals")]
+        public GameObject Mesh;
+        public float MeshRadius = 0.5f;
+        public float RotationAcceleration = 100f;
+        public float RotationDeacceleration = 1f;
+        public float RotationMultiplier = 1f;
+
+        [Header("Stats")]
+        public float Mass = 10f;
         public float Traction = 0.5f;
+        public float SteerAngle = 45f;
+        public float SteerSpeed = 5f;
+        public float ReverseSpeed = 400f;
+        public float Speed = 10f;
+
+        [Header("Functionality")]
+        public bool Throttle = false;
+        public bool Steer = false;
+        public bool HandBrake = false;
+        
+        
         [NonSerialized]
         public float CurrentSpeed = 0f;
 
@@ -44,9 +55,7 @@ namespace CarJack.Common
         private const float WheelSpinSlipThreshold = 5f;
         private const float MaxSlipTractionLoss = 0.9f;
 
-        public float RotationAcceleration = 100f;
-        public float RotationDeacceleration = 1f;
-        public float RotationMultiplier = 1f;
+        
 
         public void Initialize(DrivableCar car)
         {

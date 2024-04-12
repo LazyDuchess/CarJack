@@ -26,6 +26,8 @@ On Controller, the left stick lets you adjust the pitch and yaw of your vehicle.
 
 On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. Holding handbrake lets you adjust the pitch with the accelerate and reverse keys and the roll with the steering keys.
 
+Helicopter control type can be changed from the BepInEx plugin settings.
+
 ### Helicopter (Type A)
 
 | Action                       | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
@@ -34,6 +36,8 @@ On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. H
 | Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
 | Roll Right                   | Right Arrow       | Left Stick    | Right            |                         |
 | Roll Left                    | Left Arrow        | Left Stick    | Left             |                         |
+| Pitch Down                   | Up Arrow          | Left Stick    | Phone up         |                         |
+| Pitch Up                     | Down Arrow        | Left Stick    | Phone down       |                         |
 | Turn Right                   | D                 | B             | Right            | Trick 3                 |
 | Turn Left                    | A                 | X             | Left             | Trick 1                 |
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
@@ -48,6 +52,8 @@ On Keyboard + Mouse, the steering keys let you adjust the yaw of your vehicle. H
 | Go Down                      | S                 | Left Trigger  | Back             | Boost                   |
 | Roll Right                   | Right Arrow       | B             | Right            | Trick 3                 |
 | Roll Left                    | Left Arrow        | X             | Left             | Trick 1                 |
+| Pitch Down                   | Up Arrow          | Left Stick    | Phone up         |                         |
+| Pitch Up                     | Down Arrow        | Left Stick    | Phone down       |                         |
 | Turn Right                   | D                 | Left Stick    | Right            |                         |
 | Turn Left                    | A                 | Left Stick    | Left             |                         |
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
