@@ -25,6 +25,7 @@ namespace CarJack.Plugin
             PhoneAPI.RegisterApp<CarJackApp>("carjack", Icon);
             PhoneAPI.RegisterApp<SpawnCarApp>("spawn car", Icon);
             PhoneAPI.RegisterApp<SpawnCarByBundleApp>("choose bundle", Icon);
+            PhoneAPI.RegisterApp<RecolorApp>("whipremix", Icon);
         }
 
         public override void OnAppInit()
@@ -68,6 +69,13 @@ namespace CarJack.Plugin
                 ToggleAutoRecover();
             };
             ScrollView.AddButton(_autoRecoverButton);
+
+            var whipRemixButton = PhoneUIUtility.CreateSimpleButton("WhipRemix");
+            whipRemixButton.OnConfirm += () =>
+            {
+                MyPhone.OpenApp(typeof(RecolorApp));
+            };
+            ScrollView.AddButton(whipRemixButton);
 
             UpdateDoorsLockedLabel();
         }

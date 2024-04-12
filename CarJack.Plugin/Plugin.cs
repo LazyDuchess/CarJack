@@ -6,6 +6,7 @@ using CarJack.Common;
 using System.Reflection;
 using BepInEx.Bootstrap;
 using System.Diagnostics;
+using CarJack.Common.WhipRemix;
 
 namespace CarJack.Plugin
 {
@@ -31,6 +32,7 @@ namespace CarJack.Plugin
                 carAssets.PluginDirectoryName = Path.GetFileName(Path.GetDirectoryName(Info.Location));
                 carAssets.LoadBundles();
 
+                RecolorManager.Initialize(Paths.PluginPath);
                 CarController.Initialize(new PluginCarConfig(Config));
 
                 if (CarController.Config.DeveloperMode)
