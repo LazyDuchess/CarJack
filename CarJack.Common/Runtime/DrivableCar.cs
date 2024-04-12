@@ -159,7 +159,11 @@ namespace CarJack.Common
         private float _autoRecoveryTimer = AutoRecoveryTime;
         private void UpdateAutoRecovery()
         {
-            if (!PlayerData.Instance.AutoRecover || !AllowAutoRecovery)
+            var autoRecover = true;
+#if PLUGIN
+            autoRecover = PlayerData.Instance.AutoRecover;
+#endif
+            if (!autoRecover || !AllowAutoRecovery)
             {
                 _autoRecoveryTimer = AutoRecoveryTime;
                 return;
