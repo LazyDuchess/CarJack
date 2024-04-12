@@ -9,6 +9,8 @@ A new `carjack` app will be available on your phone. Use it to access this mod's
 ## Controls
 Below are the controls, their default bindings for both Keyboard + Mouse and Controller and their corresponding inputs in the in-game `Settings -> Input` Menu.
 
+To bring up the phone while in a car on keyboard, use the Dance button. `F` by default.
+
 | Action                | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
 |-----------------------|-------------------|---------------|------------------|-------------------------|
 | Accelerate            | W                 | Right Trigger | Forward          | Slide                   |
