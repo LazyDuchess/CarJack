@@ -22,6 +22,7 @@ namespace CarJack.Common
     {
         public static CarController Instance { get; private set; }
         public static ICarConfig Config;
+        public static Action OnPlayerExitingCar;
         public DrivableCar CurrentCar;
         public CarPassengerSeat CurrentSeat;
         public static void Initialize(ICarConfig config)
@@ -166,6 +167,7 @@ namespace CarJack.Common
         {
             var car = CurrentCar;
             if (CurrentCar == null) return;
+            OnPlayerExitingCar?.Invoke();
             var wasPassenger = false;
             if (CurrentCar.Driving)
                 CurrentCar.ExitCar();
