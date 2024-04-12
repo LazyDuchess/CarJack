@@ -32,6 +32,12 @@ namespace CarJack.Common
         [NonSerialized]
         public float LiftAmount = 0f;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            AllowAutoRecovery = false;
+        }
+
         protected override void PollDrivingInputs()
         {
 #if PLUGIN

@@ -139,6 +139,8 @@ namespace CarJack.Common
         public float CounterSteering = 0f;
         [NonSerialized]
         public bool DoorsLocked = false;
+        [NonSerialized]
+        public bool AllWheelsOffGround = false;
 
         private CarPassengerSeat[] _passengerSeats;
 
@@ -150,11 +152,18 @@ namespace CarJack.Common
             Version = CurrentVersion;
         }
 #endif
+        [NonSerialized]
+        protected bool AllowAutoRecovery = true;
         private const float AutoRecoveryVelocityThreshold = 0.1f;
         private const float AutoRecoveryTime = 1f;
         private float _autoRecoveryTimer = AutoRecoveryTime;
         private void UpdateAutoRecovery()
         {
+            if (!PlayerData.Instance.AutoRecover || !AllowAutoRecovery)
+            {
+                _autoRecoveryTimer = AutoRecoveryTime;
+                return;
+            }
             if (IsStuck())
             {
                 _autoRecoveryTimer -= Time.deltaTime;
@@ -172,7 +181,7 @@ namespace CarJack.Common
         {
             var velocity = Rigidbody.velocity.magnitude + Rigidbody.angularVelocity.magnitude;
             if (velocity > AutoRecoveryVelocityThreshold) return false;
-            if (Grounded && !_steep) return false;
+            if (!AllWheelsOffGround && !_steep) return false;
             return true;
         }
 
@@ -587,7 +596,7 @@ namespace CarJack.Common
             PollDrivingInputs();
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             Chassis = gameObject;
             _passengerSeats = Chassis.GetComponentsInChildren<CarPassengerSeat>();
@@ -689,6 +698,7 @@ namespace CarJack.Common
 #if PLUGIN
             if (Core.Instance.IsCorePaused) return;
 #endif
+            AllWheelsOffGround = true;
             _resting = true;
             _grounded = false;
             _steep = false;
@@ -705,6 +715,8 @@ namespace CarJack.Common
             foreach (var wheel in Wheels)
             {
                 wheel.DoPhysics(ref _resting);
+                if (wheel.Grounded)
+                    AllWheelsOffGround = false;
             }
             _previousAngularVelocity = Rigidbody.angularVelocity;
             _previousVelocity = Rigidbody.velocity;

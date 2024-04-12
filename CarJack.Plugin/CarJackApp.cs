@@ -18,6 +18,7 @@ namespace CarJack.Plugin
         private static Sprite Icon;
         private SimplePhoneButton _doorButton;
         private SimplePhoneButton _muteButton;
+        private SimplePhoneButton _autoRecoverButton;
         public static void Initialize(string location)
         {
             Icon = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
@@ -61,6 +62,13 @@ namespace CarJack.Plugin
             };
             ScrollView.AddButton(_muteButton);
 
+            _autoRecoverButton = PhoneUIUtility.CreateSimpleButton("Auto-Recovery: ON");
+            _autoRecoverButton.OnConfirm += () =>
+            {
+                ToggleAutoRecover();
+            };
+            ScrollView.AddButton(_autoRecoverButton);
+
             UpdateDoorsLockedLabel();
         }
 
@@ -69,6 +77,14 @@ namespace CarJack.Plugin
             base.OnAppUpdate();
             UpdateDoorsLockedLabel();
             UpdateMutePlayersLabel();
+            UpdateAutoRecoverLabel();
+        }
+
+        private void ToggleAutoRecover()
+        {
+            PlayerData.Instance.AutoRecover = !PlayerData.Instance.AutoRecover;
+            UpdateAutoRecoverLabel();
+            PlayerData.Instance.Save();
         }
 
         private void ToggleDoorsLocked()
@@ -84,6 +100,11 @@ namespace CarJack.Plugin
             PlayerData.Instance.MutePlayers = !PlayerData.Instance.MutePlayers;
             UpdateMutePlayersLabel();
             PlayerData.Instance.Save();
+        }
+
+        private void UpdateAutoRecoverLabel()
+        {
+            _autoRecoverButton.Label.text = "Auto-Recovery: " + (PlayerData.Instance.AutoRecover ? "ON" : "OFF");
         }
 
         private void UpdateMutePlayersLabel()

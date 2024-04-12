@@ -12,6 +12,7 @@ using UnityEngine.Video;
 #if PLUGIN
 using Rewired;
 using Reptile;
+using Reptile.Phone;
 #endif
 using System.Runtime.ConstrainedExecution;
 
@@ -83,8 +84,9 @@ namespace CarJack.Common
                 if (gameInput.GetCurrentControllerType() == ControllerType.Keyboard && CurrentCar.Driving)
                 {
                     var bringUpPhoneButton = gameInput.GetButtonNew(17, 0);
-                    if (bringUpPhoneButton)
+                    if (bringUpPhoneButton && !player.IsBusyWithSequence() && !player.phoneLocked && player.phone.m_PhoneAllowed && (player.phone.state == Phone.PhoneState.OFF || player.phone.state == Phone.PhoneState.BOOTINGUP || player.phone.state == Phone.PhoneState.SHUTTINGDOWN))
                     {
+                        player.phone.audioManager.PlaySfxGameplay(SfxCollectionID.MenuSfx, AudioClipID.ui_phoneFlipOpen, 0f);
                         player.phone.TurnOn();
                     }
                 }
