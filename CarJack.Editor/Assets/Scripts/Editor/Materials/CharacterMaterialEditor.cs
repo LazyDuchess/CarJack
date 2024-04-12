@@ -73,6 +73,9 @@ public class CharacterMaterialEditor : ShaderGUI
         {
             if ((property.flags & MaterialProperty.PropFlags.HideInInspector) == MaterialProperty.PropFlags.HideInInspector)
                 continue;
+            var outlineProperty = ShaderGUI.FindProperty("_Outline", properties);
+            if (outlineProperty.floatValue == 0f && property != outlineProperty && property.name.Contains("Outline"))
+                continue;
             if (property.name == "_MainTex" || property.name == "_Emission")
             {
                 EditorGUILayout.BeginVertical("GroupBox");

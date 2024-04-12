@@ -33,6 +33,17 @@ namespace CarJack.Common
                 _data.MutePlayers = value;
             }
         }
+        public bool AutoRecover
+        {
+            get
+            {
+                return _data.AutoRecover;
+            }
+            set
+            {
+                _data.AutoRecover = value;
+            }
+        }
         private SerializedData _data;
 
         public PlayerData()
@@ -71,6 +82,7 @@ namespace CarJack.Common
         {
             public bool DoorsLocked = false;
             public bool MutePlayers = false;
+            public bool AutoRecover = true;
         }
     }
 }

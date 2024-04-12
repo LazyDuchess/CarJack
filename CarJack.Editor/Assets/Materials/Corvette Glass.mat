@@ -7,18 +7,17 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Police Drone
-  m_Shader: {fileID: 4800000, guid: 3b9fa45dfde9bcc4585ed407c6f27544, type: 3}
+  m_Name: Corvette Glass
+  m_Shader: {fileID: 4800000, guid: 643b348886d318a44962ed19fd734723, type: 3}
   m_ValidKeywords:
   - _EMISSIONUV_UV0
   - _MAINTEXUV_UV0
-  - _OUTLINE_ON
-  - _TRANSPARENCY_OPAQUE
+  - _TRANSPARENCY_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -41,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 2800000, guid: af3e3360db979f641bf7d109a76459c4, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -49,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 619a92e2bfa9b384b88f632611b8506d, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -66,7 +65,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendDst: 10
+    - _BlendSrc: 5
     - _BumpScale: 1
+    - _Cull: 2
     - _CutOut: 0.1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -82,22 +84,17 @@ Material:
     - _MainTexUSpeed: 0
     - _MainTexUV: 0
     - _MainTexVSpeed: 0
-    - _MaxOutlineSize: 0.008
     - _Metallic: 0
-    - _MinOutlineSize: 0.002
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 1
-    - _OutlineMultiplier: 0.005
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Transparency: 0
+    - _Transparency: 2
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.20392153, g: 1, b: 0.96221095, a: 0.34117648}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

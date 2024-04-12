@@ -32,6 +32,12 @@ namespace CarJack.Common
         [NonSerialized]
         public float LiftAmount = 0f;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            AllowAutoRecovery = false;
+        }
+
         protected override void PollDrivingInputs()
         {
 #if PLUGIN
@@ -41,7 +47,7 @@ namespace CarJack.Common
 
             if (controllerType == Rewired.ControllerType.Joystick)
             {
-                LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
+                //LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
                 PitchAxis = GetAxisDeadZone(gameInput, 6, ControllerRotationDeadZone);
                 
                 ThrottleAxis += gameInput.GetAxis(8, 0);
@@ -64,7 +70,7 @@ namespace CarJack.Common
             }
             else
             {
-                LockDoorsButtonNew = gameInput.GetButtonNew(7, 0);
+                //LockDoorsButtonNew = gameInput.GetButtonNew(7, 0);
                 YawAxis = gameInput.GetAxis(5, 0);
                 ThrottleAxis = gameInput.GetAxis(6, 0);
 

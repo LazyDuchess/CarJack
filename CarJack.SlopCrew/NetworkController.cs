@@ -16,6 +16,8 @@ namespace CarJack.SlopCrew
     {
         public List<PlayerCarData> PlayerCars;
         public static NetworkController Instance { get; private set; }
+        private const byte KickPassengersPacketVersion = 0;
+        private const string KickPassengersPacketGUID = "CarJack-KickPassengers";
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
         private const float TickRate = 0.1f;
@@ -46,22 +48,65 @@ namespace CarJack.SlopCrew
             _playerCarsById = new();
             _api = APIManager.API;
             _api.OnCustomPacketReceived += _api_OnCustomPacketReceived;
+            CarController.OnPlayerExitingCar += SendKickPassengersPacket;
         }
         
         private void OnDestroy()
         {
             _api.OnCustomPacketReceived -= _api_OnCustomPacketReceived;
+            CarController.OnPlayerExitingCar -= SendKickPassengersPacket;
         }
 
         private void _api_OnCustomPacketReceived(uint playerId, string guid, byte[] data)
         {
-            if (guid != PlayerCarPacket.GUID)
-                return;
-            var packet = new PlayerCarPacket();
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
-            packet.Deserialize(reader);
+            switch (guid)
+            {
+                case KickPassengersPacketGUID:
+                    OnKickPassengersPacketReceived(playerId, reader);
+                    break;
+                case PlayerCarPacket.GUID:
+                    OnPlayerCarDataPacketReceived(playerId, reader);
+                    break;
+                default:
+                    break;
+            }
             reader.Close();
+        }
+
+        private void SendKickPassengersPacket()
+        {
+            _api.SendCustomPacket(KickPassengersPacketGUID, [KickPassengersPacketVersion]);
+        }
+
+        private PlayerCarData GetPlayerForCar(DrivableCar car)
+        {
+            foreach(var player in _playerCarsById)
+            {
+                if (player.Value.Car == car) return player.Value;
+            }
+            return null;
+        }
+
+        private void OnKickPassengersPacketReceived(uint playerId, BinaryReader reader)
+        {
+            var version = reader.ReadByte();
+            var carController = CarController.Instance;
+            if (carController == null) return;
+            var car = carController.CurrentCar;
+            if (car == null) return;
+            if (car.Driving) return;
+            var playerCar = GetPlayerForCar(car);
+            if (playerCar == null) return;
+            if (playerCar.Seat != null) return;
+            carController.ExitCar();
+        }
+
+        private void OnPlayerCarDataPacketReceived(uint playerId, BinaryReader reader)
+        {
+            var packet = new PlayerCarPacket();
+            packet.Deserialize(reader);
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
             {
                 playerCarData = new PlayerCarData();

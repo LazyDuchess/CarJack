@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
 
+
+
 #if PLUGIN
+using Rewired;
 using Reptile;
+using Reptile.Phone;
 #endif
 using System.Runtime.ConstrainedExecution;
 
@@ -18,6 +22,7 @@ namespace CarJack.Common
     {
         public static CarController Instance { get; private set; }
         public static ICarConfig Config;
+        public static Action OnPlayerExitingCar;
         public DrivableCar CurrentCar;
         public CarPassengerSeat CurrentSeat;
         public static void Initialize(ICarConfig config)
@@ -55,6 +60,7 @@ namespace CarJack.Common
 
         private void Update()
         {
+            if (Core.Instance.IsCorePaused) return;
             if (CurrentCar != null)
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
@@ -64,6 +70,29 @@ namespace CarJack.Common
                     player.transform.position = CurrentCar.transform.position;
                 var flatForward = (CurrentCar.transform.forward - Vector3.Project(CurrentCar.transform.forward, Vector3.up)).normalized;
                 player.SetRotHard(Quaternion.LookRotation(flatForward, Vector3.up));
+                UpdatePhoneInCar();
+            }
+        }
+
+        private void UpdatePhoneInCar()
+        {
+            var gameInput = Core.Instance.GameInput;
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            if (player.phone.IsOn)
+                player.phone.PhoneUpdate();
+            else
+            {
+                if (gameInput.GetCurrentControllerType() == ControllerType.Keyboard && CurrentCar.Driving)
+                {
+                    var bringUpPhoneButton = gameInput.GetButtonNew(17, 0);
+                    if (bringUpPhoneButton && !player.IsBusyWithSequence() && !player.phoneLocked && player.phone.m_PhoneAllowed && (player.phone.state == Phone.PhoneState.OFF || player.phone.state == Phone.PhoneState.BOOTINGUP || player.phone.state == Phone.PhoneState.SHUTTINGDOWN))
+                    {
+                        player.phone.audioManager.PlaySfxGameplay(SfxCollectionID.MenuSfx, AudioClipID.ui_phoneFlipOpen, 0f);
+                        player.phone.TurnOn();
+                    }
+                }
+                else
+                    player.phone.PhoneUpdate();
             }
         }
 
@@ -94,6 +123,8 @@ namespace CarJack.Common
             player.DisablePlayer();
             player.CompletelyStop();
             player.gameObject.SetActive(false);
+            player.interactionCollider.transform.parent = seat.transform;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
@@ -123,11 +154,14 @@ namespace CarJack.Common
             player.DisablePlayer();
             player.CompletelyStop();
             player.gameObject.SetActive(false);
+            player.interactionCollider.transform.parent = car.transform;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
-            if (cameraComponent == null)
-                cameraComponent = MakeCamera(gameplayCamera.gameObject);
+            if (cameraComponent != null)
+                Destroy(cameraComponent);
+            cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.SetTarget(car);
             player.FlushInput();
             car.EnterCar(player);
@@ -137,6 +171,7 @@ namespace CarJack.Common
         {
             var car = CurrentCar;
             if (CurrentCar == null) return;
+            OnPlayerExitingCar?.Invoke();
             var wasPassenger = false;
             if (CurrentCar.Driving)
                 CurrentCar.ExitCar();
@@ -156,6 +191,9 @@ namespace CarJack.Common
                 Destroy(cameraComponent);
             var player = WorldHandler.instance.GetCurrentPlayer();
             player.gameObject.SetActive(true);
+            var rootObject = player.transform.Find("RootObject");
+            player.interactionCollider.transform.parent = rootObject;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
             if (!wasPassenger)

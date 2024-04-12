@@ -19,6 +19,7 @@ Shader "LD CrewBoom/Character"
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
         _Emission ("Emission", 2D) = "black" {}
+        [Toggle] _Outline ("Outline", Float) = 1
         _OutlineColor("Outline Color", Color) = (0,0,0,1)
         _OutlineMultiplier("Outline Multiplier", float) = 0.005
         _MinOutlineSize("Min Outline Multiplier", float) = 0.002
@@ -33,6 +34,7 @@ Shader "LD CrewBoom/Character"
         {
             Cull Front
             CGPROGRAM
+            #pragma shader_feature _OUTLINE_ON
             #pragma shader_feature _TRANSPARENCY_OPAQUE _TRANSPARENCY_CUTOUT
             #pragma shader_feature _MAINTEXSCROLL_ON
             #pragma shader_feature _MAINTEXUV_UV0 _MAINTEXUV_UV1
@@ -79,7 +81,7 @@ Shader "LD CrewBoom/Character"
                 float4 clipPos = UnityObjectToClipPos(v.vertex);
                 float outlineMultiplier = clamp(clipPos.w * _OutlineMultiplier, _MinOutlineSize, _MaxOutlineSize);
                 o.clipPos = UnityObjectToClipPos(v.vertex + (v.normal * outlineMultiplier));
-
+                #if _OUTLINE_ON
                 #if _TRANSPARENCY_CUTOUT
                 #if _MAINTEXUV_UV0
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
@@ -93,14 +95,18 @@ Shader "LD CrewBoom/Character"
                 #endif
                 o.color = v.color * _Color;
                 #endif
-
+                #endif
                 return o;
             }
             fixed4 frag(v2f i) : SV_Target
             {
+                #if _OUTLINE_ON
                 #if _TRANSPARENCY_CUTOUT
                 fixed4 col = tex2D(_MainTex, i.uv) * i.color;
                 clip(col.a - _CutOut);
+                #endif
+                #else
+                clip(-1);
                 #endif
                 return _OutlineColor;
             }
@@ -206,7 +212,51 @@ Shader "LD CrewBoom/Character"
             }
             ENDCG
         }
-        UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
+        Pass
+        {
+            Tags {"LightMode" = "ShadowCaster"}
+
+            CGPROGRAM
+            #pragma shader_feature _TRANSPARENCY_OPAQUE _TRANSPARENCY_CUTOUT
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_shadowcaster
+
+            #include "UnityCG.cginc"
+
+                struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
+            };
+
+            struct v2f {
+                V2F_SHADOW_CASTER;
+                float2 uv : TEXCOORD0;
+            };
+
+            v2f vert(appdata v)
+            {
+                v2f o;
+                o.uv = v.uv;
+                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+                return o;
+            }
+
+            sampler2D _MainTex;
+            float _CutOut;
+
+            float4 frag(v2f i) : SV_Target
+            {
+                fixed4 col = tex2D(_MainTex, i.uv);
+                #if _TRANSPARENCY_CUTOUT
+                    clip(col.a - _CutOut);
+                #endif
+                SHADOW_CASTER_FRAGMENT(i)
+            }
+            ENDCG
+        }
     }
     CustomEditor "CharacterMaterialEditor"
 }
