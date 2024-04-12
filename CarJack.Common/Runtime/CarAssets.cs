@@ -58,9 +58,18 @@ namespace CarJack.Common
         private bool IsPathInsidePluginFolder(string path)
         {
             if (string.IsNullOrEmpty(PluginDirectoryName)) return false;
-            var parsedPath = path.Replace('\\', '/');
-            if (path.ToLowerInvariant().Contains($"/{PluginDirectoryName.ToLowerInvariant()}/")) return true;
+            path = CleanPath(path);
+            var pluginDirectoryPath = CleanPath(Path.Combine(AddonBundlePath, PluginDirectoryName));
+            if (path.StartsWith(pluginDirectoryPath)) return true;
             return false;
+        }
+
+        private string CleanPath(string path)
+        {
+            path = path.Replace('\\', '/').ToLowerInvariant().Trim();
+            while (path.EndsWith("/") && path.Length > 1)
+                path = path.Substring(0, path.Length - 1);
+            return path;
         }
     }
 }
