@@ -124,6 +124,7 @@ namespace CarJack.Common
             player.CompletelyStop();
             player.gameObject.SetActive(false);
             player.interactionCollider.transform.parent = seat.transform;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
@@ -154,6 +155,7 @@ namespace CarJack.Common
             player.CompletelyStop();
             player.gameObject.SetActive(false);
             player.interactionCollider.transform.parent = car.transform;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
@@ -191,6 +193,7 @@ namespace CarJack.Common
             player.gameObject.SetActive(true);
             var rootObject = player.transform.Find("RootObject");
             player.interactionCollider.transform.parent = rootObject;
+            player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
             if (!wasPassenger)
