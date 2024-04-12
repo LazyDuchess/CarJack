@@ -15,6 +15,7 @@ namespace CarJack.Common
         public List<CarBundle> Bundles;
         public string MainBundlePath;
         public string AddonBundlePath;
+        public string PluginDirectoryName;
         public CarAssets()
         {
             Bundles = new();
@@ -37,6 +38,11 @@ namespace CarJack.Common
             var carBundlePaths = Directory.GetFiles(AddonBundlePath, "*.carbundle", SearchOption.AllDirectories);
             foreach(var carBundlePath in carBundlePaths)
             {
+                if (IsPathInsidePluginFolder(carBundlePath))
+                {
+                    Debug.LogWarning($"CarJack Warning: Skipped loading car bundle \"{carBundlePath}\" because it's in the same folder as the CarJack plugin. Car bundles should be placed in their own subfolder inside the plugins folder.");
+                    continue;
+                }
                 try
                 {
                     var bundle = new CarBundle(carBundlePath);
@@ -44,9 +50,17 @@ namespace CarJack.Common
                 }
                 catch(Exception e)
                 {
-                    Debug.LogError($"CarJack Error: Failed to load car bundle {carBundlePath}.\nException:\n{e}");
+                    Debug.LogError($"CarJack Error: Failed to load car bundle \"{carBundlePath}\".\nException:\n{e}");
                 }
             }
+        }
+
+        private bool IsPathInsidePluginFolder(string path)
+        {
+            if (string.IsNullOrEmpty(PluginDirectoryName)) return false;
+            var parsedPath = path.Replace('\\', '/');
+            if (path.ToLowerInvariant().Contains($"/{PluginDirectoryName.ToLowerInvariant()}/")) return true;
+            return false;
         }
     }
 }

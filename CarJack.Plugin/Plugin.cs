@@ -28,6 +28,7 @@ namespace CarJack.Plugin
                 var carAssets = new CarAssets();
                 carAssets.MainBundlePath = Path.Combine(directory, "carjack");
                 carAssets.AddonBundlePath = Paths.PluginPath;
+                carAssets.PluginDirectoryName = Path.GetFileName(Path.GetDirectoryName(Info.Location));
                 carAssets.LoadBundles();
 
                 CarController.Initialize(new PluginCarConfig(Config));
