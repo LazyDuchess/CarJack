@@ -48,4 +48,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 94fef258e8b1b984e85cedc2c6a324d9, type: 3}
   - {fileID: 8300000, guid: 176a96482884b40449a0019e52054854, type: 3}
   - {fileID: 8300000, guid: 234db7e78d3df5a4ea389d226dcfcbb2, type: 3}
-  ScrapeSFX: {fileID: 8300000, guid: 5d56351c0ddc45b469213dded8407d31, type: 3}
+  DummyMaterial: {fileID: 2100000, guid: 1b8629d88c13ac9449aa60e3b8573501, type: 2}
