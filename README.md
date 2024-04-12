@@ -75,7 +75,9 @@ All default cars are located in the `Assets/Prefabs` folder. You can copy one of
 
 You can have multiple car prefabs in a single asset bundle.
 
-You can build the asset bundles with the `CarJack -> Build Asset Bundles` button and find the resulting asset bundles inside `CarJack.Editor/Build`. Copy the `.carbundle` files from here into your BepInEx plugins folder to see them in-game - the other files can be safely ignored. It's recommended you put them in their own subfolder inside your plugins folder - not inside the CarJack plugin folder, as this can get your bundles deleted if you update the mod via a Mod Manager.
+You can build the asset bundles with the `CarJack -> Build Asset Bundles` button and find the resulting asset bundles inside `CarJack.Editor/Build`. Copy the `.carbundle` files from here into your BepInEx plugins folder to see them in-game - the other files can be safely ignored. 
+
+It's recommended you put car bundles in their own subfolder inside your plugins folder - not inside the CarJack plugin folder, as this can get your bundles deleted if you update the mod via a Mod Manager and they won't be loaded in-game.
 
 If `DeveloperMode` is enabled in this mod's BepInEx configuration file you can also reload car bundles in-game to test changes.
 
