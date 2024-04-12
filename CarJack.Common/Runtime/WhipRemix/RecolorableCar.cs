@@ -11,10 +11,13 @@ namespace CarJack.Common.WhipRemix
     public class RecolorableCar : MonoBehaviour
     {
         public Material[] RecolorableMaterials;
+        [NonSerialized]
+        public DrivableCar Car;
         private List<RecolorableRenderer> _recolorableRenderers;
 
         private void Awake()
         {
+            Car = GetComponent<DrivableCar>();
             _recolorableRenderers = new();
             var renderers = GetComponentsInChildren<Renderer>();
             foreach(var renderer in renderers)
@@ -44,6 +47,21 @@ namespace CarJack.Common.WhipRemix
             foreach(var recolorable in _recolorableRenderers)
             {
                 recolorable.Renderer.sharedMaterials[recolorable.MaterialIndex] = recolorable.OriginalMaterial;
+            }
+        }
+
+        public void ApplyRecolor(Recolor recolor)
+        {
+            foreach (var recolorable in _recolorableRenderers)
+            {
+                foreach(var recolored in recolor.RecoloredMaterialByName)
+                {
+                    if (recolored.Key == recolorable.OriginalMaterial.name)
+                    {
+                        recolored.Value.material.shader = recolorable.OriginalMaterial.shader;
+                        recolorable.Renderer.sharedMaterials[recolorable.MaterialIndex] = recolored.Value.material;
+                    }
+                }
             }
         }
 
