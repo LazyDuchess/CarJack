@@ -12,6 +12,7 @@ Material:
   m_ValidKeywords:
   - _EMISSIONUV_UV0
   - _MAINTEXUV_UV0
+  - _OUTLINE_ON
   - _TRANSPARENCY_OPAQUE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -47,6 +48,7 @@ Material:
     - _MainTexVSpeed: 0
     - _MaxOutlineSize: 0.008
     - _MinOutlineSize: 0.002
+    - _Outline: 1
     - _OutlineMultiplier: 0.005
     - _Transparency: 0
     - _ZWrite: 1

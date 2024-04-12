@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cadillac_Tex
+  m_Name: CadillacMat
   m_Shader: {fileID: 4800000, guid: 3b9fa45dfde9bcc4585ed407c6f27544, type: 3}
   m_ValidKeywords:
   - _EMISSIONUV_UV0
