@@ -477,7 +477,7 @@ namespace CarJack.Common
         {
 #if PLUGIN
             var gameInput = Core.Instance.GameInput;
-            LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
+            //LockDoorsButtonNew = gameInput.GetButtonNew(29, 0);
             BrakeHeld = gameInput.GetButtonHeld(7, 0);
             SteerAxis = gameInput.GetAxis(5, 0);
             if (BrakeHeld)

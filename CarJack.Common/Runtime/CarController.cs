@@ -55,6 +55,7 @@ namespace CarJack.Common
 
         private void Update()
         {
+            if (Core.Instance.IsCorePaused) return;
             if (CurrentCar != null)
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
@@ -64,6 +65,7 @@ namespace CarJack.Common
                     player.transform.position = CurrentCar.transform.position;
                 var flatForward = (CurrentCar.transform.forward - Vector3.Project(CurrentCar.transform.forward, Vector3.up)).normalized;
                 player.SetRotHard(Quaternion.LookRotation(flatForward, Vector3.up));
+                player.phone.PhoneUpdate();
             }
         }
 
@@ -126,8 +128,9 @@ namespace CarJack.Common
             var gameplayCamera = GameplayCamera.instance;
             gameplayCamera.enabled = false;
             var cameraComponent = gameplayCamera.GetComponent<CarCamera>();
-            if (cameraComponent == null)
-                cameraComponent = MakeCamera(gameplayCamera.gameObject);
+            if (cameraComponent != null)
+                Destroy(cameraComponent);
+            cameraComponent = MakeCamera(gameplayCamera.gameObject);
             cameraComponent.SetTarget(car);
             player.FlushInput();
             car.EnterCar(player);

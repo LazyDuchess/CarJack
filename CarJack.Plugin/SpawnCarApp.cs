@@ -44,6 +44,8 @@ namespace CarJack.Plugin
             var button = PhoneUIUtility.CreateSimpleButton(car.Prefab.name);
             button.OnConfirm += () =>
             {
+                CarController.Instance.ExitCar();
+                MyPhone.ReturnToHome();
                 var player = WorldHandler.instance.GetCurrentPlayer();
                 var carPrefab = CarDatabase.CarByInternalName[carInternalName].Prefab;
                 var carGO = Instantiate(carPrefab);
