@@ -55,11 +55,19 @@ namespace CarJack.Common
         private const float WheelSpinSlipThreshold = 5f;
         private const float MaxSlipTractionLoss = 0.9f;
 
-        
-
         public void Initialize(DrivableCar car)
         {
             _car = car;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(transform.position, MeshRadius);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position + transform.up * StartLength, transform.position - transform.up * MaxDistance);
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position - transform.up * RestDistance);
         }
 
         public void DoPhysics(ref bool resting)
