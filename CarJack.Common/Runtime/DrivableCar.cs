@@ -4,6 +4,7 @@ using DG.Tweening;
 using Reptile;
 using System;
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -149,6 +150,31 @@ namespace CarJack.Common
             Version = CurrentVersion;
         }
 #endif
+        private const float AutoRecoveryVelocityThreshold = 0.1f;
+        private const float AutoRecoveryTime = 1f;
+        private float _autoRecoveryTimer = AutoRecoveryTime;
+        private void UpdateAutoRecovery()
+        {
+            if (IsStuck())
+            {
+                _autoRecoveryTimer -= Time.deltaTime;
+                if (_autoRecoveryTimer <= 0f)
+                {
+                    _autoRecoveryTimer = AutoRecoveryTime;
+                    PlaceAtLastSafeLocation();
+                }
+            }
+            else
+                _autoRecoveryTimer = AutoRecoveryTime;
+        }
+
+        private bool IsStuck()
+        {
+            var velocity = Rigidbody.velocity.magnitude + Rigidbody.angularVelocity.magnitude;
+            if (velocity > AutoRecoveryVelocityThreshold) return false;
+            if (Grounded && !_steep) return false;
+            return true;
+        }
 
         private void UpdateAirAero()
         {
@@ -706,6 +732,7 @@ namespace CarJack.Common
 
             UpdateStill();
             UpdateDrift();
+            UpdateAutoRecovery();
             FixedUpdateCar();
 #if PLUGIN
             if (GetOutOfCarButtonNew && InCar)
