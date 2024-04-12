@@ -37,8 +37,15 @@ namespace CarJack.Common
             var carBundlePaths = Directory.GetFiles(AddonBundlePath, "*.carbundle", SearchOption.AllDirectories);
             foreach(var carBundlePath in carBundlePaths)
             {
-                var bundle = new CarBundle(carBundlePath);
-                Bundles.Add(bundle);
+                try
+                {
+                    var bundle = new CarBundle(carBundlePath);
+                    Bundles.Add(bundle);
+                }
+                catch(Exception e)
+                {
+                    Debug.LogError($"CarJack Error: Failed to load car bundle {carBundlePath}.\nException:\n{e}");
+                }
             }
         }
     }
