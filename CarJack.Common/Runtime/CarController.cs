@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
 
+
+
 #if PLUGIN
+using Rewired;
 using Reptile;
 #endif
 using System.Runtime.ConstrainedExecution;
@@ -65,7 +68,28 @@ namespace CarJack.Common
                     player.transform.position = CurrentCar.transform.position;
                 var flatForward = (CurrentCar.transform.forward - Vector3.Project(CurrentCar.transform.forward, Vector3.up)).normalized;
                 player.SetRotHard(Quaternion.LookRotation(flatForward, Vector3.up));
+                UpdatePhoneInCar();
+            }
+        }
+
+        private void UpdatePhoneInCar()
+        {
+            var gameInput = Core.Instance.GameInput;
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            if (player.phone.IsOn)
                 player.phone.PhoneUpdate();
+            else
+            {
+                if (gameInput.GetCurrentControllerType() == ControllerType.Keyboard && CurrentCar.Driving)
+                {
+                    var bringUpPhoneButton = gameInput.GetButtonNew(17, 0);
+                    if (bringUpPhoneButton)
+                    {
+                        player.phone.TurnOn();
+                    }
+                }
+                else
+                    player.phone.PhoneUpdate();
             }
         }
 
