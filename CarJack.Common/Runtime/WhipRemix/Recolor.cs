@@ -87,7 +87,7 @@ namespace CarJack.Common.WhipRemix
                 if (mainTex != null)
                 {
                     var mainTexData = (mainTex as Texture2D).EncodeToPNG();
-                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}$Main.png");
+                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}{SplitSymbol}Main.png");
                     using (var stream = entry.Open())
                     {
                         using (var writer = new BinaryWriter(stream))
@@ -100,7 +100,7 @@ namespace CarJack.Common.WhipRemix
                 if (emission != null)
                 {
                     var emissionData = (emission as Texture2D).EncodeToPNG();
-                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}$Emission.png");
+                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}{SplitSymbol}Emission.png");
                     using (var stream = entry.Open())
                     {
                         using (var writer = new BinaryWriter(stream))
@@ -130,7 +130,7 @@ namespace CarJack.Common.WhipRemix
             foreach(var entry in entries)
             {
                 if (!entry.Name.ToLowerInvariant().EndsWith(".png")) continue;
-                if (!entry.Name.Contains("_")) continue;
+                if (!entry.Name.Contains(SplitSymbol)) continue;
                 var name = Path.GetFileNameWithoutExtension(entry.Name);
                 var splitName = name.Split(SplitSymbol);
                 var materialName = splitName[0];
