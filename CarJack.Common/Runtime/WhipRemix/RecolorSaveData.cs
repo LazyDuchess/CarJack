@@ -46,11 +46,24 @@ namespace CarJack.Common.WhipRemix
         public override void Read(BinaryReader reader)
         {
             var version = reader.ReadByte();
+            var count = reader.ReadInt32();
+            for(var i = 0; i < count; i++)
+            {
+                var carName = reader.ReadString();
+                var recolorGUID = reader.ReadString();
+                _recolorGUIDByCarInternalName[carName] = recolorGUID;
+            }
         }
 
         public override void Write(BinaryWriter writer)
         {
             writer.Write(Version);
+            writer.Write(_recolorGUIDByCarInternalName.Count);
+            foreach(var keyValue in _recolorGUIDByCarInternalName)
+            {
+                writer.Write(keyValue.Key);
+                writer.Write(keyValue.Value);
+            }
         }
     }
 }
