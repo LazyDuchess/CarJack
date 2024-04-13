@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.UIElements;
 
 namespace CarJack.Plugin
 {
@@ -15,11 +16,63 @@ namespace CarJack.Plugin
     {
         private const string NewRecolorFolder = "WhipRemix";
         public override bool Available => false;
-        public override void OnAppInit()
+
+        public static void Initialize()
         {
-            base.OnAppInit();
-            CreateIconlessTitleBar("WhipRemix");
-            ScrollView = PhoneScrollView.Create(this);
+            CarController.OnPlayerEnteredCar += OnEnterCar;
+        }
+
+        private static void OnEnterCar()
+        {
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            if (player == null) return;
+            var phone = player.phone;
+            if (phone == null) return;
+            var app = phone.GetAppInstance<RecolorApp>();
+            if (app == null) return;
+            app.SetForCurrentCar();
+        }
+
+        public static bool AvailableForCurrentCar()
+        {
+            var carController = CarController.Instance;
+            if (carController == null) return false;
+            var car = carController.CurrentCar;
+            if (car == null) return false;
+            if (!car.Driving) return false;
+            if (car.GetComponent<RecolorableCar>() == null) return false;
+            return true;
+        }
+
+        public void SetForCurrentCar()
+        {
+            ScrollView.RemoveAllButtons();
+            // Temp workarounds for scrolling being messed up when coming back to the app. Should probably move this to CommonAPI itself but I'm lazy atm.
+            ScrollView.ResetScroll();
+            ScrollView.CancelAnimation();
+            var carController = CarController.Instance;
+            if (carController == null) return;
+            var car = carController.CurrentCar;
+            if (car == null) return;
+
+            var button = PhoneUIUtility.CreateSimpleButton("Stock");
+            button.OnConfirm += () =>
+            {
+                car.GetComponent<RecolorableCar>().ApplyDefaultColor();
+            };
+            ScrollView.AddButton(button);
+
+            foreach (var recolor in RecolorManager.RecolorsByGUID)
+            {
+                if (recolor.Value.Properties.CarInternalName != car.InternalName) continue;
+                var rbutton = PhoneUIUtility.CreateSimpleButton(recolor.Value.Properties.RecolorDisplayName);
+                rbutton.OnConfirm += () =>
+                {
+                    car.GetComponent<RecolorableCar>().ApplyRecolor(recolor.Value);
+                };
+                ScrollView.AddButton(rbutton);
+            }
+
             var newRecolorButton = PhoneUIUtility.CreateSimpleButton("Create New Recolor");
             newRecolorButton.OnConfirm += () =>
             {
@@ -39,6 +92,20 @@ namespace CarJack.Plugin
                 Core.Instance.UIManager.ShowNotification($"New recolor ZIP saved to BepInEx/plugins/{NewRecolorFolder}/{recolor.Properties.RecolorDisplayName}.whipremix");
             };
             ScrollView.AddButton(newRecolorButton);
+        }
+
+        public override void OnAppInit()
+        {
+            base.OnAppInit();
+            CreateIconlessTitleBar("WhipRemix");
+            ScrollView = PhoneScrollView.Create(this);
+        }
+
+        public override void OnAppUpdate()
+        {
+            base.OnAppUpdate();
+            if (!AvailableForCurrentCar())
+                MyPhone.CloseCurrentApp();
         }
 
         private string GetUniquePath(string path)

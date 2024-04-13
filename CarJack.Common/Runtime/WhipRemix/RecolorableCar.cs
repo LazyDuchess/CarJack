@@ -13,6 +13,8 @@ namespace CarJack.Common.WhipRemix
         public Material[] RecolorableMaterials;
         [NonSerialized]
         public DrivableCar Car;
+        [NonSerialized]
+        public Recolor CurrentRecolor = null;
         private List<RecolorableRenderer> _recolorableRenderers;
 
         private void Awake()
@@ -44,14 +46,18 @@ namespace CarJack.Common.WhipRemix
 
         public void ApplyDefaultColor()
         {
+            CurrentRecolor = null;
             foreach(var recolorable in _recolorableRenderers)
             {
-                recolorable.Renderer.sharedMaterials[recolorable.MaterialIndex] = recolorable.OriginalMaterial;
+                var sharedMats = recolorable.Renderer.sharedMaterials;
+                sharedMats[recolorable.MaterialIndex] = recolorable.OriginalMaterial;
+                recolorable.Renderer.sharedMaterials = sharedMats;
             }
         }
 
         public void ApplyRecolor(Recolor recolor)
         {
+            CurrentRecolor = recolor;
             foreach (var recolorable in _recolorableRenderers)
             {
                 foreach(var recolored in recolor.RecoloredMaterialByName)
@@ -59,7 +65,9 @@ namespace CarJack.Common.WhipRemix
                     if (recolored.Key == recolorable.OriginalMaterial.name)
                     {
                         recolored.Value.material.shader = recolorable.OriginalMaterial.shader;
-                        recolorable.Renderer.sharedMaterials[recolorable.MaterialIndex] = recolored.Value.material;
+                        var sharedMats = recolorable.Renderer.sharedMaterials;
+                        sharedMats[recolorable.MaterialIndex] = recolored.Value.material;
+                        recolorable.Renderer.sharedMaterials = sharedMats;
                     }
                 }
             }

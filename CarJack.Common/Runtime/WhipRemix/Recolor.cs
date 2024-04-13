@@ -50,8 +50,7 @@ namespace CarJack.Common.WhipRemix
                     emission.SetPixels((originalEmission as Texture2D).GetPixels());
                     emission.Apply();
                 }
-
-                recolorMaterial.material = new Material(CarResources.Instance.DummyMaterial);
+                recolorMaterial.material = new Material(Shader.Find("Standard"));
                 recolorMaterial.material.shader = material.shader;
 
                 recolorMaterial.material.SetTexture("_MainTex", mainTex);
@@ -153,16 +152,16 @@ namespace CarJack.Common.WhipRemix
                 {
                     result = new RecolorMaterial();
                     result.OriginalMaterialName = materialName;
-                    result.material = new Material(CarResources.Instance.DummyMaterial);
+                    result.material = new Material(Shader.Find("Standard"));
                     RecoloredMaterialByName[materialName] = result;
                 }
 
                 switch (textureName)
                 {
-                    case "Main":
+                    case "main":
                         result.material.SetTexture("_MainTex", texture);
                         break;
-                    case "Emission":
+                    case "emission":
                         result.material.SetTexture("_Emission", texture);
                         break;
                 }

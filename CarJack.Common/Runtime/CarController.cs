@@ -23,6 +23,7 @@ namespace CarJack.Common
         public static CarController Instance { get; private set; }
         public static ICarConfig Config;
         public static Action OnPlayerExitingCar;
+        public static Action OnPlayerEnteredCar;
         public DrivableCar CurrentCar;
         public CarPassengerSeat CurrentSeat;
         public static void Initialize(ICarConfig config)
@@ -133,6 +134,7 @@ namespace CarJack.Common
             cameraComponent.SetTarget(car);
             player.FlushInput();
             seat.PutInSeat(player);
+            OnPlayerEnteredCar?.Invoke();
         }
 
         public void EnterCar(DrivableCar car)
@@ -165,6 +167,7 @@ namespace CarJack.Common
             cameraComponent.SetTarget(car);
             player.FlushInput();
             car.EnterCar(player);
+            OnPlayerEnteredCar?.Invoke();
         }
 
         public void ExitCar()

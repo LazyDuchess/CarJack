@@ -19,6 +19,7 @@ namespace CarJack.Plugin
         private SimplePhoneButton _doorButton;
         private SimplePhoneButton _muteButton;
         private SimplePhoneButton _autoRecoverButton;
+        private SimplePhoneButton _whipRemixButton;
         public static void Initialize(string location)
         {
             Icon = TextureUtility.LoadSprite(Path.Combine(location, "Phone-App-Icon.png"));
@@ -69,15 +70,27 @@ namespace CarJack.Plugin
                 ToggleAutoRecover();
             };
             ScrollView.AddButton(_autoRecoverButton);
+        }
 
-            var whipRemixButton = PhoneUIUtility.CreateSimpleButton("WhipRemix");
-            whipRemixButton.OnConfirm += () =>
+        private void UpdateWhipRemix()
+        {
+            if (RecolorApp.AvailableForCurrentCar() && _whipRemixButton == null)
+                CreateWhipRemixButton();
+            else if (!RecolorApp.AvailableForCurrentCar() && _whipRemixButton != null)
+            {
+                ScrollView.RemoveButton(_whipRemixButton);
+                _whipRemixButton = null;
+            }
+        }
+
+        private void CreateWhipRemixButton()
+        {
+            _whipRemixButton = PhoneUIUtility.CreateSimpleButton("WhipRemix");
+            _whipRemixButton.OnConfirm += () =>
             {
                 MyPhone.OpenApp(typeof(RecolorApp));
             };
-            ScrollView.AddButton(whipRemixButton);
-
-            UpdateDoorsLockedLabel();
+            ScrollView.AddButton(_whipRemixButton);
         }
 
         public override void OnAppUpdate()
@@ -86,6 +99,7 @@ namespace CarJack.Plugin
             UpdateDoorsLockedLabel();
             UpdateMutePlayersLabel();
             UpdateAutoRecoverLabel();
+            UpdateWhipRemix();
         }
 
         private void ToggleAutoRecover()
