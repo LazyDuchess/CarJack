@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 1
   controller: {fileID: 9100000, guid: 0c1f2dd3d7ceae546824e20f7f546222, type: 2}
-  Car: {fileID: 0}
   HonkLayerIndex: -1
   ReverseLayerIndex: -1
   ReverseAnimationLerp: 10
@@ -525,7 +524,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 0}
   SeatIndex: 2
 --- !u!1 &7114154920980698110
 GameObject:
@@ -650,7 +648,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 0}
   SeatIndex: 1
 --- !u!1 &7767011874431151520
 GameObject:
@@ -699,7 +696,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 9100000, guid: 34cbc33502662ba489b0caebff81d97a, type: 2}
-  Car: {fileID: 0}
   SeatIndex: 0
 --- !u!1 &7945549253848009085
 GameObject:
@@ -840,6 +836,7 @@ GameObject:
   - component: {fileID: 8275566447239126142}
   - component: {fileID: 8275566447239126143}
   - component: {fileID: 4085168761087728210}
+  - component: {fileID: 9037807772143845874}
   m_Layer: 17
   m_Name: Police Drone
   m_TagString: Untagged
@@ -961,6 +958,22 @@ MonoBehaviour:
   MovementAcceleration: 35
   IdleAcceleration: 5
   AirVerticalFriction: 5
+--- !u!114 &9037807772143845874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275566447239126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a785d4b9753397479a63fa0ab4feead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecolorableMaterials:
+  - {fileID: 2100000, guid: fd1c5264a9a07d740b1b930a12f31660, type: 2}
+  - {fileID: 2100000, guid: bd1bdf96c8052dc41a2a1a36e45b0a8e, type: 2}
+  - {fileID: 2100000, guid: 575a50ec147cb4841a84c329e29b059a, type: 2}
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0

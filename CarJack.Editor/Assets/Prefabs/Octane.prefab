@@ -306,6 +306,7 @@ GameObject:
   - component: {fileID: 4131073453011335925}
   - component: {fileID: 4131073453011335882}
   - component: {fileID: 4131073453011335924}
+  - component: {fileID: 5940610980195158553}
   m_Layer: 17
   m_Name: Octane
   m_TagString: Untagged
@@ -511,6 +512,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &5940610980195158553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4131073453011335883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a785d4b9753397479a63fa0ab4feead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecolorableMaterials:
+  - {fileID: 2100000, guid: cfdaf3708f895da46baf8f84e8652bea, type: 2}
 --- !u!1 &4131073453494728851
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,8 +571,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 2500
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 3470783559855378956}
   MeshRadius: 0.4
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -565,16 +590,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 200
-  Strength: 2500
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &4131073453502105220
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,8 +635,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 2500
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 4871887870526103164}
   MeshRadius: 0.35
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -629,16 +654,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   HandBrake: 0
-  Damping: 200
-  Strength: 2500
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &4131073453569116608
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,8 +699,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 2500
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 6035430415010910654}
   MeshRadius: 0.4
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -693,16 +718,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 200
-  Strength: 2500
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &4131073454887115979
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,8 +763,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 2500
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 679736132986842424}
   MeshRadius: 0.35
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -757,16 +782,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 1
   HandBrake: 0
-  Damping: 200
-  Strength: 2500
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &4871887870526103164
 GameObject:
   m_ObjectHideFlags: 0

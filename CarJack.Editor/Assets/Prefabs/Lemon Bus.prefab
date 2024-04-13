@@ -286,7 +286,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 10
 --- !u!1 &2159379545287163979
 GameObject:
@@ -335,7 +334,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 4
 --- !u!1 &2177220362052832737
 GameObject:
@@ -481,7 +479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 0
 --- !u!1 &2465305732652573140
 GameObject:
@@ -1015,7 +1012,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 7
 --- !u!1 &3455944175133430657
 GameObject:
@@ -1064,7 +1060,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 16
 --- !u!1 &3740715019246045874
 GameObject:
@@ -1113,7 +1108,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 17
 --- !u!1 &3960611037470265078
 GameObject:
@@ -1162,7 +1156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 3
 --- !u!1 &3987500263245055383
 GameObject:
@@ -1308,7 +1301,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 1
 --- !u!1 &4283272395224253135
 GameObject:
@@ -1648,7 +1640,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 14
 --- !u!1 &5714179726870742600
 GameObject:
@@ -1891,7 +1882,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 13
 --- !u!1 &5943479247645770503
 GameObject:
@@ -2037,7 +2027,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 15
 --- !u!1 &6534367232843077624
 GameObject:
@@ -2086,7 +2075,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 12
 --- !u!1 &6544009705240913494
 GameObject:
@@ -2135,7 +2123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 6
 --- !u!1 &6882353422168629444
 GameObject:
@@ -2281,7 +2268,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 5
 --- !u!1 &7371671759993117035
 GameObject:
@@ -2330,7 +2316,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 11
 --- !u!1 &7663180986432386798
 GameObject:
@@ -2476,7 +2461,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 2
 --- !u!1 &8275566447202283773
 GameObject:
@@ -2587,6 +2571,7 @@ GameObject:
   - component: {fileID: 8275566447239126142}
   - component: {fileID: 8275566447239126081}
   - component: {fileID: 8275566447239126143}
+  - component: {fileID: 3110143470843165664}
   m_Layer: 17
   m_Name: Lemon Bus
   m_TagString: Untagged
@@ -2812,6 +2797,21 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &3110143470843165664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275566447239126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a785d4b9753397479a63fa0ab4feead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecolorableMaterials:
+  - {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+  - {fileID: 2100000, guid: c90d1a768785cab4abef91e860e70d4e, type: 2}
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0
@@ -2888,8 +2888,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 9086537846231092239}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -2897,16 +2907,6 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   HandBrake: 0
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566447753977368
 GameObject:
   m_ObjectHideFlags: 0
@@ -2952,8 +2952,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 9086537845225188231}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -2961,16 +2971,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 0
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566447797055307
 GameObject:
   m_ObjectHideFlags: 0
@@ -3016,8 +3016,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 9086537846972395659}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -3025,16 +3035,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 0
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566449113348672
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,8 +3080,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 9086537845597390025}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -3089,16 +3099,6 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   HandBrake: 0
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8455839209672485226
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,7 +3146,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 9
 --- !u!1 &8532387923348208889
 GameObject:
@@ -3195,7 +3194,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 0
   controller: {fileID: 0}
-  Car: {fileID: 0}
   SeatIndex: 8
 --- !u!1 &8796714454098800890
 GameObject:
@@ -3242,8 +3240,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 8702022829885937684}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -3251,16 +3259,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8890386656237947545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3403,8 +3401,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 200
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.6
   Mesh: {fileID: 3800164059654483982}
   MeshRadius: 0.65
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 5
+  Traction: 0.8
   SteerAngle: 30
   SteerSpeed: 20
   ReverseSpeed: 150
@@ -3412,16 +3420,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 200
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.6
-  Mass: 5
-  Traction: 0.8
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1001 &4070564403532287327
 PrefabInstance:
   m_ObjectHideFlags: 0

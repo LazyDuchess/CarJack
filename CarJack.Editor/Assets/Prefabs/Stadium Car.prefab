@@ -91,7 +91,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerVisible: 1
   controller: {fileID: 9100000, guid: 31af0da08c7d9ab44becdfbaa612e9f6, type: 2}
-  Car: {fileID: 0}
   HonkLayerIndex: 1
   ReverseLayerIndex: 3
   ReverseAnimationLerp: 10
@@ -208,6 +207,7 @@ GameObject:
   - component: {fileID: 8275566447239126142}
   - component: {fileID: 8275566447239126081}
   - component: {fileID: 8275566447239126143}
+  - component: {fileID: 8618314354354226576}
   m_Layer: 17
   m_Name: Stadium Car
   m_TagString: Untagged
@@ -414,6 +414,23 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &8618314354354226576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275566447239126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a785d4b9753397479a63fa0ab4feead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecolorableMaterials:
+  - {fileID: 2100000, guid: c87194fe489c17548b6844c9fbc462a7, type: 2}
+  - {fileID: 2100000, guid: 3b43dc153fb74da439580723159a47df, type: 2}
+  - {fileID: 2100000, guid: b35333266bb6d404c8c64a6e590cff93, type: 2}
+  - {fileID: 2100000, guid: b24cdee8d7b259848832298f6f70eab9, type: 2}
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,8 +507,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 300
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 9086537846231092239}
   MeshRadius: 0.38
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 10
+  Traction: 0.7
   SteerAngle: 25
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -499,16 +526,6 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   HandBrake: 0
-  Damping: 300
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 10
-  Traction: 0.7
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566447753977368
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,8 +571,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 300
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 9086537845225188231}
   MeshRadius: 0.38
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 10
+  Traction: 0.7
   SteerAngle: 25
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -563,16 +590,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 300
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 10
-  Traction: 0.7
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566447797055307
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,8 +635,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 300
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 9086537846972395659}
   MeshRadius: 0.38
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 10
+  Traction: 0.7
   SteerAngle: 25
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -627,16 +654,6 @@ MonoBehaviour:
   Throttle: 1
   Steer: 0
   HandBrake: 1
-  Damping: 300
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 10
-  Traction: 0.7
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1 &8275566449113348672
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,8 +699,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5400ce553b8649b4b6d2791883c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damping: 300
+  Strength: 4000
+  StartLength: 0
+  MaxDistance: 0.65
+  RestDistance: 0.5
   Mesh: {fileID: 9086537845597390025}
   MeshRadius: 0.38
+  RotationAcceleration: 50
+  RotationDeacceleration: 5
+  RotationMultiplier: 100
+  Mass: 10
+  Traction: 0.7
   SteerAngle: 25
   SteerSpeed: 20
   ReverseSpeed: 400
@@ -691,16 +718,6 @@ MonoBehaviour:
   Throttle: 0
   Steer: 1
   HandBrake: 0
-  Damping: 300
-  Strength: 4000
-  StartLength: 0
-  MaxDistance: 0.65
-  RestDistance: 0.5
-  Mass: 10
-  Traction: 0.7
-  RotationAcceleration: 50
-  RotationDeacceleration: 5
-  RotationMultiplier: 100
 --- !u!1001 &6711147583578932833
 PrefabInstance:
   m_ObjectHideFlags: 0
