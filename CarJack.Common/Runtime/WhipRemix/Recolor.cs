@@ -16,6 +16,11 @@ namespace CarJack.Common.WhipRemix
         public Dictionary<string, RecolorMaterial> RecoloredMaterialByName;
         private List<UnityEngine.Object> _objects;
 
+        public void AddResourceToCleanUp(UnityEngine.Object resource)
+        {
+            _objects.Add(resource);
+        }
+
         public void CreateDefault(RecolorableCar car)
         {
             Properties = new();
@@ -51,11 +56,9 @@ namespace CarJack.Common.WhipRemix
                     emission.SetPixels((originalEmission as Texture2D).GetPixels());
                     emission.Apply();
                 }
-                recolorMaterial.material = new Material(Shader.Find("Standard"));
-                recolorMaterial.material.shader = material.shader;
 
-                recolorMaterial.material.SetTexture("_MainTex", mainTex);
-                recolorMaterial.material.SetTexture("_Emission", emission);
+                recolorMaterial.MainTexture = mainTex;
+                recolorMaterial.EmissionTexture = emission;
 
                 if (mainTex != null)
                     _objects.Add(mainTex);
@@ -81,8 +84,8 @@ namespace CarJack.Common.WhipRemix
             }
             foreach(var recolorMaterial in RecoloredMaterialByName)
             {
-                var mainTex = recolorMaterial.Value.material.GetTexture("_MainTex");
-                var emission = recolorMaterial.Value.material.GetTexture("_Emission");
+                var mainTex = recolorMaterial.Value.MainTexture;
+                var emission = recolorMaterial.Value.EmissionTexture;
 
                 if (mainTex != null)
                 {
@@ -153,17 +156,16 @@ namespace CarJack.Common.WhipRemix
                 {
                     result = new RecolorMaterial();
                     result.OriginalMaterialName = materialName;
-                    result.material = new Material(Shader.Find("Standard"));
                     RecoloredMaterialByName[materialName] = result;
                 }
 
                 switch (textureName)
                 {
                     case "main":
-                        result.material.SetTexture("_MainTex", texture);
+                        result.MainTexture = texture;
                         break;
                     case "emission":
-                        result.material.SetTexture("_Emission", texture);
+                        result.EmissionTexture = texture;
                         break;
                 }
             }
@@ -188,7 +190,9 @@ namespace CarJack.Common.WhipRemix
         public class RecolorMaterial
         {
             public string OriginalMaterialName;
-            public Material material;
+            public Material Material = null;
+            public Texture2D MainTexture = null;
+            public Texture2D EmissionTexture = null;
         }
     }
 }

@@ -64,9 +64,16 @@ namespace CarJack.Common.WhipRemix
                 {
                     if (recolored.Key == recolorable.OriginalMaterial.name)
                     {
-                        recolored.Value.material.shader = recolorable.OriginalMaterial.shader;
+                        var mat = recolored.Value.Material;
+                        if (mat == null)
+                        {
+                            mat = new Material(recolorable.OriginalMaterial);
+                            recolored.Value.Material = mat;
+                            recolor.AddResourceToCleanUp(mat);
+                        }
+                        mat.shader = recolorable.OriginalMaterial.shader;
                         var sharedMats = recolorable.Renderer.sharedMaterials;
-                        sharedMats[recolorable.MaterialIndex] = recolored.Value.material;
+                        sharedMats[recolorable.MaterialIndex] = mat;
                         recolorable.Renderer.sharedMaterials = sharedMats;
                     }
                 }
