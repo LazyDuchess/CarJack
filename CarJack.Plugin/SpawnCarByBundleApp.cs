@@ -28,6 +28,16 @@ namespace CarJack.Plugin
                 ScrollView.AddButton(bundleButton);
             }
         }
+        public override void OnAppUpdate()
+        {
+            base.OnAppUpdate();
+            var carController = CarController.Instance;
+            if (carController == null) return;
+            var currentCar = carController.CurrentCar;
+            if (currentCar == null) return;
+            if (currentCar.Driving) return;
+            MyPhone.CloseCurrentApp();
+        }
 
         private SimplePhoneButton CreateBundleButton(CarBundle bundle)
         {

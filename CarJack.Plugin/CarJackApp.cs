@@ -38,6 +38,15 @@ namespace CarJack.Plugin
             var button = PhoneUIUtility.CreateSimpleButton("Spawn Car");
             button.OnConfirm += () =>
             {
+                var carController = CarController.Instance;
+                if (carController != null)
+                {
+                    var car = carController.CurrentCar;
+                    if (car != null && !car.Driving)
+                    {
+                        return;
+                    }
+                }
                 if (CarAssets.Instance.Bundles.Count == 1)
                 {
                     MyPhone.GetAppInstance<SpawnCarApp>().SetBundleFilter(null);
