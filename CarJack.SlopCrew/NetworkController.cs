@@ -78,6 +78,9 @@ namespace CarJack.SlopCrew
 
         private void SendKickPassengersPacket()
         {
+            var currentCar = CarController.Instance.CurrentCar;
+            if (currentCar == null) return;
+            if (!currentCar.Driving) return;
             _api.SendCustomPacket(KickPassengersPacketGUID, [KickPassengersPacketVersion]);
         }
 
