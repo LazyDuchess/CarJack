@@ -89,7 +89,7 @@ namespace CarJack.Plugin
                 if (!Directory.Exists(recolorDirectory))
                     Directory.CreateDirectory(recolorDirectory);
 
-                var path = GetUniquePath(Path.Combine(recolorDirectory, $"{recolor.Properties.RecolorDisplayName}.whipremix"));
+                var path = GetUniquePath(Path.Combine(recolorDirectory, $"{car.name} Recolor.whipremix"));
                 recolor.Properties.RecolorDisplayName = Path.GetFileNameWithoutExtension(path);
                 recolor.Save(path);
 
