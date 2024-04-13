@@ -668,6 +668,7 @@ namespace CarJack.Common
         private void OnPause()
         {
             if (_forcedPause) return;
+            if (Rigidbody == null) return;
             _velocityBeforePause = Rigidbody.velocity;
             _angularVelocityBeforePause = Rigidbody.angularVelocity;
             Rigidbody.isKinematic = true;
@@ -815,12 +816,14 @@ namespace CarJack.Common
         private void OnDestroy()
         {
 #if PLUGIN
-            if (CarController.Instance.CurrentCar == this)
+            Core.OnCoreUpdatePaused -= OnPause;
+            Core.OnCoreUpdateUnPaused -= OnUnPause;
+            var carController = CarController.Instance;
+            if (carController == null) return;
+            if (carController.CurrentCar == this)
             {
                 CarController.Instance.ExitCar();
             }
-            Core.OnCoreUpdatePaused -= OnPause;
-            Core.OnCoreUpdateUnPaused -= OnUnPause;
 #endif
         }
     }
