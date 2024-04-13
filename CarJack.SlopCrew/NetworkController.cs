@@ -1,4 +1,5 @@
 ﻿using CarJack.Common;
+using CarJack.Common.WhipRemix;
 using Reptile;
 using SlopCrew.API;
 using System;
@@ -183,6 +184,11 @@ namespace CarJack.SlopCrew
                 }
 
                 packet.DoorsLocked = PlayerData.Instance.DoorsLocked;
+
+                var recolorable = car.GetComponent<RecolorableCar>();
+
+                if (recolorable != null && recolorable.CurrentRecolor != null)
+                    packet.RecolorGUID = recolorable.CurrentRecolor.Properties.RecolorGUID;
             }
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
@@ -362,6 +368,28 @@ namespace CarJack.SlopCrew
                         currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
                         currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
                         currentCar.DoorsLocked = missingCar ? true : playerCarData.LastPacket.DoorsLocked;
+
+                        var recolorable = currentCar.GetComponent<RecolorableCar>();
+                        if (recolorable != null)
+                        {
+                            Recolor recolor = null;
+                            if (!string.IsNullOrEmpty(playerCarData.LastPacket.RecolorGUID))
+                            {
+                                if (RecolorManager.RecolorsByGUID.TryGetValue(playerCarData.LastPacket.RecolorGUID, out var recResult))
+                                {
+                                    if (recResult.Properties.CarInternalName == currentCar.InternalName)
+                                        recolor = recResult;
+                                }
+                            }
+
+                            if (recolorable.CurrentRecolor != recolor)
+                            {
+                                if (recolor == null)
+                                    recolorable.ApplyDefaultColor();
+                                else
+                                    recolorable.ApplyRecolor(recolor);
+                            }
+                        }
                     }
                     else
                     {
