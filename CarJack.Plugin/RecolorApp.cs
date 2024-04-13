@@ -59,6 +59,8 @@ namespace CarJack.Plugin
             button.OnConfirm += () =>
             {
                 car.GetComponent<RecolorableCar>().ApplyDefaultColor();
+                RecolorSaveData.Instance.SetRecolorForCar(car.InternalName, null);
+                Core.Instance.SaveManager.SaveCurrentSaveSlot();
             };
             ScrollView.AddButton(button);
 
@@ -69,6 +71,8 @@ namespace CarJack.Plugin
                 rbutton.OnConfirm += () =>
                 {
                     car.GetComponent<RecolorableCar>().ApplyRecolor(recolor.Value);
+                    RecolorSaveData.Instance.SetRecolorForCar(car.InternalName, recolor.Value.Properties.RecolorGUID);
+                    Core.Instance.SaveManager.SaveCurrentSaveSlot();
                 };
                 ScrollView.AddButton(rbutton);
             }
