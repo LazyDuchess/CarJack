@@ -68,10 +68,12 @@ namespace CarJack.Common.WhipRemix
                         if (mat == null)
                         {
                             mat = new Material(recolorable.OriginalMaterial);
+                            mat.SetTexture("_MainTex", recolored.Value.MainTexture);
+                            mat.SetTexture("_Emission", recolored.Value.EmissionTexture);
+                            mat.shader = recolorable.OriginalMaterial.shader;
                             recolored.Value.Material = mat;
                             recolor.AddResourceToCleanUp(mat);
                         }
-                        mat.shader = recolorable.OriginalMaterial.shader;
                         var sharedMats = recolorable.Renderer.sharedMaterials;
                         sharedMats[recolorable.MaterialIndex] = mat;
                         recolorable.Renderer.sharedMaterials = sharedMats;
