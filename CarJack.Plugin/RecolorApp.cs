@@ -1,6 +1,7 @@
 ﻿using CarJack.Common;
 using CarJack.Common.WhipRemix;
 using CommonAPI.Phone;
+using Reptile;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +35,8 @@ namespace CarJack.Plugin
                 var path = GetUniquePath(Path.Combine(recolorDirectory, $"{recolor.Properties.RecolorDisplayName}.whipremix"));
                 recolor.Properties.RecolorDisplayName = Path.GetFileNameWithoutExtension(path);
                 recolor.Save(path);
+
+                Core.Instance.UIManager.ShowNotification($"New recolor ZIP saved to BepInEx/plugins/{NewRecolorFolder}/{recolor.Properties.RecolorDisplayName}.whipremix");
             };
             ScrollView.AddButton(newRecolorButton);
         }

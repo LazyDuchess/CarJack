@@ -1,4 +1,5 @@
 ﻿using CarJack.Common;
+using CarJack.Common.WhipRemix;
 using Reptile;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace CarJack.Plugin
                 CarAssets.Instance.UnloadAllBundles();
                 CarAssets.Instance.LoadBundles();
                 CarDatabase.Initialize();
+                RecolorManager.UnloadRecolors();
+                RecolorManager.LoadRecolors();
             }
 
 #if DEBUG

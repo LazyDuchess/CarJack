@@ -33,6 +33,7 @@ namespace CarJack.Plugin
                 carAssets.LoadBundles();
 
                 RecolorManager.Initialize(Paths.PluginPath);
+                RecolorManager.LoadRecolors();
                 CarController.Initialize(new PluginCarConfig(Config));
 
                 if (CarController.Config.DeveloperMode)

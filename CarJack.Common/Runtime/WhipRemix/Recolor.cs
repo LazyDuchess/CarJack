@@ -87,7 +87,7 @@ namespace CarJack.Common.WhipRemix
                 if (mainTex != null)
                 {
                     var mainTexData = (mainTex as Texture2D).EncodeToPNG();
-                    entry = zip.CreateEntry($"{recolorMaterial.Value}_Main.png");
+                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}_Main.png");
                     using (var stream = entry.Open())
                     {
                         using (var writer = new BinaryWriter(stream))
@@ -100,7 +100,7 @@ namespace CarJack.Common.WhipRemix
                 if (emission != null)
                 {
                     var emissionData = (emission as Texture2D).EncodeToPNG();
-                    entry = zip.CreateEntry($"{recolorMaterial.Value}_Emission.png");
+                    entry = zip.CreateEntry($"{recolorMaterial.Value.OriginalMaterialName}_Emission.png");
                     using (var stream = entry.Open())
                     {
                         using (var writer = new BinaryWriter(stream))
