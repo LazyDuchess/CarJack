@@ -1,6 +1,6 @@
 {
   "name": "com.lazyduchess.carjack.common",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "displayName": "CarJack Common Code",
   "description": "Common Code for BRC CarJack Mod",
   "unity": "2021.3",
