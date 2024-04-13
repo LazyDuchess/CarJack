@@ -73,6 +73,29 @@ namespace CarJack.Common.WhipRemix
             }
         }
 
+        public void ApplySavedRecolor()
+        {
+#if PLUGIN
+            var saveData = RecolorSaveData.Instance;
+            if (saveData == null) return;
+            var recolorGUID = saveData.GetRecolorGUIDForCar(Car.InternalName);
+            if (string.IsNullOrEmpty(recolorGUID))
+                ApplyDefaultColor();
+            else
+            {
+                if (RecolorManager.RecolorsByGUID.TryGetValue(recolorGUID, out var result))
+                {
+                    if (result.Properties.CarInternalName == Car.InternalName)
+                        ApplyRecolor(result);
+                    else
+                        ApplyDefaultColor();
+                }
+                else
+                    ApplyDefaultColor();
+            }
+#endif
+        }
+
         public class RecolorableRenderer
         {
             public Renderer Renderer;

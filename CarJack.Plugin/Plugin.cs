@@ -32,6 +32,7 @@ namespace CarJack.Plugin
                 carAssets.PluginDirectoryName = Path.GetFileName(Path.GetDirectoryName(Info.Location));
                 carAssets.LoadBundles();
 
+                new RecolorSaveData();
                 RecolorManager.Initialize(Paths.PluginPath);
                 RecolorManager.LoadRecolors();
                 RecolorApp.Initialize();

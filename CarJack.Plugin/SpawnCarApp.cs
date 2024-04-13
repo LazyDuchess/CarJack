@@ -1,4 +1,5 @@
 ﻿using CarJack.Common;
+using CarJack.Common.WhipRemix;
 using CommonAPI;
 using CommonAPI.Phone;
 using Reptile;
@@ -54,6 +55,9 @@ namespace CarJack.Plugin
                 var car = carGO.GetComponent<DrivableCar>();
                 car.Initialize();
                 car.DoorsLocked = PlayerData.Instance.DoorsLocked;
+                var recolorableCar = car.GetComponent<RecolorableCar>();
+                if (recolorableCar != null)
+                    recolorableCar.ApplySavedRecolor();
                 CarController.Instance.EnterCar(car);
             };
             return button;
