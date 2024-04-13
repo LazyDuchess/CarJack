@@ -101,6 +101,7 @@ namespace CarJack.SlopCrew
             var playerCar = GetPlayerForCar(car);
             if (playerCar == null) return;
             if (playerCar.Seat != null) return;
+            if (playerCar.PlayerID != playerId) return;
             carController.ExitCar();
         }
 
