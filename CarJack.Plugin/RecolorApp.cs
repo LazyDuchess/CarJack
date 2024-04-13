@@ -93,7 +93,7 @@ namespace CarJack.Plugin
                 recolor.Properties.RecolorDisplayName = Path.GetFileNameWithoutExtension(path);
                 recolor.Save(path);
 
-                Core.Instance.UIManager.ShowNotification($"New recolor ZIP saved to BepInEx/plugins/{NewRecolorFolder}/{recolor.Properties.RecolorDisplayName}.whipremix");
+                Core.Instance.UIManager.ShowNotification($"New recolor ZIP saved to <color=yellow>BepInEx/plugins/{NewRecolorFolder}/{recolor.Properties.RecolorDisplayName}.whipremix</color>");
             };
             ScrollView.AddButton(newRecolorButton);
         }
