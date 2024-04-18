@@ -197,6 +197,7 @@ namespace CarJack.Common
             var rootObject = player.transform.Find("RootObject");
             player.interactionCollider.transform.parent = rootObject;
             player.interactionCollider.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            player.characterVisual.transform.SetAsLastSibling();
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
             if (!wasPassenger)
