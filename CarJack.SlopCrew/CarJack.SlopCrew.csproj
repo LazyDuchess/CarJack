@@ -28,6 +28,7 @@
     <ProjectReference Include="..\CarJack.Plugin\CarJack.Plugin.csproj" />
     <ProjectReference Include="..\libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj" />
     <ProjectReference Include="..\libs\SlopCrew\SlopCrew.Plugin\SlopCrew.Plugin.csproj" />
+    <ProjectReference Include="E:\BRC\Plugin Making\SlopChat\libs\SlopCrew\SlopCrew.Common\SlopCrew.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

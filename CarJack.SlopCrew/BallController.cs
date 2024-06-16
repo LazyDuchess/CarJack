@@ -8,6 +8,7 @@ using Reptile;
 using SlopCrew.API;
 using System.IO;
 using CarJack.Common;
+using Slop = SlopCrew;
 
 namespace CarJack.SlopCrew
 {
@@ -21,7 +22,7 @@ namespace CarJack.SlopCrew
         private const string BallSubHostPacketGUID = "CarJack-Ball-SubHost";
         private const string BallHostPacketGUID = "CarJack-Ball-Host";
         private const string BallPacketGUID = "CarJack-Ball";
-        private const float TickRate = 0.1f;
+        private const float TickRate = 0.2f;
         private const string BallGameObjectName = "rocket ball";
         private ISlopCrewAPI _api;
         private GameObject _ball;
@@ -208,7 +209,7 @@ namespace CarJack.SlopCrew
             writer.Write(avel.z);
 
             writer.Flush();
-            _api.SendCustomPacket(BallPacketGUID, ms.ToArray());
+            SlopCrewExtensions.SendCustomPacket(BallPacketGUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
             writer.Close();
         }
 
@@ -251,6 +252,7 @@ namespace CarJack.SlopCrew
 
         private void OnBallPacketReceived(uint playerid, string guid, byte[] data)
         {
+            guid = SlopCrewExtensions.GetPacketID(guid);
             if (guid != BallPacketGUID)
                 return;
             if (_subHost) return;

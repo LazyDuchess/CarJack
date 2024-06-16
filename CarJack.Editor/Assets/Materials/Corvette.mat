@@ -12,6 +12,7 @@ Material:
   m_ValidKeywords:
   - _EMISSIONUV_UV0
   - _MAINTEXUV_UV0
+  - _OUTLINE_ON
   - _TRANSPARENCY_OPAQUE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -86,6 +87,7 @@ Material:
     - _MinOutlineSize: 0.002
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Outline: 1
     - _OutlineMultiplier: 0.005
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0

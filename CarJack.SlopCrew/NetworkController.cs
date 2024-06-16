@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Slop = SlopCrew;
 
 namespace CarJack.SlopCrew
 {
@@ -21,7 +22,7 @@ namespace CarJack.SlopCrew
         private const string KickPassengersPacketGUID = "CarJack-KickPassengers";
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
-        private const float TickRate = 0.1f;
+        private const float TickRate = 0.2f;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
         private ISlopCrewAPI _api;
         private float _currentTick = TickRate;
@@ -60,6 +61,7 @@ namespace CarJack.SlopCrew
 
         private void _api_OnCustomPacketReceived(uint playerId, string guid, byte[] data)
         {
+            guid = SlopCrewExtensions.GetPacketID(guid);
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
             switch (guid)
@@ -198,7 +200,7 @@ namespace CarJack.SlopCrew
             var writer = new BinaryWriter(ms);
             packet.Serialize(writer);
             writer.Flush();
-            _api.SendCustomPacket(PlayerCarPacket.GUID, ms.ToArray());
+            SlopCrewExtensions.SendCustomPacket(PlayerCarPacket.GUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
             writer.Close();
 
             var newList = new List<PlayerCarData>();
