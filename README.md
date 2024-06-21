@@ -9,17 +9,18 @@ A new `carjack` app will be available on your phone. Use it to access this mod's
 ## Controls
 Below are the controls, their default bindings for both Keyboard + Mouse and Controller and their corresponding inputs in the in-game `Settings -> Input` Menu.
 
-| Action                | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
-|-----------------------|-------------------|---------------|------------------|-------------------------|
-| Accelerate            | W                 | Right Trigger | Forward          | Slide                   |
-| Reverse               | S                 | Left Trigger  | Back             | Boost                   |
-| Steer Right           | D                 | Left Stick    | Right            |                         |
-| Steer Left            | A                 | Left Stick    | Left             |                         |
-| Handbrake             | Space             | A             | Jump             | Jump                    |
-| Leave Car             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
-| Look Behind           | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
-| Horn                  | E                 | Right Bumper  | Spray            | Spray                   |
-| Lock/Unlock Car Doors | Right Arrow       | D-Pad Right   | Phone right      | Phone right             |
+| Action                    | KBM               | Controller    | BRC Input (KBM)  | BRC Input (Controller)  |
+|---------------------------|-------------------|---------------|------------------|-------------------------|
+| Accelerate                | W                 | Right Trigger | Forward          | Slide                   |
+| Reverse                   | S                 | Left Trigger  | Back             | Boost                   |
+| Steer Right               | D                 | Left Stick    | Right            |                         |
+| Steer Left                | A                 | Left Stick    | Left             |                         |
+| Handbrake                 | Space             | A             | Jump             | Jump                    |
+| Leave Car                 | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
+| Look Behind               | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
+| Horn                      | E                 | Right Bumper  | Spray            | Spray                   |
+| Lock/Unlock Car Doors     | Right Arrow       | D-Pad Right   | Phone right      | Phone right             |
+| Bring Up Phone (Keyboard) | F                 |               |                  |                         |
 
 ### Air Control
 On Controller, the left stick lets you adjust the pitch and yaw of your vehicle. Holding handbrake will let you adjust the roll of your car rather than the yaw.
@@ -43,6 +44,7 @@ Helicopter control type can be changed from the BepInEx plugin settings.
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
 | Look Behind                  | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
 | Lock/Unlock Helicopter Doors | Space             | D-Pad Right   | Jump             | Phone right             |
+| Bring Up Phone (Keyboard)    | F                 |               |                  |                         |
 
 ### Helicopter (Type B)
 
@@ -59,6 +61,7 @@ Helicopter control type can be changed from the BepInEx plugin settings.
 | Leave Helicopter             | Q                 | Left Bumper   | Ride movestyle   | Ride movestyle          |
 | Look Behind                  | Left Mouse Button | Y             | Trick 2          | Trick 2                 |
 | Lock/Unlock Helicopter Doors | Space             | D-Pad Right   | Jump             | Phone right             |
+| Bring Up Phone (Keyboard)    | F                 |               |                  |                         |
 
 ## Dependencies
 If you're using a mod manager such as r2modman dependencies are automatically installed for you.
