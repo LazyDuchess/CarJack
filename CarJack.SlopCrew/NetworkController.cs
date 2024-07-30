@@ -148,7 +148,7 @@ namespace CarJack.SlopCrew
             _currentTick -= Time.deltaTime;
             if (_currentTick <= 0f)
             {
-                _currentTick = Time.deltaTime;
+                _currentTick = TickRate;
                 Tick();
             }
         }
