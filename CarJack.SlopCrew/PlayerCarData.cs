@@ -12,7 +12,8 @@ namespace CarJack.SlopCrew
     {
         public uint PlayerID;
         public DrivableCar Car;
-        public PlayerCarPacket LastPacket;
+        public PlayerCarTransformPacket TransformPacket;
+        public PlayerCarStatePacket StatePacket;
         // SlopCrew april fools stuff.
         public GameObject Polo;
         public CarSeat Seat;

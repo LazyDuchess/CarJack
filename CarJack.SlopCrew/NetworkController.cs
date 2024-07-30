@@ -22,10 +22,12 @@ namespace CarJack.SlopCrew
         private const string KickPassengersPacketGUID = "CarJack-KickPassengers";
         private const float LerpMaxDistance = 10f;
         private const float Lerp = 10f;
-        private const float TickRate = 0.2f;
+        private const float TransformTickRate = 0.2f;
+        private const float StateTickRate = 0.8f;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
         private ISlopCrewAPI _api;
-        private float _currentTick = TickRate;
+        private float _currentTransformTick = TransformTickRate;
+        private float _currentStateTick = StateTickRate;
         public static void Initialize()
         {
             StageManager.OnStageInitialized += StageManager_OnStageInitialized;
@@ -69,8 +71,11 @@ namespace CarJack.SlopCrew
                 case KickPassengersPacketGUID:
                     OnKickPassengersPacketReceived(playerId, reader);
                     break;
-                case PlayerCarPacket.GUID:
-                    OnPlayerCarDataPacketReceived(playerId, reader);
+                case PlayerCarStatePacket.GUID:
+                    OnPlayerCarStatePacketReceived(playerId, reader);
+                    break;
+                case PlayerCarTransformPacket.GUID:
+                    OnPlayerCarTransformPacketReceived(playerId, reader);
                     break;
                 default:
                     break;
@@ -110,9 +115,9 @@ namespace CarJack.SlopCrew
             carController.ExitCar();
         }
 
-        private void OnPlayerCarDataPacketReceived(uint playerId, BinaryReader reader)
+        private void OnPlayerCarStatePacketReceived(uint playerId, BinaryReader reader)
         {
-            var packet = new PlayerCarPacket();
+            var packet = new PlayerCarStatePacket();
             packet.Deserialize(reader);
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
             {
@@ -120,8 +125,26 @@ namespace CarJack.SlopCrew
                 playerCarData.PlayerID = playerId;
                 PlayerCars.Add(playerCarData);
                 _playerCarsById[playerId] = playerCarData;
+                playerCarData.StatePacket = new PlayerCarStatePacket();
+                playerCarData.TransformPacket = new PlayerCarTransformPacket();
             }
-            playerCarData.LastPacket = packet;
+            playerCarData.StatePacket = packet;
+        }
+
+        private void OnPlayerCarTransformPacketReceived(uint playerId, BinaryReader reader)
+        {
+            var packet = new PlayerCarTransformPacket();
+            packet.Deserialize(reader);
+            if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
+            {
+                playerCarData = new PlayerCarData();
+                playerCarData.PlayerID = playerId;
+                PlayerCars.Add(playerCarData);
+                _playerCarsById[playerId] = playerCarData;
+                playerCarData.StatePacket = new PlayerCarStatePacket();
+                playerCarData.TransformPacket = new PlayerCarTransformPacket();
+            }
+            playerCarData.TransformPacket = packet;
         }
 
         public bool PlayerHasCar(uint playerId)
@@ -145,11 +168,17 @@ namespace CarJack.SlopCrew
         private void FixedUpdate()
         {
             if (!_api.Connected) return;
-            _currentTick -= Time.deltaTime;
-            if (_currentTick <= 0f)
+            _currentTransformTick -= Time.deltaTime;
+            _currentStateTick -= Time.deltaTime;
+            if (_currentTransformTick <= 0f)
             {
-                _currentTick = Time.deltaTime;
-                Tick();
+                _currentTransformTick = TransformTickRate;
+                TickTransform();
+            }
+            if (_currentStateTick <= 0f)
+            {
+                _currentStateTick = StateTickRate;
+                TickState();
             }
         }
 
@@ -163,25 +192,15 @@ namespace CarJack.SlopCrew
             return uint.MaxValue;
         }
 
-        private void Tick()
+        private void TickState()
         {
-            var packet = new PlayerCarPacket();
+            var packet = new PlayerCarStatePacket();
             if (CarController.Instance.CurrentCar != null)
             {
                 var car = CarController.Instance.CurrentCar;
 
                 if (CarController.Instance.CurrentSeat == null)
                     packet.CarInternalName = car.InternalName;
-
-                packet.Position = car.Rigidbody.position;
-                packet.Rotation = car.Rigidbody.rotation;
-
-                packet.Velocity = car.Rigidbody.velocity;
-                packet.AngularVelocity = car.Rigidbody.angularVelocity;
-
-                packet.ThrottleAxis = car.ThrottleAxis;
-                packet.SteerAxis = car.SteerAxis;
-                packet.HornHeld = car.HornHeld;
 
                 if (CarController.Instance.CurrentSeat != null)
                 {
@@ -200,7 +219,32 @@ namespace CarJack.SlopCrew
             var writer = new BinaryWriter(ms);
             packet.Serialize(writer);
             writer.Flush();
-            SlopCrewExtensions.SendCustomPacket(PlayerCarPacket.GUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
+            SlopCrewExtensions.SendCustomPacket(PlayerCarStatePacket.GUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
+            writer.Close();
+        }
+
+        private void TickTransform()
+        {
+            var packet = new PlayerCarTransformPacket();
+            if (CarController.Instance.CurrentCar != null)
+            {
+                var car = CarController.Instance.CurrentCar;
+
+                packet.Position = car.Rigidbody.position;
+                packet.Rotation = car.Rigidbody.rotation;
+
+                packet.Velocity = car.Rigidbody.velocity;
+                packet.AngularVelocity = car.Rigidbody.angularVelocity;
+
+                packet.ThrottleAxis = car.ThrottleAxis;
+                packet.SteerAxis = car.SteerAxis;
+                packet.HornHeld = car.HornHeld;
+            }
+            var ms = new MemoryStream();
+            var writer = new BinaryWriter(ms);
+            packet.Serialize(writer);
+            writer.Flush();
+            SlopCrewExtensions.SendCustomPacket(PlayerCarTransformPacket.GUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
             writer.Close();
 
             var newList = new List<PlayerCarData>();
@@ -225,13 +269,14 @@ namespace CarJack.SlopCrew
             {
                 if (car.Car == null) continue;
                 if (car.Seat != null) continue;
-                var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);
-                var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.LastPacket.Rotation, Lerp * Time.deltaTime);
-                var dist = (car.Car.Rigidbody.position - car.LastPacket.Position).magnitude;
+                if (car.TransformPacket == null) continue;
+                var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.TransformPacket.Position, Lerp * Time.deltaTime);
+                var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.TransformPacket.Rotation, Lerp * Time.deltaTime);
+                var dist = (car.Car.Rigidbody.position - car.TransformPacket.Position).magnitude;
                 if (dist >= LerpMaxDistance)
                 {
-                    interpolatedPos = car.LastPacket.Position;
-                    interpolatedRot = car.LastPacket.Rotation;
+                    interpolatedPos = car.TransformPacket.Position;
+                    interpolatedRot = car.TransformPacket.Rotation;
                     car.Car.transform.position = interpolatedPos;
                     car.Car.transform.rotation = interpolatedRot;
                 }
@@ -245,16 +290,16 @@ namespace CarJack.SlopCrew
         {
             var missingCar = false;
             var keep = true;
-            if (playerCarData.LastPacket.PassengerSeat != -1)
-                playerCarData.LastPacket.CarInternalName = "carjack.bluecar";
+            if (playerCarData.StatePacket.PassengerSeat != -1)
+                playerCarData.StatePacket.CarInternalName = "carjack.bluecar";
 
             if (_api.PlayerIDExists(playerCarData.PlayerID) == false)
             {
-                playerCarData.LastPacket.CarInternalName = "";
+                playerCarData.StatePacket.CarInternalName = "";
                 keep = false;
             }
             var player = Utility.GetPlayer(playerCarData.PlayerID);
-            if (playerCarData.LastPacket.CarInternalName == "")
+            if (playerCarData.StatePacket.CarInternalName == "")
             {
                 if (player != null)
                 {
@@ -281,20 +326,20 @@ namespace CarJack.SlopCrew
             else
             {
                 var car = "carjack.bluecar";
-                if (CarDatabase.CarByInternalName.TryGetValue(playerCarData.LastPacket.CarInternalName, out var result))
+                if (CarDatabase.CarByInternalName.TryGetValue(playerCarData.StatePacket.CarInternalName, out var result))
                     car = result.Prefab.GetComponent<DrivableCar>().InternalName;
                 else
                     missingCar = true;
 
                 var currentCar = playerCarData.Car;
 
-                if (playerCarData.LastPacket.PassengerSeat != -1)
+                if (playerCarData.StatePacket.PassengerSeat != -1)
                 {
-                    var pasCar = GetPlayersCar(playerCarData.LastPacket.DriverPlayerID);
+                    var pasCar = GetPlayersCar(playerCarData.StatePacket.DriverPlayerID);
                     currentCar = pasCar;
                     if (pasCar != null)
                     {
-                        var targetSeat = pasCar.GetPassengerSeat(playerCarData.LastPacket.PassengerSeat);
+                        var targetSeat = pasCar.GetPassengerSeat(playerCarData.StatePacket.PassengerSeat);
                         if (targetSeat != null)
                         {
                             player.transform.position = targetSeat.transform.position;
@@ -339,8 +384,8 @@ namespace CarJack.SlopCrew
                             Destroy(currentCar.gameObject);
                         }
                         var carGO = Instantiate(CarDatabase.CarByInternalName[car].Prefab);
-                        carGO.transform.position = playerCarData.LastPacket.Position;
-                        carGO.transform.rotation = playerCarData.LastPacket.Rotation;
+                        carGO.transform.position = playerCarData.TransformPacket.Position;
+                        carGO.transform.rotation = playerCarData.TransformPacket.Rotation;
                         currentCar = carGO.GetComponent<DrivableCar>();
                         currentCar.Initialize();
                         currentCar.EnterCar(player);
@@ -349,9 +394,9 @@ namespace CarJack.SlopCrew
                         {
                             if (_playerCarsById.TryGetValue(playerId, out var result))
                             {
-                                currentCar.ThrottleAxis = result.LastPacket.ThrottleAxis;
-                                currentCar.SteerAxis = result.LastPacket.SteerAxis;
-                                currentCar.HornHeld = result.LastPacket.HornHeld;
+                                currentCar.ThrottleAxis = result.TransformPacket.ThrottleAxis;
+                                currentCar.SteerAxis = result.TransformPacket.SteerAxis;
+                                currentCar.HornHeld = result.TransformPacket.HornHeld;
                             }
                         };
                     }
@@ -371,17 +416,17 @@ namespace CarJack.SlopCrew
                                 playersPolo.gameObject.SetActive(false);
                             }
                         }
-                        currentCar.Rigidbody.velocity = playerCarData.LastPacket.Velocity;
-                        currentCar.Rigidbody.angularVelocity = playerCarData.LastPacket.AngularVelocity;
-                        currentCar.DoorsLocked = missingCar ? true : playerCarData.LastPacket.DoorsLocked;
+                        currentCar.Rigidbody.velocity = playerCarData.TransformPacket.Velocity;
+                        currentCar.Rigidbody.angularVelocity = playerCarData.TransformPacket.AngularVelocity;
+                        currentCar.DoorsLocked = missingCar ? true : playerCarData.StatePacket.DoorsLocked;
 
                         var recolorable = currentCar.GetComponent<RecolorableCar>();
                         if (recolorable != null)
                         {
                             Recolor recolor = null;
-                            if (!string.IsNullOrEmpty(playerCarData.LastPacket.RecolorGUID))
+                            if (!string.IsNullOrEmpty(playerCarData.StatePacket.RecolorGUID))
                             {
-                                if (RecolorManager.RecolorsByGUID.TryGetValue(playerCarData.LastPacket.RecolorGUID, out var recResult))
+                                if (RecolorManager.RecolorsByGUID.TryGetValue(playerCarData.StatePacket.RecolorGUID, out var recResult))
                                 {
                                     if (recResult.Properties.CarInternalName == currentCar.InternalName)
                                         recolor = recResult;

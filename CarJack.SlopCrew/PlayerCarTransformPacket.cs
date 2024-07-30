@@ -8,16 +8,14 @@ using UnityEngine;
 
 namespace CarJack.SlopCrew
 {
-    public class PlayerCarPacket
+    public class PlayerCarTransformPacket
     {
-        private const byte Version = 3;
-        public const string GUID = "CarJack-PlayerCar";
-        public string CarInternalName = "";
+        private const byte Version = 0;
+        public const string GUID = "CarJack-PlayerCarTransform";
         public Vector3 Position = Vector3.zero;
         public Quaternion Rotation = Quaternion.identity;
         public Vector3 Velocity = Vector3.zero;
         public Vector3 AngularVelocity = Vector3.zero;
-
         public float ThrottleAxis = 0f;
         public float SteerAxis = 0f;
         public bool HornHeld = false;
@@ -26,18 +24,10 @@ namespace CarJack.SlopCrew
         public float YawAxis = 0f;
         public float RollAxis = 0f;
 
-        public int PassengerSeat = -1;
-        public uint DriverPlayerID = uint.MaxValue;
-        public bool DoorsLocked = false;
-
-        public string RecolorGUID = string.Empty;
-
         public void Serialize(BinaryWriter writer)
         {
             //version
             writer.Write(Version);
-
-            writer.Write(CarInternalName);
 
             writer.Write(Position.x);
             writer.Write(Position.y);
@@ -64,19 +54,11 @@ namespace CarJack.SlopCrew
             writer.Write(PitchAxis);
             writer.Write(YawAxis);
             writer.Write(RollAxis);
-
-            writer.Write(PassengerSeat);
-            writer.Write(DriverPlayerID);
-            writer.Write(DoorsLocked);
-
-            writer.Write(RecolorGUID);
         }
 
         public void Deserialize(BinaryReader reader)
         {
             var version = reader.ReadByte();
-
-            CarInternalName = reader.ReadString();
 
             var posX = reader.ReadSingle();
             var posY = reader.ReadSingle();
@@ -98,26 +80,11 @@ namespace CarJack.SlopCrew
             ThrottleAxis = reader.ReadSingle();
             SteerAxis = reader.ReadSingle();
             HornHeld = reader.ReadBoolean();
-            /*
-            writer.Write(BrakeHeld);
-            writer.Write(PitchAxis);
-            writer.Write(YawAxis);
-            writer.Write(RollAxis);
-            */
+
             BrakeHeld = reader.ReadBoolean();
             PitchAxis = reader.ReadSingle();
             YawAxis = reader.ReadSingle();
             RollAxis = reader.ReadSingle();
-
-            if (version >= 1)
-            {
-                PassengerSeat = reader.ReadInt32();
-                DriverPlayerID = reader.ReadUInt32();
-                if (version >= 2)
-                    DoorsLocked = reader.ReadBoolean();
-                if (version >= 3)
-                    RecolorGUID = reader.ReadString();
-            }
 
             Position = new Vector3(posX, posY, posZ);
             Rotation = new Quaternion(rotX, rotY, rotZ, rotW);
