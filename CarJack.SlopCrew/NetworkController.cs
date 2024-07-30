@@ -20,8 +20,8 @@ namespace CarJack.SlopCrew
         public static NetworkController Instance { get; private set; }
         private const byte KickPassengersPacketVersion = 0;
         private const string KickPassengersPacketGUID = "CarJack-KickPassengers";
-        private const float LerpMaxDistance = 10f;
-        private const float Lerp = 10f;
+        private const float LerpMaxDistance = 20f;
+        private const float Lerp = 5f;
         private const float TickRate = 0.2f;
         private Dictionary<uint, PlayerCarData> _playerCarsById;
         private ISlopCrewAPI _api;
