@@ -26,6 +26,7 @@ namespace CarJack.Common
         public static Action OnPlayerEnteredCar;
         public DrivableCar CurrentCar;
         public CarPassengerSeat CurrentSeat;
+        private static Vector3 lastSpeedEnter = Vector3.zero;
         public static void Initialize(ICarConfig config)
         {
             Config = config;
@@ -139,6 +140,9 @@ namespace CarJack.Common
 
         public void EnterCar(DrivableCar car)
         {
+            var player = WorldHandler.instance.GetCurrentPlayer();
+            Rigidbody rb = player.GetComponent<Rigidbody>();
+            lastSpeedEnter = rb.velocity;
             if (CurrentCar != null)
             {
                 CurrentCar.Driving = false;
@@ -148,7 +152,6 @@ namespace CarJack.Common
             CurrentSeat = null;
             car.Driving = true;
             car.InCar = true;
-            var player = WorldHandler.instance.GetCurrentPlayer();
             player.phone.TurnOff(false);
             player.StopHoldSpraycan();
             player.characterVisual.SetPhone(false);
@@ -168,12 +171,16 @@ namespace CarJack.Common
             player.FlushInput();
             car.EnterCar(player);
             OnPlayerEnteredCar?.Invoke();
+            Rigidbody crb = car.GetComponent<Rigidbody>();
+            crb.velocity = lastSpeedEnter;
         }
 
         public void ExitCar()
         {
             var car = CurrentCar;
             if (CurrentCar == null) return;
+            Rigidbody crb = currentCar.GetComponent<Rigidbody>();
+            lastSpeedExit = crb.velocity;
             OnPlayerExitingCar?.Invoke();
             var wasPassenger = false;
             if (CurrentCar.Driving)
@@ -200,6 +207,8 @@ namespace CarJack.Common
             player.characterVisual.transform.SetAsLastSibling();
             player.EnablePlayer();
             gameplayCamera.ResetCameraPositionRotation();
+            Rigidbody rb = currentPlayer.GetComponent<Rigidbody>();
+            rb.velocity = lastSpeedExit;
             if (!wasPassenger)
                 Destroy(car.gameObject);
         }
