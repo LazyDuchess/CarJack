@@ -115,8 +115,6 @@ namespace CarJack.Common
 
         protected override void FixedUpdateCar()
         {
-            base.FixedUpdateCar();
-
             var throttleAxis = ThrottleAxis;
 
             if (throttleAxis > 0f)
