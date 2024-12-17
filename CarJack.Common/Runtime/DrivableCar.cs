@@ -144,6 +144,9 @@ namespace CarJack.Common
         public bool AllWheelsOffGround = false;
 
         private CarPassengerSeat[] _passengerSeats;
+        public bool CustomGravity { get; private set; } = false;
+        public Vector3 CustomGravityInAir { get; private set; } = Vector3.zero;
+        public Vector3 CustomGravityOnGround { get; private set; } = Vector3.zero;
 
 #if !PLUGIN
         private void OnValidate()
@@ -705,10 +708,29 @@ namespace CarJack.Common
 
         protected virtual void FixedUpdateCar()
         {
+#if PLUGIN
+            if (Core.Instance.IsCorePaused) return;
+#endif
             if (!AllWheelsOffGround && !IsStill() && IsSuspensionRestingOrAbove())
             {
                 Rigidbody.AddForce(-transform.up * DownForce * Rigidbody.velocity.magnitude, ForceMode.Acceleration);
             }
+        }
+
+        public void SetCustomGravity(Vector3 groundGravity, Vector3 airGravity)
+        {
+            Rigidbody.useGravity = false;
+            CustomGravity = true;
+            CustomGravityInAir = airGravity;
+            CustomGravityOnGround = groundGravity;
+        }
+
+        public void RestoreGravity()
+        {
+            Rigidbody.useGravity = true;
+            CustomGravity = false;
+            CustomGravityInAir = Vector3.zero;
+            CustomGravityOnGround = Vector3.zero;
         }
 
         private void FixedUpdate()
@@ -764,6 +786,14 @@ namespace CarJack.Common
             UpdateDrift();
             UpdateAutoRecovery();
             FixedUpdateCar();
+
+            if (CustomGravity)
+            {
+                if (AllWheelsOffGround)
+                    Rigidbody.AddForce(CustomGravityInAir, ForceMode.Acceleration);
+                else
+                    Rigidbody.AddForce(CustomGravityOnGround, ForceMode.Acceleration);
+            }
 #if PLUGIN
             if (GetOutOfCarButtonNew && InCar)
             {
