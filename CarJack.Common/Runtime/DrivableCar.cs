@@ -31,6 +31,7 @@ namespace CarJack.Common
         public float SurfaceAngleLimit = 60f;
 
         public float Deacceleration = 100f;
+        public float DownForce = 0.5f;
 
         [Header("Curves based on the car's speed")]
         public AnimationCurve ReverseCurve;
@@ -693,9 +694,21 @@ namespace CarJack.Common
             return true;
         }
 
+        private bool IsSuspensionRestingOrAbove()
+        {
+            foreach(var wheel in Wheels)
+            {
+                if (wheel.CurrentDistance < wheel.RestDistance) return false;
+            }
+            return true;
+        }
+
         protected virtual void FixedUpdateCar()
         {
-
+            if (!AllWheelsOffGround && !IsStill() && IsSuspensionRestingOrAbove())
+            {
+                Rigidbody.AddForce(-transform.up * DownForce * Rigidbody.velocity.magnitude, ForceMode.Acceleration);
+            }
         }
 
         private void FixedUpdate()

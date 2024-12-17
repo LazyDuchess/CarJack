@@ -645,6 +645,7 @@ MonoBehaviour:
   HasSurfaceAngleLimit: 1
   SurfaceAngleLimit: 60
   Deacceleration: 100
+  DownForce: 0.5
   ReverseCurve:
     serializedVersion: 2
     m_Curve:

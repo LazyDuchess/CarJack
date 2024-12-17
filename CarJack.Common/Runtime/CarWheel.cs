@@ -15,6 +15,7 @@ namespace CarJack.Common
         public float StartLength = 0f;
         public float MaxDistance = 0f;
         public float RestDistance = 0f;
+        public float CurrentDistance { get; private set; }
 
         [Header("Visuals")]
         public GameObject Mesh;
@@ -83,14 +84,14 @@ namespace CarJack.Common
                     resting = false;
                 }
             }
-            var distance = MaxDistance;
+            CurrentDistance = MaxDistance;
             Grounded = false;
             var ray = new Ray(transform.position + (transform.up * StartLength), -transform.up);
             if (Physics.Raycast(ray, out var hit, MaxDistance + StartLength, _car.GroundMask))
             {
-                distance = hit.distance - StartLength;
+                CurrentDistance = hit.distance - StartLength;
                 Grounded = true;
-                var offset = RestDistance - distance;
+                var offset = RestDistance - CurrentDistance;
                 var velocity = Vector3.Dot(_car.Rigidbody.GetPointVelocity(transform.position), transform.up);
                 var force = (offset * Strength) - (velocity * Damping);
                 if (tooSteep)
@@ -106,7 +107,7 @@ namespace CarJack.Common
 
             if (Mesh != null)
             {
-                Mesh.transform.position = transform.position - ((distance - MeshRadius) * transform.up);
+                Mesh.transform.position = transform.position - ((CurrentDistance - MeshRadius) * transform.up);
             }
 
             if (Grounded && !tooSteep)
