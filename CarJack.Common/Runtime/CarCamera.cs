@@ -29,6 +29,7 @@ namespace CarJack.Common
         public float LerpMultiplier = 0.15f;
         public float Distance = 7f;
         public float Height = 2f;
+        public float Fov = 60f;
         public DrivableCar Target;
         private bool _controller = false;
         private float _xAxis = 0f;
@@ -40,15 +41,42 @@ namespace CarJack.Common
         private float _currentJumpAnimation = 0f;
         private bool _inJumpAnimation = false;
 
-        public float JumpAnimationDistance = 3f;
-        public float JumpAnimationHeight = 1f;
+        public float JumpAnimationDistance = 1f;
+        public float JumpAnimationHeight = 0.5f;
         public float JumpAnimationMinSpeed = 10f;
         public float JumpAnimationBeginSpeed = 1f;
         public float JumpAnimationLandSpeed = 5f;
+        public float JumpAnimationFov = 2f;
+
+        private float _currentSpeedAnimation = 0f;
+
+        public float SpeedAnimationDistance = 3f;
+        public float SpeedAnimationFov = 10f;
+        public float SpeedAnimationMinSpeed = 20f;
+        public float SpeedAnimationMaxSpeed = 80f;
+        public float SpeedAnimationSpeed = 5f;
+
+        private float _currentBrakeAnimation = 0f;
+        private bool _onBrakeAnimation = false;
+
+        public float BrakeAnimationThreshold = 0.5f;
+        public float BrakeAnimationSpeed = 1f;
+        public float BrakeAnimationStopSpeed = 0.2f;
+        public float BrakeAnimationDistance = -1f;
+        public float BrakeAnimationFov = -2f;
+
+
+        private Camera _camera;
 
         private void Awake()
         {
             Instance = this;
+            _camera = GetComponent<Camera>();
+        }
+
+        private void OnDestroy()
+        {
+            _camera.fieldOfView = 64f;
         }
 
         private void ResetInputs()
@@ -91,8 +119,67 @@ namespace CarJack.Common
                 _currentFreeCameraTimer = FreeCameraTimer;
         }
 
+        private float _lastFwSpeed = 0f;
+
+        private void UpdateBrakeAnimation()
+        {
+            var fwSpeed = Target.Rigidbody.velocity.magnitude;
+            var targetBrakeAnimation = 0f;
+
+            var speedDiff = (fwSpeed - _lastFwSpeed);
+
+            var negSpeedDiff = -speedDiff;
+            var posSpeedDiff = speedDiff;
+
+            if (posSpeedDiff <= 0f)
+                posSpeedDiff = 0f;
+
+            if (negSpeedDiff <= 0f)
+                negSpeedDiff = 0f;
+
+            if (negSpeedDiff >= BrakeAnimationThreshold)
+                _onBrakeAnimation = true;
+            else if (posSpeedDiff >= 0f)
+                _onBrakeAnimation = false;
+
+            if (fwSpeed > 10f && (Target.BrakeHeld || Target.ThrottleAxis < -0.5f))
+                _onBrakeAnimation = true;
+
+            if (Target.AllWheelsOffGround)
+                _onBrakeAnimation = false;
+
+            if (_onBrakeAnimation)
+                targetBrakeAnimation = 1f;
+
+
+            if (targetBrakeAnimation == 1f)
+                _currentBrakeAnimation = Mathf.Lerp(_currentBrakeAnimation, targetBrakeAnimation, BrakeAnimationSpeed * Time.deltaTime);
+            else
+                _currentBrakeAnimation = Mathf.Lerp(_currentBrakeAnimation, targetBrakeAnimation, (BrakeAnimationStopSpeed + posSpeedDiff) * Time.deltaTime);
+            _lastFwSpeed = fwSpeed;
+        }
+
+        private void UpdateSpeedAnimation()
+        {
+            var targetSpeedAnimation = 0f;
+            var camVel = Vector3.Dot(Target.Rigidbody.velocity, transform.forward);
+            if (camVel >= SpeedAnimationMinSpeed)
+            {
+                var maxSp = SpeedAnimationMaxSpeed - SpeedAnimationMinSpeed;
+                var vel = camVel - SpeedAnimationMinSpeed;
+                targetSpeedAnimation = Mathf.Min(1f, vel / maxSp);
+            }
+
+            _currentSpeedAnimation = Mathf.Lerp(_currentSpeedAnimation, targetSpeedAnimation, SpeedAnimationSpeed * Time.deltaTime);
+
+            if (_currentSpeedAnimation <= 0f)
+                _currentSpeedAnimation = 0f;
+        }
+
         private void UpdateJumpAnimation()
         {
+            if (Target is DrivableChopper) return;
+
             if (Target.AllWheelsOffGround)
             {
                 if (Target.Rigidbody.velocity.y >= JumpAnimationMinSpeed)
@@ -121,6 +208,8 @@ namespace CarJack.Common
                 return;
 
             UpdateJumpAnimation();
+            UpdateBrakeAnimation();
+            UpdateSpeedAnimation();
 
             PollInputs();
 #if PLUGIN
@@ -162,6 +251,7 @@ namespace CarJack.Common
             }
 
             var vel = Target.Rigidbody.velocity;
+            var velFw = Vector3.Dot(Target.Rigidbody.velocity, Target.transform.forward);
             if (Target is DrivableChopper)
                 vel.y = 0f;
 
@@ -169,7 +259,9 @@ namespace CarJack.Common
 
 
             var targetRotation = transform.rotation;
-            normalizedVelocity = Vector3.Lerp(normalizedVelocity, Target.transform.forward, 0.5f).normalized;
+
+            if (velFw > 1f)
+                normalizedVelocity = Vector3.Lerp(normalizedVelocity, Target.transform.forward, 0.5f).normalized;
 
             if (normalizedVelocity.magnitude > float.Epsilon && !Target.Still)
             {
@@ -205,9 +297,17 @@ namespace CarJack.Common
 
             var distance = Distance + Target.ExtraDistance;
             var height = Height + Target.ExtraHeight;
+            var fov = Fov;
 
             distance += _currentJumpAnimation * JumpAnimationDistance;
             height += _currentJumpAnimation * JumpAnimationHeight;
+            fov += _currentJumpAnimation * JumpAnimationFov;
+
+            distance += _currentSpeedAnimation * SpeedAnimationDistance;
+            fov += _currentSpeedAnimation * SpeedAnimationFov;
+
+            distance += _currentBrakeAnimation * BrakeAnimationDistance;
+            fov += _currentBrakeAnimation * BrakeAnimationFov;
 
             var target = Target.transform.position + (height * Vector3.up);
             var origin = target - (transform.forward * distance);
@@ -219,6 +319,7 @@ namespace CarJack.Common
             }
 
             transform.position = origin;
+            _camera.fieldOfView = fov;
         }
 
         private float ConvertTo180Rotation(float rotation)
