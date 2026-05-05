@@ -48,6 +48,7 @@ namespace CarJack.SlopCrew
             _playerCarsById = new();
             ClientController.RegisterCustomPacketHandler(KickPassengersPacketGUID, OnKickPassengersPacketReceived);
             ClientController.RegisterCustomPacketHandler(PlayerCarPacket.GUID, OnPlayerCarDataPacketReceived);
+            CarController.OnPlayerVisualUpdated += OnPlayerVisualUpdated;
             CarController.OnPlayerExitingCar += SendKickPassengersPacket;
         }
         
@@ -55,7 +56,22 @@ namespace CarJack.SlopCrew
         {
             ClientController.UnregisterCustomPacketHandler(KickPassengersPacketGUID);
             ClientController.UnregisterCustomPacketHandler(PlayerCarPacket.GUID);
+            CarController.OnPlayerVisualUpdated -= OnPlayerVisualUpdated;
             CarController.OnPlayerExitingCar -= SendKickPassengersPacket;
+        }
+
+        private void OnPlayerVisualUpdated(Player player)
+        {
+            if (!player.isAI) return;
+            var mpPlayer = MPUtility.GetMuliplayerPlayer(player);
+            if (mpPlayer == null) return;
+            if (_playerCarsById.TryGetValue(mpPlayer.ClientId, out var playerCar))
+            {
+                if (playerCar.Car != null && playerCar.Seat != null)
+                {
+                    playerCar.Seat.UpdateVisual();
+                }
+            }
         }
 
         private void SendKickPassengersPacket()

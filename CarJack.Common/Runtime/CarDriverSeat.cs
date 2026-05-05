@@ -23,9 +23,8 @@ namespace CarJack.Common
         private float _currentHonk = 0f;
         private float _currentReverse = 0f;
 #if PLUGIN
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
             if (CurrentVisual == null) return;
             var targetSteer = (Car.SteerAxis*0.5f) + 0.5f;
             _currentSteer = Mathf.Lerp(_currentSteer, targetSteer, SteerAnimationLerp * Time.deltaTime);

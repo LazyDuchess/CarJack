@@ -21,10 +21,19 @@
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CarJack.BombRushCamera\CarJack.BombRushCamera.csproj" />
+    <ProjectReference Include="..\CarJack.BombRushCamera\CarJack.BombRushCamera.csproj">
+      <Private></Private>
+      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
+    </ProjectReference>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
-    <ProjectReference Include="..\CarJack.SlopCrew\CarJack.SlopCrew.csproj" />
-    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
+    <ProjectReference Include="..\CarJack.SlopCrew\CarJack.SlopCrew.csproj">
+      <Private></Private>
+      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj">
+      <Private>False</Private>
+      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

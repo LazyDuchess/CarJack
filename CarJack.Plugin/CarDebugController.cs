@@ -36,8 +36,8 @@ namespace CarJack.Plugin
             if (Input.GetKeyDown(KeyCode.F9))
             {
                 var player = WorldHandler.instance.GetCurrentPlayer();
-                var carPrefab = CarDatabase.CarByInternalName["carjack.bus"];
-                var carGO = Instantiate(carPrefab);
+                var carEntry = CarDatabase.CarByInternalName["carjack.corvette"];
+                var carGO = Instantiate(carEntry.Prefab);
                 var car = carGO.GetComponent<DrivableCar>();
 
                 car.transform.position = player.transform.position;

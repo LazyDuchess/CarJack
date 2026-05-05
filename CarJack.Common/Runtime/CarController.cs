@@ -26,6 +26,11 @@ namespace CarJack.Common
         public static Action OnPlayerEnteredCar;
         public DrivableCar CurrentCar;
         public CarPassengerSeat CurrentSeat;
+
+#if PLUGIN
+        public static Action<Reptile.Player> OnPlayerVisualUpdated;
+#endif
+
         public static void Initialize(ICarConfig config)
         {
             Config = config;

@@ -22,7 +22,6 @@ namespace CarJack.Common
         private const float BlinkDuration = 0.1f;
 #if PLUGIN
         public Player Player;
-        private Characters _cachedCharacter;
 #endif
         protected virtual void Awake()
         {
@@ -39,7 +38,6 @@ namespace CarJack.Common
         protected CharacterVisual CurrentVisual;
         public void PutInSeat(Player player)
         {
-            _cachedCharacter = player.character;
             Player = player;
             if (PlayerVisible)
             {
@@ -58,6 +56,12 @@ namespace CarJack.Common
                 StopAllCoroutines();
                 Destroy(CurrentVisual.gameObject);
             }
+        }
+
+        public void UpdateVisual()
+        {
+            ExitSeat();
+            PutInSeat(Player);
         }
 
         private CharacterVisual VisualFromPlayer(Player player, RuntimeAnimatorController controller)
@@ -111,20 +115,6 @@ namespace CarJack.Common
             if (!visual.canBlink) return;
             if (visual.mainRenderer.sharedMesh.blendShapeCount <= 0) return;
             visual.mainRenderer.SetBlendShapeWeight(0, 0f);
-        }
-
-        protected virtual void Update()
-        {
-            if (Core.Instance.IsCorePaused) return;
-            if (Player != null && CurrentVisual != null)
-            {
-                if (Player.character != _cachedCharacter)
-                {
-                    var player = Player;
-                    ExitSeat();
-                    PutInSeat(player);
-                }
-            }
         }
 #endif
     }
