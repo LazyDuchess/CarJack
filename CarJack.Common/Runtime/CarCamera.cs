@@ -63,7 +63,8 @@ namespace CarJack.Common
 
             if (gameInput.GetCurrentControllerType(0) == ControllerType.Joystick)
             {
-                _currentFreeCameraTimer = 0f;
+                if (!CarController.Config.MouseCameraControlsOnController)
+                    _currentFreeCameraTimer = 0f;
                 _controller = true;
             }
 
@@ -72,7 +73,7 @@ namespace CarJack.Common
             _yAxis = Input.GetAxisRaw("Mouse Y");
             _lookBehind = Input.GetKey(KeyCode.Mouse0);
 #endif
-            if ((_xAxis != 0f || _yAxis != 0f) && !_controller)
+            if ((_xAxis != 0f || _yAxis != 0f) && (!_controller || CarController.Config.MouseCameraControlsOnController))
                 _currentFreeCameraTimer = FreeCameraTimer;
         }
 
@@ -96,9 +97,15 @@ namespace CarJack.Common
             var maxLerp = MaxLerpSpeed;
             _currentFreeCameraTimer = Mathf.Max(_currentFreeCameraTimer - Time.deltaTime, 0f);
 
-            if (_controller || _currentFreeCameraTimer > 0f)
+            if (_controller)
             {
-                if (_controller)
+                _xAxis *= Time.deltaTime * 50f;
+                _yAxis *= Time.deltaTime * 50f;
+            }
+
+            if ((_controller && !CarController.Config.MouseCameraControlsOnController) || _currentFreeCameraTimer > 0f)
+            {
+                if (_controller && !CarController.Config.MouseCameraControlsOnController)
                 {
                     if (_xAxis != 0f || _yAxis != 0f)
                         maxLerp = MaxLerpSpeedJoystick;
@@ -125,6 +132,7 @@ namespace CarJack.Common
 
 
             var targetRotation = transform.rotation;
+            normalizedVelocity = Vector3.Lerp(normalizedVelocity, Target.transform.forward, 0.5f).normalized;
 
             if (normalizedVelocity.magnitude > float.Epsilon && !Target.Still)
             {

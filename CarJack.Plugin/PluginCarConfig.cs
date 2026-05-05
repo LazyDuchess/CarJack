@@ -70,6 +70,20 @@ namespace CarJack.Plugin
             }
         }
 
+        public bool MouseCameraControlsOnController
+        {
+            get
+            {
+                return _mouseCameraControlsOnController.Value;
+            }
+            set
+            {
+                _mouseCameraControlsOnController.Value = value;
+            }
+        }
+
+        private ConfigEntry<bool> _mouseCameraControlsOnController;
+
         private ConfigEntry<bool> _acnIntegration;
         private ConfigEntry<bool> _continuousCollisionDetection;
 
@@ -115,6 +129,13 @@ namespace CarJack.Plugin
                 @"Control type for helicopters on controller.
 A: Left Stick to adjust pitch/roll, face buttons to adjust yaw.
 B: Left Stick to adjust pitch/yaw, face buttons to adjust roll."
+                );
+
+            _mouseCameraControlsOnController = configFile.Bind(
+                "Controls",
+                "MouseCameraControlsOnController",
+                true,
+                "Makes controller camera controls equal to mouse ones."
                 );
         }
     }

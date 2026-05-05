@@ -248,7 +248,14 @@ namespace CarJack.Common
 
                 var targetSteerAngle = steerAngle * steerAxis;
 
-                _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * Time.deltaTime);
+                var steerDiff = targetSteerAngle - _currentSteerAngle;
+
+                var steerMultiplier = Mathf.Lerp(0.5f, 0.2f, Mathf.Min(wheelForwardVelocity, 50f)/50f);
+
+                if (steerAxis == 0f)
+                    steerMultiplier *= 2.0f;
+
+                _currentSteerAngle = Mathf.Lerp(_currentSteerAngle, targetSteerAngle, SteerSpeed * steerMultiplier * Time.deltaTime);
                 var counterSteer = 0f;
                 if (Grounded)
                     counterSteer = _car.CounterSteering;

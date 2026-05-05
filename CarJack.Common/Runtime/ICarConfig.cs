@@ -19,5 +19,7 @@ namespace CarJack.Common
         public bool DeveloperMode { get; set; }
         public KeyCode ReloadBundlesKey { get; set; }
         public ChopperControlTypes ChopperControlType { get; set; }
+
+        public bool MouseCameraControlsOnController { get; set; }
     }
 }
