@@ -36,9 +36,11 @@
     </Reference>
     <Reference Include="BombRushMP.Common">
       <HintPath>..\libs\BombRushMP.Common.dll</HintPath>
+	  <Private>false</Private>
     </Reference>
     <Reference Include="BombRushMP.Plugin">
       <HintPath>..\libs\BombRushMP.Plugin.dll</HintPath>
+	  <Private>false</Private>
     </Reference>
   </ItemGroup>
   
