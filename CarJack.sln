@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.Plugin", "CarJack.P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAPI", "libs\BRC-CommonAPI\CommonAPI.csproj", "{7FF00358-F1F3-4A81-8BB4-F767042185AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.AllCityNetwork", "CarJack.SlopCrew\CarJack.AllCityNetwork.csproj", "{FA269827-B0AC-4848-899B-CFEFD60EFA0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.AllCityNetwork", "CarJack.AllCityNetwork\CarJack.AllCityNetwork.csproj", "{FA269827-B0AC-4848-899B-CFEFD60EFA0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.BombRushCamera", "CarJack.BombRushCamera\CarJack.BombRushCamera.csproj", "{8AB52AB3-39C0-40D6-8D38-B45D4FFF3797}"
 EndProject

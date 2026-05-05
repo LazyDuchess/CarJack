@@ -26,7 +26,7 @@
       <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
     </ProjectReference>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
-    <ProjectReference Include="..\CarJack.SlopCrew\CarJack.AllCityNetwork.csproj">
+    <ProjectReference Include="..\CarJack.AllCityNetwork\CarJack.AllCityNetwork.csproj">
       <Private></Private>
       <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
     </ProjectReference>
