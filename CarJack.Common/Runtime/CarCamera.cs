@@ -37,6 +37,15 @@ namespace CarJack.Common
         private bool _lookBehind = false;
         private float _currentFreeCameraTimer = 0f;
 
+        private float _currentJumpAnimation = 0f;
+        private bool _inJumpAnimation = false;
+
+        public float JumpAnimationDistance = 3f;
+        public float JumpAnimationHeight = 1f;
+        public float JumpAnimationMinSpeed = 10f;
+        public float JumpAnimationBeginSpeed = 1f;
+        public float JumpAnimationLandSpeed = 5f;
+
         private void Awake()
         {
             Instance = this;
@@ -82,6 +91,26 @@ namespace CarJack.Common
                 _currentFreeCameraTimer = FreeCameraTimer;
         }
 
+        private void UpdateJumpAnimation()
+        {
+            if (Target.AllWheelsOffGround)
+            {
+                if (Target.Rigidbody.velocity.y >= JumpAnimationMinSpeed)
+                {
+                    _inJumpAnimation = true;
+                }
+            }
+            else
+            {
+                _inJumpAnimation = false;
+            }
+
+            if (_inJumpAnimation)
+                _currentJumpAnimation = Mathf.Lerp(_currentJumpAnimation, 1f, JumpAnimationBeginSpeed * Time.deltaTime);
+            else
+                _currentJumpAnimation = Mathf.Lerp(_currentJumpAnimation, 0f, JumpAnimationLandSpeed * Time.deltaTime);
+        }
+
         private void Update()
         {
             if (!Enabled) return;
@@ -90,6 +119,9 @@ namespace CarJack.Common
 #endif
             if (Target == null)
                 return;
+
+            UpdateJumpAnimation();
+
             PollInputs();
 #if PLUGIN
             var aimSensitivity = Core.Instance.SaveManager.Settings.gameplaySettings.aimSensitivity;
@@ -173,6 +205,9 @@ namespace CarJack.Common
 
             var distance = Distance + Target.ExtraDistance;
             var height = Height + Target.ExtraHeight;
+
+            distance += _currentJumpAnimation * JumpAnimationDistance;
+            height += _currentJumpAnimation * JumpAnimationHeight;
 
             var target = Target.transform.position + (height * Vector3.up);
             var origin = target - (transform.forward * distance);
