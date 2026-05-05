@@ -12,9 +12,14 @@ using UnityEngine;
 
 namespace CarJack.Common
 {
+    public class CameraBlocker
+    {
+        public bool Enabled = false;
+    }
     public class CarCamera : MonoBehaviour
     {
-        public static bool Enabled = true;
+        public static List<CameraBlocker> Blockers = new();
+        private static bool Enabled => Blockers.Where((blocker) => { return blocker.Enabled; }).Count() == 0;
         public static CarCamera Instance { get; private set; }
         public float Radius = 0.1f;
         public float MaxLerpSpeed = 5f;
@@ -99,8 +104,8 @@ namespace CarJack.Common
 
             if (_controller)
             {
-                _xAxis *= Time.deltaTime * 50f;
-                _yAxis *= Time.deltaTime * 50f;
+                _xAxis *= Time.deltaTime * 100f;
+                _yAxis *= Time.deltaTime * 100f;
             }
 
             if ((_controller && !CarController.Config.MouseCameraControlsOnController) || _currentFreeCameraTimer > 0f)

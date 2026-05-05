@@ -11,9 +11,14 @@ namespace CarJack.BombRushCamera
 {
     public class CameraController : MonoBehaviour
     {
+        private CameraBlocker _blocker = new();
+        private void Awake()
+        {
+            CarCamera.Blockers.Add(_blocker);
+        }
         private void Update()
         {
-            CarCamera.Enabled = !BRC.Plugin.Active;
+            _blocker.Enabled = BRC.Plugin.Active;
         }
     }
 }

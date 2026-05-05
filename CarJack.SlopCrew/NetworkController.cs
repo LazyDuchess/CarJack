@@ -17,6 +17,7 @@ namespace CarJack.SlopCrew
     {
         public List<PlayerCarData> PlayerCars;
         public static NetworkController Instance { get; private set; }
+        private static CameraBlocker _specCameraBlocker = new();
         private const byte KickPassengersPacketVersion = 0;
         private const string KickPassengersPacketGUID = "CarJack-KickPassengers";
         private const float LerpMaxDistance = 20f;
@@ -27,6 +28,7 @@ namespace CarJack.SlopCrew
         public static void Initialize()
         {
             StageManager.OnStageInitialized += StageManager_OnStageInitialized;
+            CarCamera.Blockers.Add(_specCameraBlocker);
         }
 
         private static void StageManager_OnStageInitialized()
@@ -224,6 +226,7 @@ namespace CarJack.SlopCrew
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
+            _specCameraBlocker.Enabled = SpectatorController.Instance != null;
             foreach (var car in PlayerCars)
             {
                 if (car.Car == null) continue;
