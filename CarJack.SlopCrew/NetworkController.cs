@@ -126,6 +126,22 @@ namespace CarJack.SlopCrew
                 _playerCarsById[playerId] = playerCarData;
             }
             playerCarData.LastPacket = packet;
+            if (packet.CarInternalName != "" || packet.DriverPlayerID != ushort.MaxValue)
+            {
+                if (ClientController.Instance.Players.TryGetValue(playerId, out var mpPlayer))
+                {
+                    mpPlayer.CustomTransform = true;
+                    mpPlayer.CustomVisibility = true;
+                }
+            }
+            else
+            {
+                if (ClientController.Instance.Players.TryGetValue(playerId, out var mpPlayer))
+                {
+                    mpPlayer.CustomTransform = false;
+                    mpPlayer.CustomVisibility = false;
+                }
+            }
         }
 
         public bool PlayerHasCar(ushort playerId)
@@ -139,7 +155,7 @@ namespace CarJack.SlopCrew
 
         public DrivableCar GetPlayersCar(ushort playerId)
         {
-            if (!ClientController.Instance.Players.ContainsKey(playerId))
+            if (playerId == ClientController.Instance.LocalID)
                 return CarController.Instance.CurrentCar;
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
                 return null;

@@ -19,7 +19,7 @@ namespace CarJack.Common
     public class CarCamera : MonoBehaviour
     {
         public static List<CameraBlocker> Blockers = new();
-        private static bool Enabled => Blockers.Where((blocker) => { return blocker.Enabled; }).Count() == 0;
+        public static bool Enabled => Blockers.Where((blocker) => { return blocker.Enabled; }).Count() == 0;
         public static CarCamera Instance { get; private set; }
         public float Radius = 0.1f;
         public float MaxLerpSpeed = 5f;
