@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net471</TargetFramework>
-    <AssemblyName>CarJack.SlopCrew</AssemblyName>
-    <Description>SlopCrew CarJack Plugin</Description>
+    <AssemblyName>CarJack.AllCityNetwork</AssemblyName>
+    <Description>All City Network CarJack Plugin</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>

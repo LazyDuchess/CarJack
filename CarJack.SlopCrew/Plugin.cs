@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace CarJack.SlopCrew
+namespace CarJack.AllCityNetwork
 {
     public class Plugin
     {

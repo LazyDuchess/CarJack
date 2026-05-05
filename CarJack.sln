@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.Plugin", "CarJack.P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAPI", "libs\BRC-CommonAPI\CommonAPI.csproj", "{7FF00358-F1F3-4A81-8BB4-F767042185AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.SlopCrew", "CarJack.SlopCrew\CarJack.SlopCrew.csproj", "{FA269827-B0AC-4848-899B-CFEFD60EFA0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.AllCityNetwork", "CarJack.SlopCrew\CarJack.AllCityNetwork.csproj", "{FA269827-B0AC-4848-899B-CFEFD60EFA0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarJack.BombRushCamera", "CarJack.BombRushCamera\CarJack.BombRushCamera.csproj", "{8AB52AB3-39C0-40D6-8D38-B45D4FFF3797}"
 EndProject
@@ -37,10 +37,6 @@ Global
 		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA269827-B0AC-4848-899B-CFEFD60EFA0D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C96413D1-6CA2-4E74-B0B1-5DDB4EE06891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C96413D1-6CA2-4E74-B0B1-5DDB4EE06891}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C96413D1-6CA2-4E74-B0B1-5DDB4EE06891}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C96413D1-6CA2-4E74-B0B1-5DDB4EE06891}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8AB52AB3-39C0-40D6-8D38-B45D4FFF3797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8AB52AB3-39C0-40D6-8D38-B45D4FFF3797}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AB52AB3-39C0-40D6-8D38-B45D4FFF3797}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,14 +45,6 @@ Global
 		{EAB58F31-48F2-45CC-B452-62A9A3ADCAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAB58F31-48F2-45CC-B452-62A9A3ADCAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAB58F31-48F2-45CC-B452-62A9A3ADCAAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F6E3A05-5FDF-4653-AF43-F0DB69C0F68C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F6E3A05-5FDF-4653-AF43-F0DB69C0F68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F6E3A05-5FDF-4653-AF43-F0DB69C0F68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F6E3A05-5FDF-4653-AF43-F0DB69C0F68C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C9D33F7-8296-489F-B593-69A551525199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C9D33F7-8296-489F-B593-69A551525199}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C9D33F7-8296-489F-B593-69A551525199}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C9D33F7-8296-489F-B593-69A551525199}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

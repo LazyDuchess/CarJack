@@ -63,7 +63,7 @@ namespace CarJack.Plugin
                 Logger.LogInfo("Loading CarJack All City Network Plugin!");
                 try
                 {
-                    var slopPlugin = new CarJack.SlopCrew.Plugin();
+                    var slopPlugin = new CarJack.AllCityNetwork.Plugin();
                 }
                 catch (Exception e)
                 {

@@ -9,7 +9,7 @@ using System.IO;
 using CarJack.Common;
 using BombRushMP.Plugin;
 
-namespace CarJack.SlopCrew
+namespace CarJack.AllCityNetwork
 {
     // Yes this sucks.
     // TLDR - There's a host, lowest player ID so everyones on the same page - picks a sub-host every tick, player closest to the ball

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarJack.SlopCrew
+namespace CarJack.AllCityNetwork
 {
     public static class Utility
     {
