@@ -12,10 +12,20 @@ namespace CarJack.Plugin.Patches
     [HarmonyPatch(typeof(Player))]
     internal static class PlayerPatch
     {
+        private static bool _updatingVisuals = false;
+
+        [HarmonyPrefix]
+        [HarmonyPatch(nameof(Player.InitVisual))]
+        private static void InitVisual_Prefix(Player __instance)
+        {
+            _updatingVisuals = true;
+        }
+
         [HarmonyPostfix]
         [HarmonyPatch(nameof(Player.InitVisual))]
         private static void InitVisual_Postfix(Player __instance)
         {
+            _updatingVisuals = false;
             UpdatePlayer(__instance);
         }
 
@@ -23,6 +33,7 @@ namespace CarJack.Plugin.Patches
         [HarmonyPatch(nameof(Player.SetOutfit))]
         private static void SetOutfit_Postfix(Player __instance)
         {
+            if (_updatingVisuals) return;
             UpdatePlayer(__instance);
         }
 

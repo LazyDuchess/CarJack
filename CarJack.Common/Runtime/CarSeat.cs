@@ -60,8 +60,9 @@ namespace CarJack.Common
 
         public void UpdateVisual()
         {
+            var player = Player;
             ExitSeat();
-            PutInSeat(Player);
+            PutInSeat(player);
         }
 
         private CharacterVisual VisualFromPlayer(Player player, RuntimeAnimatorController controller)
