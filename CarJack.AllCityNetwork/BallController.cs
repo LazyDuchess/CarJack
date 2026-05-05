@@ -45,11 +45,6 @@ namespace CarJack.AllCityNetwork
             ClientController.RegisterCustomPacketHandler(BallSubHostPacketGUID, (ushort ply, byte[] data) => { OnBallHostPacketReceived(ply, data, true); });
         }
 
-        private void PacketHandler()
-        {
-
-        }
-
         private void Update()
         {
             if (Core.Instance.IsCorePaused) return;
@@ -225,7 +220,7 @@ namespace CarJack.AllCityNetwork
             var version = reader.ReadByte();
             var hostID = reader.ReadUInt16();
             reader.Close();
-            if (ClientController.Instance.Players.ContainsKey(hostID) || hostID == ushort.MaxValue)
+            if (hostID != ClientController.Instance.LocalID)
             {
                 if (!subhost)
                 {
