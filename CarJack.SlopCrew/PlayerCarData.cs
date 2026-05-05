@@ -10,7 +10,7 @@ namespace CarJack.SlopCrew
 {
     public class PlayerCarData
     {
-        public uint PlayerID;
+        public ushort PlayerID;
         public DrivableCar Car;
         public PlayerCarPacket LastPacket;
         // SlopCrew april fools stuff.

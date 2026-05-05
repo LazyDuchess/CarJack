@@ -12,10 +12,11 @@ namespace CarJack.Plugin
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency("CommonAPI", BepInDependency.DependencyFlags.HardDependency)]
-    [BepInDependency("SlopCrew.Plugin", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("BombRushMP.Plugin", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("BombRushCamera", BepInDependency.DependencyFlags.SoftDependency)]
     internal class Plugin : BaseUnityPlugin
     {
+        // I believe this is for the Unity types to be loaded. Been a while.
         private static Type ForceLoadCarJackCommonAssembly = typeof(DrivableCar);
         private void Awake()
         {
@@ -57,17 +58,16 @@ namespace CarJack.Plugin
 
         private void LoadCompatibilityPlugins()
         {
-            if (Chainloader.PluginInfos.ContainsKey("SlopCrew.Plugin"))
+            if (Chainloader.PluginInfos.ContainsKey("BombRushMP.Plugin"))
             {
-                Logger.LogInfo("Loading CarJack SlopCrew Plugin!");
+                Logger.LogInfo("Loading CarJack All City Network Plugin!");
                 try
                 {
-                    var assemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.SlopCrew.dll");
-                    LoadPlugin(assemblyLocation);
+                    var slopPlugin = new CarJack.SlopCrew.Plugin();
                 }
                 catch (Exception e)
                 {
-                    Logger.LogError($"Failed to load CarJack SlopCrew Plugin!{Environment.NewLine}{e}");
+                    Logger.LogError($"Failed to load CarJack All City Network Plugin!{Environment.NewLine}{e}");
                 }
             }
 
@@ -76,25 +76,11 @@ namespace CarJack.Plugin
                 Logger.LogInfo("Loading CarJack BombRushCamera Plugin!");
                 try
                 {
-                    var assemblyLocation = Path.Combine(Path.GetDirectoryName(Info.Location), "CarJack.BombRushCamera.dll");
-                    LoadPlugin(assemblyLocation);
+                    var brcPlugin = new CarJack.BombRushCamera.Plugin();
                 }
                 catch (Exception e)
                 {
                     Logger.LogError($"Failed to load CarJack BombRushCamera Plugin!{Environment.NewLine}{e}");
-                }
-            }
-        }
-
-        private void LoadPlugin(string assemblyPath)
-        {
-            var assembly = Assembly.LoadFrom(assemblyPath);
-            var typesInAssembly = assembly.GetTypes();
-            foreach(var type in typesInAssembly)
-            {
-                if (type.GetCustomAttribute<CarJackPluginAttribute>() != null)
-                {
-                    var instance = Activator.CreateInstance(type);
                 }
             }
         }

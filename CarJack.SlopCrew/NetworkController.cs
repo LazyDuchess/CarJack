@@ -1,7 +1,7 @@
-﻿using CarJack.Common;
+﻿using BombRushMP.Plugin;
+using CarJack.Common;
 using CarJack.Common.WhipRemix;
 using Reptile;
-using SlopCrew.API;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Slop = SlopCrew;
 
 namespace CarJack.SlopCrew
 {
@@ -23,8 +22,7 @@ namespace CarJack.SlopCrew
         private const float LerpMaxDistance = 20f;
         private const float Lerp = 5f;
         private const float TickRate = 0.2f;
-        private Dictionary<uint, PlayerCarData> _playerCarsById;
-        private ISlopCrewAPI _api;
+        private Dictionary<ushort, PlayerCarData> _playerCarsById;
         private float _currentTick = TickRate;
         public static void Initialize()
         {
@@ -48,34 +46,16 @@ namespace CarJack.SlopCrew
             Instance = this;
             PlayerCars = new();
             _playerCarsById = new();
-            _api = APIManager.API;
-            _api.OnCustomPacketReceived += _api_OnCustomPacketReceived;
+            ClientController.RegisterCustomPacketHandler(KickPassengersPacketGUID, OnKickPassengersPacketReceived);
+            ClientController.RegisterCustomPacketHandler(PlayerCarPacket.GUID, OnPlayerCarDataPacketReceived);
             CarController.OnPlayerExitingCar += SendKickPassengersPacket;
         }
         
         private void OnDestroy()
         {
-            _api.OnCustomPacketReceived -= _api_OnCustomPacketReceived;
+            ClientController.UnregisterCustomPacketHandler(KickPassengersPacketGUID);
+            ClientController.UnregisterCustomPacketHandler(PlayerCarPacket.GUID);
             CarController.OnPlayerExitingCar -= SendKickPassengersPacket;
-        }
-
-        private void _api_OnCustomPacketReceived(uint playerId, string guid, byte[] data)
-        {
-            guid = SlopCrewExtensions.GetPacketID(guid);
-            var ms = new MemoryStream(data);
-            var reader = new BinaryReader(ms);
-            switch (guid)
-            {
-                case KickPassengersPacketGUID:
-                    OnKickPassengersPacketReceived(playerId, reader);
-                    break;
-                case PlayerCarPacket.GUID:
-                    OnPlayerCarDataPacketReceived(playerId, reader);
-                    break;
-                default:
-                    break;
-            }
-            reader.Close();
         }
 
         private void SendKickPassengersPacket()
@@ -83,7 +63,7 @@ namespace CarJack.SlopCrew
             var currentCar = CarController.Instance.CurrentCar;
             if (currentCar == null) return;
             if (!currentCar.Driving) return;
-            _api.SendCustomPacket(KickPassengersPacketGUID, [KickPassengersPacketVersion]);
+            ClientController.Instance.BroadcastCustomPacket([KickPassengersPacketVersion], KickPassengersPacketGUID);
         }
 
         private PlayerCarData GetPlayerForCar(DrivableCar car)
@@ -95,8 +75,11 @@ namespace CarJack.SlopCrew
             return null;
         }
 
-        private void OnKickPassengersPacketReceived(uint playerId, BinaryReader reader)
+        private void OnKickPassengersPacketReceived(ushort playerId, byte[] data)
         {
+            if (playerId == ClientController.Instance.LocalID) return;
+            using var ms = new MemoryStream(data);
+            using var reader = new BinaryReader(ms);
             var version = reader.ReadByte();
             var carController = CarController.Instance;
             if (carController == null) return;
@@ -110,8 +93,11 @@ namespace CarJack.SlopCrew
             carController.ExitCar();
         }
 
-        private void OnPlayerCarDataPacketReceived(uint playerId, BinaryReader reader)
+        private void OnPlayerCarDataPacketReceived(ushort playerId, byte[] data)
         {
+            if (playerId == ClientController.Instance.LocalID) return;
+            using var ms = new MemoryStream(data);
+            using var reader = new BinaryReader(ms);
             var packet = new PlayerCarPacket();
             packet.Deserialize(reader);
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
@@ -124,7 +110,7 @@ namespace CarJack.SlopCrew
             playerCarData.LastPacket = packet;
         }
 
-        public bool PlayerHasCar(uint playerId)
+        public bool PlayerHasCar(ushort playerId)
         {
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
                 return false;
@@ -133,9 +119,9 @@ namespace CarJack.SlopCrew
             return false;
         }
 
-        public DrivableCar GetPlayersCar(uint playerId)
+        public DrivableCar GetPlayersCar(ushort playerId)
         {
-            if (_api.PlayerIDExists(playerId) == false)
+            if (!ClientController.Instance.Players.ContainsKey(playerId))
                 return CarController.Instance.CurrentCar;
             if (!_playerCarsById.TryGetValue(playerId, out var playerCarData))
                 return null;
@@ -144,7 +130,7 @@ namespace CarJack.SlopCrew
 
         private void FixedUpdate()
         {
-            if (!_api.Connected) return;
+            if (!ClientController.Instance.Connected) return;
             _currentTick -= Time.deltaTime;
             if (_currentTick <= 0f)
             {
@@ -153,14 +139,14 @@ namespace CarJack.SlopCrew
             }
         }
 
-        public uint GetDriver(DrivableCar car)
+        public ushort GetDriver(DrivableCar car)
         {
             foreach(var playerCar in PlayerCars)
             {
                 if (playerCar.Car == car)
                     return playerCar.PlayerID;
             }
-            return uint.MaxValue;
+            return ushort.MaxValue;
         }
 
         private void Tick()
@@ -200,11 +186,11 @@ namespace CarJack.SlopCrew
             var writer = new BinaryWriter(ms);
             packet.Serialize(writer);
             writer.Flush();
-            SlopCrewExtensions.SendCustomPacket(PlayerCarPacket.GUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
+            ClientController.Instance.BroadcastCustomPacket(ms.ToArray(), PlayerCarPacket.GUID, BombRushMP.Common.Networking.IMessage.SendModes.Unreliable);
             writer.Close();
 
             var newList = new List<PlayerCarData>();
-            var newDict = new Dictionary<uint, PlayerCarData>();
+            var newDict = new Dictionary<ushort, PlayerCarData>();
             for(var i = 0; i < PlayerCars.Count; i++)
             {
                 var keep = TickCar(PlayerCars[i]);
@@ -248,7 +234,7 @@ namespace CarJack.SlopCrew
             if (playerCarData.LastPacket.PassengerSeat != -1)
                 playerCarData.LastPacket.CarInternalName = "carjack.bluecar";
 
-            if (_api.PlayerIDExists(playerCarData.PlayerID) == false)
+            if (!ClientController.Instance.Players.ContainsKey(playerCarData.PlayerID))
             {
                 playerCarData.LastPacket.CarInternalName = "";
                 keep = false;

@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Reptile;
-using SlopCrew.API;
 using System.IO;
 using CarJack.Common;
-using Slop = SlopCrew;
+using BombRushMP.Plugin;
 
 namespace CarJack.SlopCrew
 {
@@ -24,7 +23,6 @@ namespace CarJack.SlopCrew
         private const string BallPacketGUID = "CarJack-Ball";
         private const float TickRate = 0.2f;
         private const string BallGameObjectName = "rocket ball";
-        private ISlopCrewAPI _api;
         private GameObject _ball;
         private Rigidbody _ballRB;
         private float _currentTick = TickRate;
@@ -42,9 +40,14 @@ namespace CarJack.SlopCrew
 
         private void Awake()
         {
-            _api = APIManager.API;
-            _api.OnCustomPacketReceived += OnBallPacketReceived;
-            _api.OnCustomPacketReceived += OnBallHostPacketReceived;
+            ClientController.RegisterCustomPacketHandler(BallPacketGUID, OnBallPacketReceived);
+            ClientController.RegisterCustomPacketHandler(BallHostPacketGUID, (ushort ply, byte[] data) => { OnBallHostPacketReceived(ply, data, false); });
+            ClientController.RegisterCustomPacketHandler(BallSubHostPacketGUID, (ushort ply, byte[] data) => { OnBallHostPacketReceived(ply, data, true); });
+        }
+
+        private void PacketHandler()
+        {
+
         }
 
         private void Update()
@@ -77,7 +80,7 @@ namespace CarJack.SlopCrew
         {
             var cars = NetworkController.Instance.PlayerCars;
             var lowestDistance = float.MaxValue;
-            var lowestDistancePlayer = uint.MaxValue;
+            var lowestDistancePlayer = ushort.MaxValue;
             var myDistance = float.MaxValue;
             var currentCar = CarController.Instance.CurrentCar;
             if (currentCar != null)
@@ -97,7 +100,7 @@ namespace CarJack.SlopCrew
             {
                 _subHost = true;
                 _subHostFound = true;
-                SendBallHostPacket(uint.MaxValue, true);
+                SendBallHostPacket(ushort.MaxValue, true);
             }
             else
             {
@@ -105,7 +108,7 @@ namespace CarJack.SlopCrew
                 {
                     _subHost = true;
                     _subHostFound = true;
-                    SendBallHostPacket(uint.MaxValue, true);
+                    SendBallHostPacket(ushort.MaxValue, true);
                 }
                 else
                 {
@@ -119,7 +122,7 @@ namespace CarJack.SlopCrew
         private void FixedUpdate()
         {
             if (Core.Instance.IsCorePaused) return;
-            if (!_api.Connected) return;
+            if (!ClientController.Instance.Connected) return;
             _currentTick -= Time.deltaTime;
             if (_currentTick <= 0f)
             {
@@ -128,14 +131,14 @@ namespace CarJack.SlopCrew
                     SendBallPacket();
                 if (!_host)
                 {
-                    var players = _api.Players;
-                    var lowestID = uint.MaxValue;
+                    var players = ClientController.Instance.Players.Keys;
+                    var lowestID = ushort.MaxValue;
                     foreach(var player in players)
                     {
                         if (player <= lowestID && NetworkController.Instance.PlayerHasCar(player))
                             lowestID = player;
                     }
-                    if (lowestID != uint.MaxValue)
+                    if (lowestID != ushort.MaxValue)
                     {
                         SendBallHostPacket(lowestID, false);
                         _hostFound = true;
@@ -155,11 +158,12 @@ namespace CarJack.SlopCrew
 
         private void OnDestroy()
         {
-            _api.OnCustomPacketReceived -= OnBallPacketReceived;
-            _api.OnCustomPacketReceived -= OnBallHostPacketReceived;
+            ClientController.UnregisterCustomPacketHandler(BallPacketGUID);
+            ClientController.UnregisterCustomPacketHandler(BallHostPacketGUID);
+            ClientController.UnregisterCustomPacketHandler(BallSubHostPacketGUID);
         }
 
-        private void SendBallHostPacket(uint playerID, bool subHost)
+        private void SendBallHostPacket(ushort playerID, bool subHost)
         {
             var ms = new MemoryStream();
             var writer = new BinaryWriter(ms);
@@ -171,9 +175,9 @@ namespace CarJack.SlopCrew
 
             writer.Flush();
             if (subHost)
-                _api.SendCustomPacket(BallSubHostPacketGUID, ms.ToArray());
+                ClientController.Instance.BroadcastCustomPacket(ms.ToArray(), BallSubHostPacketGUID);
             else
-                _api.SendCustomPacket(BallHostPacketGUID, ms.ToArray());
+                ClientController.Instance.BroadcastCustomPacket(ms.ToArray(), BallHostPacketGUID);
             writer.Close();
         }
 
@@ -209,27 +213,26 @@ namespace CarJack.SlopCrew
             writer.Write(avel.z);
 
             writer.Flush();
-            SlopCrewExtensions.SendCustomPacket(BallPacketGUID, ms.ToArray(), Slop.Common.SendFlags.Unreliable);
+            ClientController.Instance.BroadcastCustomPacket(ms.ToArray(), BallPacketGUID, BombRushMP.Common.Networking.IMessage.SendModes.Unreliable);
             writer.Close();
         }
 
-        private void OnBallHostPacketReceived(uint playerid, string guid, byte[] data)
+        private void OnBallHostPacketReceived(ushort playerid, byte[] data, bool subhost)
         {
-            if (guid != BallHostPacketGUID && guid != BallSubHostPacketGUID)
-                return;
+            if (playerid == ClientController.Instance.LocalID) return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);
             var version = reader.ReadByte();
-            var hostID = reader.ReadUInt32();
+            var hostID = reader.ReadUInt16();
             reader.Close();
-            if (_api.PlayerIDExists(hostID) == true || hostID == uint.MaxValue)
+            if (ClientController.Instance.Players.ContainsKey(hostID) || hostID == ushort.MaxValue)
             {
-                if (guid == BallHostPacketGUID)
+                if (!subhost)
                 {
                     _host = false;
                     _hostFound = true;
                 }
-                else if (guid == BallSubHostPacketGUID)
+                else
                 {
                     _subHost = false;
                     _subHostFound = true;
@@ -237,12 +240,12 @@ namespace CarJack.SlopCrew
             }
             else
             {
-                if (guid == BallHostPacketGUID)
+                if (!subhost)
                 {
                     _host = true;
                     _hostFound = true;
                 }
-                else if (guid == BallSubHostPacketGUID)
+                else
                 {
                     _subHost = true;
                     _subHostFound = true;
@@ -250,11 +253,9 @@ namespace CarJack.SlopCrew
             }
         }
 
-        private void OnBallPacketReceived(uint playerid, string guid, byte[] data)
+        private void OnBallPacketReceived(ushort playerid, byte[] data)
         {
-            guid = SlopCrewExtensions.GetPacketID(guid);
-            if (guid != BallPacketGUID)
-                return;
+            if (playerid == ClientController.Instance.LocalID) return;
             if (_subHost) return;
             var ms = new MemoryStream(data);
             var reader = new BinaryReader(ms);

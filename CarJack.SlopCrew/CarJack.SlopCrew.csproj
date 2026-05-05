@@ -25,10 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CarJack.Plugin\CarJack.Plugin.csproj" />
-    <ProjectReference Include="..\libs\SlopCrew\SlopCrew.API\SlopCrew.API.csproj" />
-    <ProjectReference Include="..\libs\SlopCrew\SlopCrew.Plugin\SlopCrew.Plugin.csproj" />
-    <ProjectReference Include="E:\BRC\Plugin Making\SlopChat\libs\SlopCrew\SlopCrew.Common\SlopCrew.Common.csproj" />
+    <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +33,12 @@
       <HintPath>$(ManagedPath)/Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
       <Publicize>true</Publicize>
+    </Reference>
+    <Reference Include="BombRushMP.Common">
+      <HintPath>..\libs\BombRushMP.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BombRushMP.Plugin">
+      <HintPath>..\libs\BombRushMP.Plugin.dll</HintPath>
     </Reference>
   </ItemGroup>
   

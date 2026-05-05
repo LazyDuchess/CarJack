@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
-    <ProjectReference Include="..\CarJack.Plugin\CarJack.Plugin.csproj" />
     <ProjectReference Include="..\libs\BombRushCamera\BombRushCamera\BombRushCamera.csproj" />
   </ItemGroup>
 

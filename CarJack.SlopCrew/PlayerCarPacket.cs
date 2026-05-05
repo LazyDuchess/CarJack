@@ -27,7 +27,7 @@ namespace CarJack.SlopCrew
         public float RollAxis = 0f;
 
         public int PassengerSeat = -1;
-        public uint DriverPlayerID = uint.MaxValue;
+        public ushort DriverPlayerID = ushort.MaxValue;
         public bool DoorsLocked = false;
 
         public string RecolorGUID = string.Empty;
@@ -112,7 +112,7 @@ namespace CarJack.SlopCrew
             if (version >= 1)
             {
                 PassengerSeat = reader.ReadInt32();
-                DriverPlayerID = reader.ReadUInt32();
+                DriverPlayerID = reader.ReadUInt16();
                 if (version >= 2)
                     DoorsLocked = reader.ReadBoolean();
                 if (version >= 3)

@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 8275566447239126142}
   - component: {fileID: 8275566447239126081}
   - component: {fileID: 8275566447239126143}
+  - component: {fileID: -7228324564347599513}
   m_Layer: 17
   m_Name: Corvette C1
   m_TagString: Untagged
@@ -591,6 +592,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &-7228324564347599513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275566447239126080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a785d4b9753397479a63fa0ab4feead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RecolorableMaterials:
+  - {fileID: 2100000, guid: a0ffc4f642a51244484fb419c4b0a039, type: 2}
 --- !u!1 &8275566447246873223
 GameObject:
   m_ObjectHideFlags: 0

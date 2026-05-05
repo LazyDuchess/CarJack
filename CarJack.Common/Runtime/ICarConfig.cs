@@ -14,7 +14,7 @@ namespace CarJack.Common
     }
     public interface ICarConfig
     {
-        public bool SlopCrewIntegration { get; set; }
+        public bool AllCityNetworkIntegration { get; set; }
         public bool ContinuousCollisionDetection { get; set; }
         public bool DeveloperMode { get; set; }
         public KeyCode ReloadBundlesKey { get; set; }

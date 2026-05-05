@@ -21,7 +21,9 @@
     <PackageReference Include="UnityEngine.Modules" Version="2021.3.27" IncludeAssets="compile" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarJack.BombRushCamera\CarJack.BombRushCamera.csproj" />
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
+    <ProjectReference Include="..\CarJack.SlopCrew\CarJack.SlopCrew.csproj" />
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj" />
   </ItemGroup>
   <ItemGroup>

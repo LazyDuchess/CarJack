@@ -46,15 +46,15 @@ namespace CarJack.Plugin
             }
         }
 
-        public bool SlopCrewIntegration
+        public bool AllCityNetworkIntegration
         {
             get
             {
-                return _slopCrewIntegration.Value;
+                return _acnIntegration.Value;
             }
             set
             {
-                _slopCrewIntegration.Value = value;
+                _acnIntegration.Value = value;
             }
         }
 
@@ -70,7 +70,7 @@ namespace CarJack.Plugin
             }
         }
 
-        private ConfigEntry<bool> _slopCrewIntegration;
+        private ConfigEntry<bool> _acnIntegration;
         private ConfigEntry<bool> _continuousCollisionDetection;
 
         private ConfigEntry<bool> _developerMode;
@@ -87,11 +87,11 @@ namespace CarJack.Plugin
                 "Prevents cars from going through geometry at high speeds."
                 );
 
-            _slopCrewIntegration = configFile.Bind(
+            _acnIntegration = configFile.Bind(
                 "General",
-                "SlopCrewIntegration",
+                "AllCityNetworkIntegration",
                 true,
-                "Synchronize cars in SlopCrew."
+                "Synchronize cars in All City Network."
                 );
 
             _developerMode = configFile.Bind(
