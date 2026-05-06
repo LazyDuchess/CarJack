@@ -3,7 +3,7 @@
     <TargetFramework>net471</TargetFramework>
     <AssemblyName>CarJack.Plugin</AssemblyName>
     <Description>CarJack Plugin</Description>
-    <Version>1.8.0</Version>
+    <Version>1.9.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -22,12 +22,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarJack.BombRushCamera\CarJack.BombRushCamera.csproj">
-      <Private></Private>
-      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
+      <Private>
+      </Private>
+      <CopyLocalSatelliteAssemblies>
+      </CopyLocalSatelliteAssemblies>
     </ProjectReference>
     <ProjectReference Include="..\CarJack.Common\CarJack.Common.csproj" />
     <ProjectReference Include="..\CarJack.AllCityNetwork\CarJack.AllCityNetwork.csproj">
-      <Private></Private>
+      <Private>
+      </Private>
       <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
     </ProjectReference>
     <ProjectReference Include="..\libs\BRC-CommonAPI\CommonAPI.csproj">
