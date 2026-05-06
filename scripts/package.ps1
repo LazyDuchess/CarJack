@@ -63,7 +63,7 @@ function CreatePluginZip(){
 
     AddToZip $zip "CarJack.Plugin/bin~/$Configuration/net471/CarJack.Plugin.dll" "CarJack.Plugin.dll"
 
-    AddToZip $zip "CarJack.SlopCrew/bin~/$Configuration/net471/CarJack.AllCityNetwork.dll" "CarJack.AllCityNetwork.dll"
+    AddToZip $zip "CarJack.AllCityNetwork/bin~/$Configuration/net471/CarJack.AllCityNetwork.dll" "CarJack.AllCityNetwork.dll"
 	
 	AddToZip $zip "CarJack.BombRushCamera/bin~/$Configuration/net471/CarJack.BombRushCamera.dll" "CarJack.BombRushCamera.dll"
 
