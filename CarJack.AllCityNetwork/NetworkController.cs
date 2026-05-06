@@ -245,8 +245,6 @@ namespace CarJack.AllCityNetwork
             _specCameraBlocker.Enabled = SpectatorController.Instance != null;
             foreach (var car in PlayerCars)
             {
-                if (car.Car == null) continue;
-                if (car.Seat != null) continue;
                 if (ClientController.Instance.Players.TryGetValue(car.PlayerID, out var ply))
                 {
                     if (car.Seat != null)
@@ -260,6 +258,8 @@ namespace CarJack.AllCityNetwork
                             ply.Player.transform.position = car.Car.transform.position;
                     }
                 }
+                if (car.Car == null) continue;
+                if (car.Seat != null) continue;
                 var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);
                 var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.LastPacket.Rotation, Lerp * Time.deltaTime);
                 var dist = (car.Car.Rigidbody.position - car.LastPacket.Position).magnitude;
