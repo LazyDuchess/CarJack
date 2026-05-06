@@ -247,6 +247,19 @@ namespace CarJack.AllCityNetwork
             {
                 if (car.Car == null) continue;
                 if (car.Seat != null) continue;
+                if (ClientController.Instance.Players.TryGetValue(car.PlayerID, out var ply))
+                {
+                    if (car.Seat != null)
+                    {
+                        if (ply.Player != null)
+                            ply.Player.transform.position = car.Seat.transform.position;
+                    }
+                    else if (car.Car != null)
+                    {
+                        if (ply.Player != null)
+                            ply.Player.transform.position = car.Car.transform.position;
+                    }
+                }
                 var interpolatedPos = Vector3.Lerp(car.Car.Rigidbody.position, car.LastPacket.Position, Lerp * Time.deltaTime);
                 var interpolatedRot = Quaternion.Lerp(car.Car.Rigidbody.rotation, car.LastPacket.Rotation, Lerp * Time.deltaTime);
                 var dist = (car.Car.Rigidbody.position - car.LastPacket.Position).magnitude;
